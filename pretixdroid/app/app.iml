@@ -88,16 +88,21 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="design-22.2.1" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-22.2.1" level="project" />
-    <orderEntry type="library" exported="" name="commons-codec-1.10" level="project" />
-    <orderEntry type="library" exported="" name="bcprov-jdk16-1.46" level="project" />
+    <orderEntry type="library" exported="" name="jetty-util-9.3.2.v20150730" level="project" />
+    <orderEntry type="library" exported="" name="jetty-http-9.3.2.v20150730" level="project" />
     <orderEntry type="library" exported="" name="qrcodereaderview-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.2.1" level="project" />
+    <orderEntry type="library" exported="" name="commons-io-2.4" level="project" />
+    <orderEntry type="library" exported="" name="javax.servlet-api-3.1.0" level="project" />
+    <orderEntry type="library" exported="" name="jetty-io-9.3.2.v20150730" level="project" />
+    <orderEntry type="library" exported="" name="commons-codec-1.10" level="project" />
+    <orderEntry type="library" exported="" name="jetty-server-9.3.2.v20150730" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-22.2.1" level="project" />
+    <orderEntry type="library" exported="" name="bcprov-jdk16-1.46" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.2.1" level="project" />
   </component>
 </module>
