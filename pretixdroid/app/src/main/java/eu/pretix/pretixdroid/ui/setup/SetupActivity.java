@@ -13,7 +13,7 @@ import eu.pretix.pretixdroid.R;
 import eu.pretix.pretixdroid.ui.MainActivity;
 
 public class SetupActivity extends AppCompatActivity implements SetupPretixInitFragment.Callbacks,
-        SetupChoicesFragment.Callbacks {
+        SetupChoicesFragment.Callbacks, SetupDiscoveryFragment.Callbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,11 @@ public class SetupActivity extends AppCompatActivity implements SetupPretixInitF
     public void choicesDone() {
         SharedPreferences settings = getSharedPreferences(PretixDroid.PREFS_NAME, 0);
         if (settings.getBoolean("multidevice", false)) {
-            Toast.makeText(this, "Not yet implemented.", Toast.LENGTH_SHORT).show();
+            SetupDiscoveryFragment discoveryFragment = new SetupDiscoveryFragment();
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, discoveryFragment)
+                    .addToBackStack(null)
+                    .commit();
         } else {
             Intent intent = new Intent(SetupActivity.this, MainActivity.class);
             startActivity(intent);

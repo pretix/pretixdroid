@@ -53,6 +53,8 @@ public class StartActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 } else {
                     Intent intent = new Intent(StartActivity.this, SetupActivity.class);
                     startActivity(intent);
