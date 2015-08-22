@@ -2,4 +2,5 @@
     <color name="pretix_brand_dark">#3B1C4A</color>
     <color name="pretix_brand_light">#8E44B3</color>
     <color name="pretix_brand_green">#5CB85C</color>
+    <color name="white">#FFFFFF</color>
 </resources>

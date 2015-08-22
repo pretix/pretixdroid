@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">pretixdroid</string>
+    <string name="bt_event_new">Set up for new event</string>
+    <string name="bt_event_last">Continue with last settings</string>
+    <string name="title_activity_setup">Set up for new event</string>
+    <string name="err_no_camera">No camera was found.</string>
+    <string name="err_qr_invalid">The scanned QR code is not valid.</string>
+    <string name="err_qr_version">Your app is not compatible with the version of pretix on the server. Please check for updates.</string>
+    <string name="setup_pretix_init">For the first step, you need to go to your pretix installation with your computer\'s browser. Please activate the pretixdroid plugin for your event and scan the QR code on the pretixdroid configuration page.</string>
 </resources>
