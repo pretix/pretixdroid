@@ -3,4 +3,8 @@
     <color name="pretix_brand_light">#8E44B3</color>
     <color name="pretix_brand_green">#5CB85C</color>
     <color name="white">#FFFFFF</color>
+    <color name="scan_result_unknown">#bbcccccc</color>
+    <color name="scan_result_ok">#cc5cb85c</color>
+    <color name="scan_result_warn">#ccF0AD4E</color>
+    <color name="scan_result_err">#ccD9534F</color>
 </resources>
