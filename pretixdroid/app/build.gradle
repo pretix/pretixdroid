@@ -17,6 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 }
 
 dependencies {
@@ -27,6 +32,6 @@ dependencies {
     compile 'org.bouncycastle:bcprov-jdk16:1.46'
     compile 'commons-codec:commons-codec:1.10'
     compile 'commons-io:commons-io:2.4'
-    compile 'org.eclipse.jetty:jetty-util:9.3.2.v20150730'
-    compile 'org.eclipse.jetty:jetty-server:9.3.2.v20150730'
+    compile 'org.eclipse.jetty:jetty-util:8.1.17.v20150415'
+    compile 'org.eclipse.jetty:jetty-server:8.1.17.v20150415'
 }

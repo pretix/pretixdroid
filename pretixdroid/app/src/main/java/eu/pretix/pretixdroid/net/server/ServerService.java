@@ -9,17 +9,11 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
-import org.apache.commons.io.IOUtils;
-import org.eclipse.jetty.http.HttpVersion;
 import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.HttpConfiguration;
-import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 
 import java.io.IOException;
@@ -84,21 +78,9 @@ public class ServerService extends Service {
             sslContextFactory
                     .setIncludeCipherSuites("TLS_DHE_RSA_WITH_AES_128_CBC_SHA");
 
-
-            HttpConfiguration https_config = new HttpConfiguration();
-            https_config.setSecureScheme("https");
-            https_config.setSecurePort(PORT);
-            https_config.setOutputBufferSize(32768);
-            https_config.setRequestHeaderSize(8192);
-            https_config.setResponseHeaderSize(8192);
-            https_config.setSendServerVersion(false);
-            https_config.setSendDateHeader(false);
-            https_config.addCustomizer(new SecureRequestCustomizer());
-
             server = new Server();
-            ServerConnector sslConnector = new ServerConnector(server,
-                    new SslConnectionFactory(sslContextFactory, HttpVersion.HTTP_1_1.asString()),
-                    new HttpConnectionFactory(https_config));
+            SslSelectChannelConnector sslConnector = new SslSelectChannelConnector(
+                    sslContextFactory);
             sslConnector.setPort(PORT);
             server.addConnector(sslConnector);
             server.setHandler(handler);
