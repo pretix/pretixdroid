@@ -1,9 +1,11 @@
 package eu.pretix.pretixdroid.ui;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -12,9 +14,11 @@ import android.view.View;
 
 import eu.pretix.pretixdroid.PretixDroid;
 import eu.pretix.pretixdroid.R;
+import eu.pretix.pretixdroid.net.crypto.SSLUtils;
 import eu.pretix.pretixdroid.ui.setup.SetupActivity;
 
 public class StartActivity extends AppCompatActivity {
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,5 +67,26 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        if (!SSLUtils.hasKeyStore(this)) {
+            progressDialog = ProgressDialog.show(this, "",
+                    getString(R.string.progress_genkey));
+            new GenSSLKeyTask().execute();
+        }
+    }
+
+    public class GenSSLKeyTask extends AsyncTask<String, String, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            return SSLUtils.genSSLKey(StartActivity.this, PretixDroid.KEYSTORE_PASSWORD);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+        }
+
     }
 }

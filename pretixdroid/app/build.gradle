@@ -24,4 +24,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:design:22.2.1'
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
+    compile 'org.bouncycastle:bcprov-jdk16:1.46'
+    compile 'commons-codec:commons-codec:1.10'
 }
