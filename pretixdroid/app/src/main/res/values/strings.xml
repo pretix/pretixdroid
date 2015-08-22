@@ -9,4 +9,7 @@
     <string name="setup_pretix_init">For the first step, you need to go to your pretix installation with your computer\'s browser. Please activate the pretixdroid plugin for your event and scan the QR code on the pretixdroid configuration page.</string>
     <string name="progress_downloading">Downloading data…</string>
     <string name="progress_init">Initializing…</string>
+    <string name="err_title">Error</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="err_unknown">Unknown error</string>
 </resources>

@@ -1,9 +1,13 @@
 package eu.pretix.pretixdroid.ui.setup;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.PointF;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,8 +20,13 @@ import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
 import eu.pretix.pretixdroid.R;
-import eu.pretix.pretixdroid.ui.api.PretixApi;
+import eu.pretix.pretixdroid.api.PretixApi;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -28,6 +37,7 @@ public class SetupPretixInitFragment extends Fragment implements QRCodeReaderVie
     private QRCodeReaderView qrView = null;
     private boolean working = false;
     private ProgressDialog progressDialog;
+    private long lastScan;
 
     public SetupPretixInitFragment() {
     }
@@ -42,7 +52,7 @@ public class SetupPretixInitFragment extends Fragment implements QRCodeReaderVie
     }
 
     public interface Callbacks {
-
+        public void onDataDownloaded();
     }
 
     @Override
@@ -60,9 +70,10 @@ public class SetupPretixInitFragment extends Fragment implements QRCodeReaderVie
 
     @Override
     public void onQRCodeRead(String s, PointF[] pointFs) {
-        if (working) {
+        if (working || System.currentTimeMillis() - lastScan < 2000) {
             return;
         }
+        lastScan = System.currentTimeMillis();
         try {
             JSONObject jsonObject = new JSONObject(s);
             if (jsonObject.getInt("version") != 1) {
@@ -82,6 +93,7 @@ public class SetupPretixInitFragment extends Fragment implements QRCodeReaderVie
         settings.edit().putString("url", url).putString("key", key).apply();
         progressDialog = ProgressDialog.show(getActivity(), getString(R.string.progress_init),
                 getString(R.string.progress_downloading), true, false);
+        new DownloadPretixDataTask().execute(getActivity(), url, key);
     }
 
     @Override
@@ -103,5 +115,43 @@ public class SetupPretixInitFragment extends Fragment implements QRCodeReaderVie
     public void onPause() {
         super.onPause();
         qrView.getCameraManager().stopPreview();
+    }
+
+    public class DownloadPretixDataTask extends AsyncTask<Object, Integer, Boolean> {
+        private Exception exception;
+
+        @Override
+        protected Boolean doInBackground(Object... params) {
+            try {
+                return PretixApi.downloadPretixData((Context) params[0],
+                        (String) params[1], (String) params[2]);
+            } catch (Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
+            progressDialog.dismiss();
+            working = false;
+            if (success) {
+                callbacks.onDataDownloaded();
+            } else if (exception != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(exception.getMessage()).setTitle(R.string.err_title);
+                builder.setCancelable(true);
+                builder.setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } else {
+                Toast.makeText(getActivity(), getString(R.string.err_unknown), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

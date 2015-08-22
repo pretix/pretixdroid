@@ -3,6 +3,7 @@
     package="eu.pretix.pretixdroid">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -33,6 +34,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.StartActivity" />
         </activity>
+
+        <provider
+            android:name=".storage.TicketProvider"
+            android:exported="false"
+            android:authorities="eu.pretix.pretixdroid.ticketprovider" />
 
     </application>
 
