@@ -20,12 +20,11 @@
     <string name="setup_mode_sloppy">It is important to me that the app continues to work during a network failure, even if someone gets in with the same ticket twice.</string>
     <string name="cont">Continue</string>
     <string name="title_activity_main">pretixdroid</string>
+    <string name="cancel">Cancel</string>
+    <string name="tab_scan">Scan</string>
+    <string name="tab_list">List</string>
+    <string name="tab_devices">Devices</string>
 
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-
-    <string name="hello_world">Hello world!</string>
-
-    <string name="action_settings">Settings</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
