@@ -19,7 +19,7 @@ public interface TicketCheckProvider {
             this.message = message;
         }
 
-        public CheckResult(Type type, String ticket, String variation, String attendee_name) {
+        public CheckResult(Type type) {
             this.type = type;
             this.ticket = ticket;
             this.variation = variation;

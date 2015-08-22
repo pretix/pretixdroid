@@ -13,9 +13,12 @@ public class TicketDatabase extends SQLiteOpenHelper {
                     "id TEXT primary key, " +
                     "item TEXT, " +
                     "variation TEXT, " +
-                    "attendee_name TEXT" +
+                    "attendee_name TEXT, " +
                     "redeemed INTEGER DEFAULT 0);" +
                     "CREATE UNIQUE INDEX ticket_id_index ON tickets (ticket_id);";
+    public static final String[] TICKETS_TABLE_COLUMNS = {
+            "id", "item", "variation", "attendee_name", "redeemed"
+    };
 
 
     public TicketDatabase(Context context) {

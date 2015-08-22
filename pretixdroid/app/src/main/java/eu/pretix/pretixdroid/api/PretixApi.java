@@ -19,10 +19,12 @@ import eu.pretix.pretixdroid.storage.TicketProvider;
 public class PretixApi {
     public static final String PREFS_NAME = "pretix";
 
-    public static boolean downloadPretixData(Context ctx, String url, String key) throws ApiException {
+    public static boolean downloadPretixData(Context ctx, String url, String key, boolean delete) throws ApiException {
         URL urlObject = null;
         try {
-            ctx.getContentResolver().delete(TicketProvider.CONTENT_URI, "1=1", null);
+            if (delete) {
+                ctx.getContentResolver().delete(TicketProvider.CONTENT_URI, "1=1", null);
+            }
 
             urlObject = new URL(url + "?key=" + key);
 
@@ -50,7 +52,7 @@ public class PretixApi {
 
                         ContentValues newValues = new ContentValues();
                         newValues.put("id", jTicket.getString("id"));
-                        newValues.put("item", jTicket.getString("variation"));
+                        newValues.put("item", jTicket.getString("item"));
                         newValues.put("variation", jTicket.optString("variation"));
                         newValues.put("attendee_name", jTicket.optString("attendee_name"));
                         ctx.getContentResolver().insert(TicketProvider.CONTENT_URI, newValues);

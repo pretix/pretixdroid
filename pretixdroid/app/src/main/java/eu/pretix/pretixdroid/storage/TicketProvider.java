@@ -45,10 +45,9 @@ public class TicketProvider extends ContentProvider {
         /**
          * Checks if the caller has requested a column which does not exists
          */
-        String[] available = {"id", "item", "variation", "attendee_name", "redeemed"};
         if (projection != null) {
             HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
-            HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));
+            HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(TicketDatabase.TICKETS_TABLE_COLUMNS));
             // check if all columns which are requested are available
             if (!availableColumns.containsAll(requestedColumns)) {
                 throw new IllegalArgumentException("Unknown columns in projection");

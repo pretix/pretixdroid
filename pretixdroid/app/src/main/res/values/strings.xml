@@ -24,7 +24,10 @@
     <string name="tab_scan">Scan</string>
     <string name="tab_list">List</string>
     <string name="tab_devices">Devices</string>
+    <string name="scan_result_valid">Valid ticket</string>
+    <string name="scan_result_used">Ticket already has been used</string>
+    <string name="update_data">Update data</string>
+    <string name="scan_result_invalid">Invalid ticket</string>
 
-<!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -125,7 +125,7 @@ public class SetupPretixInitFragment extends Fragment implements QRCodeReaderVie
         protected Boolean doInBackground(Object... params) {
             try {
                 return PretixApi.downloadPretixData((Context) params[0],
-                        (String) params[1], (String) params[2]);
+                        (String) params[1], (String) params[2], true);
             } catch (Exception e) {
                 exception = e;
                 return false;
