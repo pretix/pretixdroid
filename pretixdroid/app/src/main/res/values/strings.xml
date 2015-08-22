@@ -3,6 +3,7 @@
     <string name="bt_event_new">Set up for new event</string>
     <string name="bt_event_last">Continue with last settings</string>
     <string name="title_activity_setup">Set up for new event</string>
+    <string name="warn_delete_current">This will delete all data of the last event from the device.</string>
     <string name="err_no_camera">No camera was found.</string>
     <string name="err_qr_invalid">The scanned QR code is not valid.</string>
     <string name="err_qr_version">Your app is not compatible with the version of pretix on the server. Please check for updates.</string>
@@ -12,4 +13,19 @@
     <string name="err_title">Error</string>
     <string name="dismiss">Dismiss</string>
     <string name="err_unknown">Unknown error</string>
+    <string name="setup_choice_devices">You now have to make a few choices on how you want to use this app.</string>
+    <string name="setup_one_device">This is the only device I want to use for this event</string>
+    <string name="setup_multi_device">I want to use the app across multiple devices</string>
+    <string name="setup_mode_strict">It is important to me that every ticket only gets in once, even if the app does not work during a network failure.</string>
+    <string name="setup_mode_sloppy">It is important to me that the app continues to work during a network failure, even if someone gets in with the same ticket twice.</string>
+    <string name="cont">Continue</string>
+    <string name="title_activity_main">pretixdroid</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="hello_world">Hello world!</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

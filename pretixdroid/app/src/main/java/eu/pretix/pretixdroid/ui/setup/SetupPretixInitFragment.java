@@ -2,6 +2,7 @@ package eu.pretix.pretixdroid.ui.setup;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,7 +10,6 @@ import android.content.SharedPreferences;
 import android.graphics.PointF;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +19,6 @@ import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 
 import eu.pretix.pretixdroid.R;
 import eu.pretix.pretixdroid.api.PretixApi;
@@ -102,6 +97,12 @@ public class SetupPretixInitFragment extends Fragment implements QRCodeReaderVie
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        callbacks = null;
+    }
+
+    @Override
     public void QRCodeNotFoundOnCamImage() {
     }
 
@@ -137,7 +138,8 @@ public class SetupPretixInitFragment extends Fragment implements QRCodeReaderVie
             progressDialog.dismiss();
             working = false;
             if (success) {
-                callbacks.onDataDownloaded();
+                if (callbacks != null)
+                    callbacks.onDataDownloaded();
             } else if (exception != null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setMessage(exception.getMessage()).setTitle(R.string.err_title);
