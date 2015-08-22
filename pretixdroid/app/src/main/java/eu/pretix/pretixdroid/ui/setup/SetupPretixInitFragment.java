@@ -1,6 +1,8 @@
 package eu.pretix.pretixdroid.ui.setup;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,14 +17,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import eu.pretix.pretixdroid.R;
+import eu.pretix.pretixdroid.ui.api.PretixApi;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class SetupPretixInitFragment extends Fragment implements QRCodeReaderView.OnQRCodeReadListener {
 
-    Callbacks callbacks = null;
-    QRCodeReaderView qrView = null;
+    private Callbacks callbacks = null;
+    private QRCodeReaderView qrView = null;
+    private boolean working = false;
+    private ProgressDialog progressDialog;
 
     public SetupPretixInitFragment() {
     }
@@ -32,6 +37,7 @@ public class SetupPretixInitFragment extends Fragment implements QRCodeReaderVie
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setup_pretix_init, container, false);
         qrView = (QRCodeReaderView) view.findViewById(R.id.qrdecoderview);
+        qrView.setOnQRCodeReadListener(this);
         return view;
     }
 
@@ -54,18 +60,28 @@ public class SetupPretixInitFragment extends Fragment implements QRCodeReaderVie
 
     @Override
     public void onQRCodeRead(String s, PointF[] pointFs) {
+        if (working) {
+            return;
+        }
         try {
             JSONObject jsonObject = new JSONObject(s);
             if (jsonObject.getInt("version") != 1) {
                 Toast.makeText(getActivity(), getString(R.string.err_qr_version), Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(getActivity(), "Gotta do something!", Toast.LENGTH_LONG).show();
-                // Do something
+                pretixInit(jsonObject.getString("url"), jsonObject.getString("key"));
             }
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getActivity(), getString(R.string.err_qr_invalid), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void pretixInit(String url, String key) {
+        working = true;
+        SharedPreferences settings = getActivity().getSharedPreferences(PretixApi.PREFS_NAME, 0);
+        settings.edit().putString("url", url).putString("key", key).apply();
+        progressDialog = ProgressDialog.show(getActivity(), getString(R.string.progress_init),
+                getString(R.string.progress_downloading), true, false);
     }
 
     @Override
