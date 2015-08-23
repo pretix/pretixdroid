@@ -29,7 +29,7 @@ import eu.pretix.pretixdroid.R;
 import eu.pretix.pretixdroid.net.api.PretixApi;
 import eu.pretix.pretixdroid.net.discovery.DiscoveredDevice;
 import eu.pretix.pretixdroid.net.discovery.VerifyUtils;
-import eu.pretix.pretixdroid.net.server.ServerService;
+import eu.pretix.pretixdroid.service.ServerService;
 
 /**
  * A simple {@link Fragment} subclass.

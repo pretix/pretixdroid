@@ -14,7 +14,7 @@ import javax.net.ssl.TrustManager;
 
 import eu.pretix.pretixdroid.net.crypto.CryptoUtils;
 import eu.pretix.pretixdroid.net.crypto.X509NoopTrustManager;
-import eu.pretix.pretixdroid.net.server.ServerService;
+import eu.pretix.pretixdroid.service.ServerService;
 
 public class VerifyUtils {
 

@@ -20,6 +20,7 @@ import eu.pretix.pretixdroid.PretixDroid;
 import eu.pretix.pretixdroid.net.api.PretixApi;
 import eu.pretix.pretixdroid.net.crypto.CryptoUtils;
 import eu.pretix.pretixdroid.net.crypto.SSLUtils;
+import eu.pretix.pretixdroid.net.server.VerifyKeyServlet;
 
 public class WebServer extends Server {
     public WebServer(Context ctx, String KEYSTORE_PASSWORD, int PORT) throws IOException, KeyStoreException, CertificateException, NoSuchAlgorithmException {

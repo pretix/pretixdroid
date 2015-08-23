@@ -14,6 +14,7 @@
     <string name="progress_genkey">Generating cryptographic keypairs…</string>
     <string name="progress_init">Initializing…</string>
     <string name="server_running">Background server running</string>
+    <string name="server_stop">Stop</string>
     <string name="err_title">Error</string>
     <string name="dismiss">Dismiss</string>
     <string name="err_unknown">Unknown error</string>
