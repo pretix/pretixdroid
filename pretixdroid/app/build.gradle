@@ -34,4 +34,5 @@ dependencies {
     compile 'commons-io:commons-io:2.4'
     compile 'org.eclipse.jetty:jetty-util:8.1.17.v20150415'
     compile 'org.eclipse.jetty:jetty-server:8.1.17.v20150415'
+    compile 'org.eclipse.jetty:jetty-servlet:8.1.17.v20150415'
 }

@@ -48,6 +48,8 @@
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/title_activity_main"></activity>
+
+        <service android:name=".net.server.ServerService"></service>
     </application>
 
 </manifest>

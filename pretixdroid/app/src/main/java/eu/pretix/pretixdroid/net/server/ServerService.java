@@ -8,24 +8,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
-import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.AbstractHandler;
-import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
-import org.eclipse.jetty.util.ssl.SslContextFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.KeyStore;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import eu.pretix.pretixdroid.PretixDroid;
 import eu.pretix.pretixdroid.R;
-import eu.pretix.pretixdroid.net.crypto.SSLUtils;
 import eu.pretix.pretixdroid.ui.MainActivity;
 
 public class ServerService extends Service {
@@ -35,9 +21,7 @@ public class ServerService extends Service {
     public static boolean RUNNING = false;
     public static String SECRET = "";
 
-    private String KEYSTORE_PASSWORD = "Y5>?x^gv|;1[";
-
-    private Server server;
+    private WebServer server;
 
     @Override
     public void onCreate() {
@@ -49,41 +33,8 @@ public class ServerService extends Service {
                 Context.MODE_PRIVATE);
         SECRET = sp.getString("secret", null);
 
-        Handler handler = new AbstractHandler() {
-            public void handle(String target, Request request,
-                               HttpServletRequest servletRequest,
-                               HttpServletResponse servletResponse) throws IOException,
-                    ServletException {
-                //((Request) request).setHandled(true);
-            }
-        };
-
         try {
-            SslContextFactory sslContextFactory = new SslContextFactory();
-            // InputStream in =
-            // getResources().openRawResource(R.raw.ssl_keystore);
-            InputStream in = openFileInput(SSLUtils.FILE_NAME);
-            KeyStore keyStore = KeyStore.getInstance("BKS");
-            try {
-                keyStore.load(in, KEYSTORE_PASSWORD.toCharArray());
-            } finally {
-                in.close();
-            }
-            sslContextFactory.setKeyStore(keyStore);
-            sslContextFactory.setKeyStorePassword(KEYSTORE_PASSWORD);
-            sslContextFactory.setKeyManagerPassword(KEYSTORE_PASSWORD);
-            sslContextFactory.setCertAlias(SSLUtils.KEY_ALIAS);
-            sslContextFactory.setKeyStoreType("bks");
-            sslContextFactory.setIncludeProtocols("TLS");
-            sslContextFactory
-                    .setIncludeCipherSuites("TLS_DHE_RSA_WITH_AES_128_CBC_SHA");
-
-            server = new Server();
-            SslSelectChannelConnector sslConnector = new SslSelectChannelConnector(
-                    sslContextFactory);
-            sslConnector.setPort(PORT);
-            server.addConnector(sslConnector);
-            server.setHandler(handler);
+            server = new WebServer(this, PretixDroid.KEYSTORE_PASSWORD, PORT);
             server.start();
         } catch (Exception e) {
             stopSelf();
@@ -99,6 +50,8 @@ public class ServerService extends Service {
                 .setSmallIcon(R.drawable.ic_logo).build();
         startForeground(NOTIFICATION_ID, notification);
 
+        Log.i("server", "starting");
+
         RUNNING = true;
         return START_STICKY;
     }
@@ -110,7 +63,6 @@ public class ServerService extends Service {
             try {
                 server.stop();
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -119,7 +71,6 @@ public class ServerService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO Auto-generated method stub
         return null;
     }
 }
