@@ -9,6 +9,7 @@ import eu.pretix.pretixdroid.check.TicketCheckProvider;
 
 public class PretixDroid extends Application {
     public static final String PREFS_NAME = "pretixdroid";
+    public static final String SERVICE_NAME = "pretixdroid";
     /*
      * It is not a security problem that the keystore password is hardcoded in plain text.
      * It would be only relevant in a case in which the attack would have either root access on the

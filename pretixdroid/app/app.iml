@@ -94,8 +94,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="design-22.2.1" level="project" />
     <orderEntry type="library" exported="" name="jetty-util-8.1.17.v20150415" level="project" />
-    <orderEntry type="library" exported="" name="jetty-http-8.1.17.v20150415" level="project" />
     <orderEntry type="library" exported="" name="jetty-server-8.1.17.v20150415" level="project" />
+    <orderEntry type="library" exported="" name="jetty-http-8.1.17.v20150415" level="project" />
     <orderEntry type="library" exported="" name="qrcodereaderview-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.2.1" level="project" />
     <orderEntry type="library" exported="" name="jetty-continuation-8.1.17.v20150415" level="project" />
