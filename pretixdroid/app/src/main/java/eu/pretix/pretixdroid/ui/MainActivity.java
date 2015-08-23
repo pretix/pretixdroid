@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import eu.pretix.pretixdroid.R;
-import eu.pretix.pretixdroid.api.PretixApi;
+import eu.pretix.pretixdroid.net.api.PretixApi;
 
 public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;

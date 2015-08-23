@@ -3,7 +3,13 @@ package eu.pretix.pretixdroid.net.discovery;
 import android.net.nsd.NsdServiceInfo;
 
 public class DiscoveredDevice {
+    public enum State {
+        FOUND, VERIFIED, KEYMISMATCH, ERROR
+    }
+
     private NsdServiceInfo serviceInfo;
+    private State state = State.FOUND;
+    private String fingerprint;
 
     public DiscoveredDevice(NsdServiceInfo serviceInfo) {
         this.serviceInfo = serviceInfo;
@@ -15,6 +21,22 @@ public class DiscoveredDevice {
 
     public void setServiceInfo(NsdServiceInfo serviceInfo) {
         this.serviceInfo = serviceInfo;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public String getFingerprint() {
+        return fingerprint;
+    }
+
+    public void setFingerprint(String fingerprint) {
+        this.fingerprint = fingerprint;
     }
 
     @Override

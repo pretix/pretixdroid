@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,15 +22,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.net.InetAddress;
 
 import eu.pretix.pretixdroid.PretixDroid;
 import eu.pretix.pretixdroid.R;
-import eu.pretix.pretixdroid.api.PretixApi;
-import eu.pretix.pretixdroid.net.crypto.CryptoUtils;
-import eu.pretix.pretixdroid.net.crypto.SSLUtils;
+import eu.pretix.pretixdroid.net.api.PretixApi;
 import eu.pretix.pretixdroid.net.discovery.DiscoveredDevice;
+import eu.pretix.pretixdroid.net.discovery.VerifyUtils;
 import eu.pretix.pretixdroid.net.server.ServerService;
 
 /**
@@ -150,9 +149,13 @@ public class SetupDiscoveryFragment extends Fragment {
 
             if (d != null) {
                 TextView tvDeviceIp = (TextView) v.findViewById(R.id.tvDeviceIp);
+                TextView tvState = (TextView) v.findViewById(R.id.tvState);
 
                 if (tvDeviceIp != null) {
                     tvDeviceIp.setText(d.getServiceInfo().getHost().toString());
+                }
+                if (tvState != null) {
+                    tvState.setText(String.valueOf(d.getState()));
                 }
             }
 
@@ -169,19 +172,37 @@ public class SetupDiscoveryFragment extends Fragment {
         }
     }
 
+    public class VerifyTask extends AsyncTask<DiscoveredDevice, Integer, DiscoveredDevice> {
+
+        @Override
+        protected DiscoveredDevice doInBackground(DiscoveredDevice... params) {
+            SharedPreferences settings = getActivity().getSharedPreferences(PretixApi.PREFS_NAME, 0);
+            return VerifyUtils.verifyHost(params[0], settings.getString("key", null));
+        }
+
+        @Override
+        protected void onPostExecute(DiscoveredDevice discoveredDevice) {
+            super.onPostExecute(discoveredDevice);
+            DiscoveredDevice inList = listAdapter.find(discoveredDevice);
+            if (inList != null) {
+                Log.i("verified", "Verified: " + discoveredDevice.getServiceInfo().getServiceName()
+                        + " State: " + discoveredDevice.getState());
+                if (discoveredDevice.getFingerprint() != null) {
+                    SharedPreferences settings = getActivity().getSharedPreferences(PretixApi.PREFS_NAME, 0);
+                    settings.edit().putString("fingerprint_" + discoveredDevice.getServiceInfo().getHost().getHostAddress(),
+                            discoveredDevice.getFingerprint()).apply();
+                }
+                inList.setState(discoveredDevice.getState());
+                listAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
     public void initnsd() {
         nsdServiceInfo = new NsdServiceInfo();
         nsdServiceInfo.setServiceName(PretixDroid.SERVICE_NAME);
         nsdServiceInfo.setServiceType("_http._tcp.");
         nsdServiceInfo.setPort(ServerService.PORT);
-        /*
-        String fingerprint = SSLUtils.getSHA1Hash(getActivity(), PretixDroid.KEYSTORE_PASSWORD);
-        nsdServiceInfo.setAttribute("sslkey", fingerprint);
-        SharedPreferences settings = getActivity().getSharedPreferences(PretixApi.PREFS_NAME, 0);
-        nsdServiceInfo.setAttribute("sslauth", CryptoUtils.authenticatedFingerprint(
-                fingerprint, settings.getString("key", null)
-        ))
-        */
 
         nsdManager = (NsdManager) getActivity().getSystemService(Context.NSD_SERVICE);
 
@@ -230,7 +251,14 @@ public class SetupDiscoveryFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        listAdapter.add(new DiscoveredDevice(serviceInfo));
+                        DiscoveredDevice d = new DiscoveredDevice(serviceInfo);
+                        if (listAdapter.find(d) == null) {
+                            listAdapter.add(new DiscoveredDevice(serviceInfo));
+                        } else {
+                            d = listAdapter.find(d);
+                        }
+                        if ( d.getState() != DiscoveredDevice.State.VERIFIED)
+                            new VerifyTask().execute(d);
                     }
                 });
             }

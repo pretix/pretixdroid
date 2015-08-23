@@ -1,4 +1,4 @@
-package eu.pretix.pretixdroid.api;
+package eu.pretix.pretixdroid.net.api;
 
 import java.io.IOException;
 

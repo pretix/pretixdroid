@@ -1,4 +1,4 @@
-package eu.pretix.pretixdroid.api;
+package eu.pretix.pretixdroid.net.api;
 
 import android.content.ContentValues;
 import android.content.Context;

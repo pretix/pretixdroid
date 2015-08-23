@@ -11,7 +11,6 @@ import android.widget.RadioButton;
 
 import eu.pretix.pretixdroid.PretixDroid;
 import eu.pretix.pretixdroid.R;
-import eu.pretix.pretixdroid.api.PretixApi;
 
 public class SetupChoicesFragment extends Fragment {
     private Callbacks callbacks;

@@ -17,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 
 import eu.pretix.pretixdroid.PretixDroid;
-import eu.pretix.pretixdroid.api.PretixApi;
+import eu.pretix.pretixdroid.net.api.PretixApi;
 import eu.pretix.pretixdroid.net.crypto.CryptoUtils;
 import eu.pretix.pretixdroid.net.crypto.SSLUtils;
 

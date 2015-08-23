@@ -21,7 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import eu.pretix.pretixdroid.R;
-import eu.pretix.pretixdroid.api.PretixApi;
+import eu.pretix.pretixdroid.net.api.PretixApi;
 
 /**
  * A placeholder fragment containing a simple view.
