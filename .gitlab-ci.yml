@@ -2,5 +2,5 @@ lint:
     script:
         - cd pretixdroid
         - GRADLE_USER_HOME=/cache ANDROID_HOME=/android-sdk-linux ./gradlew check lint assembleDebug
-        - cat opacapp_plus/build/outputs/lint-results.html | curl -F "apikey=$FILEBIN_APIKEY" -F "file=@-;filename=stdin" https://drop.rami.io/file/do_upload
+        - cat app/build/outputs/lint-results.html | curl -F "apikey=$FILEBIN_APIKEY" -F "file=@-;filename=stdin" https://drop.rami.io/file/do_upload
 
