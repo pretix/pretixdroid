@@ -11,6 +11,11 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    lintOptions {
+        disable 'InvalidPackage' // problem with jetty and bouncycastle
+    }
+
     buildTypes {
         release {
             minifyEnabled false
