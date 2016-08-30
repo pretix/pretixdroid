@@ -18,38 +18,14 @@
         android:logo="@drawable/ic_logo"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.StartActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.setup.SetupActivity"
-            android:label="@string/title_activity_setup"
-            android:parentActivityName=".ui.StartActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.StartActivity" />
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </activity>
-
-        <provider
-            android:name=".storage.TicketProvider"
-            android:authorities="eu.pretix.pretixdroid.ticketprovider"
-            android:exported="false" />
-
-        <activity
-            android:name=".ui.MainActivity"
-            android:label="@string/title_activity_main"></activity>
-
-        <service android:name=".service.ServerService"></service>
     </application>
 
 </manifest>

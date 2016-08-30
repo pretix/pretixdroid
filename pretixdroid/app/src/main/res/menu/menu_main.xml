@@ -2,8 +2,4 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="eu.pretix.pretixdroid.ui.MainActivity">
-    <item
-        android:id="@+id/update_data"
-        android:title="@string/update_data"
-        app:showAsAction="never" />
 </menu>
