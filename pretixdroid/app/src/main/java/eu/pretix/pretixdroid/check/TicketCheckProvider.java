@@ -21,9 +21,6 @@ public interface TicketCheckProvider {
 
         public CheckResult(Type type) {
             this.type = type;
-            this.ticket = ticket;
-            this.variation = variation;
-            this.attendee_name = attendee_name;
         }
 
         public Type getType() {

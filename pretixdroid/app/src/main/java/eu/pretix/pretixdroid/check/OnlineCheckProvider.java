@@ -11,6 +11,6 @@ public class OnlineCheckProvider implements TicketCheckProvider {
 
     @Override
     public CheckResult check(String ticketid) {
-        return null;
+        return new CheckResult(CheckResult.Type.ERROR);
     }
 }
