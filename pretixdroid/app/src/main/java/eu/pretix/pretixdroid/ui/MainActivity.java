@@ -1,19 +1,24 @@
 package eu.pretix.pretixdroid.ui;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
     public enum State {
         SCANNING, LOADING, RESULT
     }
+
+    public static final int PERMISSIONS_REQUEST_CAMERA = 10001;
 
     private ZBarScannerView qrView = null;
     private long lastScanTime;
@@ -57,6 +64,12 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
         qrView.setAutoFocus(config.getAutofocus());
         qrView.setFlash(config.getFlashlight());
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    PERMISSIONS_REQUEST_CAMERA);
+        }
+
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mediaPlayer = buildMediaPlayer(this);
 
@@ -66,6 +79,23 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_logo);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_CAMERA: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    qrView.startCamera();
+                } else {
+                    Toast.makeText(this, R.string.permission_required, Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            }
+        }
     }
 
     @Override
