@@ -2,7 +2,6 @@ package eu.pretix.pretixdroid.ui;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
@@ -20,28 +19,31 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.Result;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import eu.pretix.pretixdroid.AppConfig;
-import eu.pretix.pretixdroid.PretixDroid;
 import eu.pretix.pretixdroid.R;
 import eu.pretix.pretixdroid.check.OnlineCheckProvider;
 import eu.pretix.pretixdroid.check.TicketCheckProvider;
 import eu.pretix.pretixdroid.net.api.PretixApi;
-import me.dm7.barcodescanner.zbar.Result;
-import me.dm7.barcodescanner.zbar.ZBarScannerView;
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class MainActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler, MediaPlayer.OnCompletionListener {
+public class MainActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler, MediaPlayer.OnCompletionListener {
     public enum State {
         SCANNING, LOADING, RESULT
     }
 
     public static final int PERMISSIONS_REQUEST_CAMERA = 10001;
 
-    private ZBarScannerView qrView = null;
+    private ZXingScannerView qrView = null;
     private long lastScanTime;
     private String lastScanCode;
     private State state = State.SCANNING;
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
 
         setContentView(R.layout.activity_main);
 
-        qrView = (ZBarScannerView) findViewById(R.id.qrdecoderview);
+        qrView = (ZXingScannerView) findViewById(R.id.qrdecoderview);
         qrView.setResultHandler(this);
         qrView.setAutoFocus(config.getAutofocus());
         qrView.setFlash(config.getFlashlight());
@@ -69,6 +71,11 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
                     new String[]{Manifest.permission.CAMERA},
                     PERMISSIONS_REQUEST_CAMERA);
         }
+
+        List<BarcodeFormat> formats = new ArrayList<>();
+        formats.add(BarcodeFormat.QR_CODE);
+
+        qrView.setFormats(formats);
 
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mediaPlayer = buildMediaPlayer(this);
@@ -114,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
     @Override
     public void handleResult(Result rawResult) {
         qrView.resumeCameraPreview(this);
-        String s = rawResult.getContents();
+        String s = rawResult.getText();
         if (s.equals(lastScanCode) && System.currentTimeMillis() - lastScanTime < 5000) {
             return;
         }
