@@ -20,10 +20,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import eu.pretix.pretixdroid.AppConfig;
 import eu.pretix.pretixdroid.PretixDroid;
 import eu.pretix.pretixdroid.R;
 import eu.pretix.pretixdroid.check.OnlineCheckProvider;
 import eu.pretix.pretixdroid.check.TicketCheckProvider;
+import eu.pretix.pretixdroid.net.api.PretixApi;
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
     private Handler timeoutHandler;
     private MediaPlayer mediaPlayer;
     private TicketCheckProvider checkProvider;
-    private SharedPreferences prefs;
+    private AppConfig config;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
         timeoutHandler = new Handler();
 
         checkProvider = new OnlineCheckProvider(this);
-        prefs = getSharedPreferences(PretixDroid.PREFS_NAME, MODE_PRIVATE);
+        config = new AppConfig(this);
 
         resetView();
 
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
         state = State.LOADING;
         resetView();
 
-        if (prefs.contains(PretixDroid.PREFS_KEY_API_URL)) {
+        if (config.isConfigured()) {
             handleTicketScanned(s);
         } else {
             handleConfigScanned(s);
@@ -101,16 +103,12 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
     private void handleConfigScanned(String s) {
         try {
             JSONObject jsonObject = new JSONObject(s);
-            if (jsonObject.optInt("version", 0) != 2) {
+            if (jsonObject.getInt("version") != PretixApi.API_VERSION) {
                 displayScanResult(new TicketCheckProvider.CheckResult(
                         TicketCheckProvider.CheckResult.Type.ERROR,
                         getString(R.string.err_qr_version)));
             } else {
-                prefs.edit()
-                        .putString(PretixDroid.PREFS_KEY_API_URL, jsonObject.getString("url"))
-                        .putString(PretixDroid.PREFS_KEY_API_KEY, jsonObject.getString("key"))
-                        .apply();
-
+                config.setEventConfig(jsonObject.getString("url"), jsonObject.getString("key"));
                 displayScanResult(new TicketCheckProvider.CheckResult(
                         TicketCheckProvider.CheckResult.Type.VALID,
                         getString(R.string.config_done)));
@@ -138,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
         findViewById(R.id.rlScanStatus).setBackgroundColor(
                 getResources().getColor(R.color.scan_result_unknown));
 
-        if (prefs.contains(PretixDroid.PREFS_KEY_API_URL)) {
+        if (config.isConfigured()) {
             tvScanResult.setText(R.string.hint_scan);
         } else {
             tvScanResult.setText(R.string.hint_config);
@@ -266,6 +264,10 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_clear_config:
+                config.resetEventConfig();
+                resetView();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

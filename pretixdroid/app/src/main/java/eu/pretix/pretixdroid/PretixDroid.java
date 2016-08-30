@@ -3,10 +3,6 @@ package eu.pretix.pretixdroid;
 import android.app.Application;
 
 public class PretixDroid extends Application {
-    public static final String PREFS_NAME = "pretixdroid";
-    public static final String PREFS_KEY_API_URL = "pretix_api_url";
-    public static final String PREFS_KEY_API_KEY = "pretix_api_key";
-
     /*
      * It is not a security problem that the keystore password is hardcoded in plain text.
      * It would be only relevant in a case in which the attack would have either root access on the

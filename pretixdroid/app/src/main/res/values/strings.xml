@@ -13,4 +13,5 @@
     <string name="scan_result_invalid">Invalid ticket</string>
     <string name="hint_config">Scan an event configuration to get started</string>
     <string name="hint_scan">Scan a ticket to check a user in</string>
+    <string name="action_clear_config">Reset event configuration</string>
 </resources>
