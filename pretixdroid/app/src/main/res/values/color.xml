@@ -1,6 +1,6 @@
 <resources>
-    <color name="pretix_brand_dark">#3B1C4A</color>
-    <color name="pretix_brand_light">#8E44B3</color>
+    <color name="pretix_brand_dark">#281333</color>
+    <color name="pretix_brand_light">#3B1C4A</color>
     <color name="pretix_brand_green">#5CB85C</color>
     <color name="white">#FFFFFF</color>
     <color name="scan_result_unknown">#bbcccccc</color>

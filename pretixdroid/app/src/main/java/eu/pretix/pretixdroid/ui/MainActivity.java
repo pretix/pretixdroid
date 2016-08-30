@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements QRCodeReaderView.
         mediaPlayer = buildMediaPlayer(this);
         timeoutHandler = new Handler();
         resetView();
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.ic_logo);
     }
 
     @Override
