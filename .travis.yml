@@ -9,7 +9,7 @@ android:
         - extra-android-m2repository
 script:
     - cd pretixdroid
-    - ./gradlew check lint assembleDebug
+    - TERM=dumb ./gradlew check lint assembleDebug
 cache:
     directories:
         - $HOME/.gradle
