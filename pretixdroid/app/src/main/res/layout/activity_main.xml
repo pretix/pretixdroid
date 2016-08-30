@@ -7,9 +7,9 @@
         android:id="@+id/rlScanStatus"
         android:layout_width="match_parent"
         android:layout_height="140dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_alignParentBottom="true"
         android:background="@color/scan_result_unknown"
         android:padding="16dp"
         android:visibility="visible">
@@ -38,15 +38,29 @@
             android:id="@+id/tvTicketName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_below="@id/tvScanResult"
-            android:layout_centerHorizontal="true" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/tvAttendeeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_below="@id/tvTicketName"
-            android:layout_centerHorizontal="true" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/tvOrderCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/tvTicketName"
+            android:layout_toLeftOf="@id/tvAttendeeName"
+            android:layout_toStartOf="@id/tvAttendeeName"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>
 
     <me.dm7.barcodescanner.zbar.ZBarScannerView

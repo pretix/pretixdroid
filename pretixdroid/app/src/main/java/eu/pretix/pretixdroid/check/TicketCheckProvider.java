@@ -5,7 +5,7 @@ public interface TicketCheckProvider {
 
     class CheckResult {
         public enum Type {
-            INVALID, VALID, USED, ERROR
+            INVALID, VALID, USED, ERROR, UNPAID
         }
 
         private Type type;
@@ -13,6 +13,7 @@ public interface TicketCheckProvider {
         private String variation;
         private String attendee_name;
         private String message;
+        private String order_code;
 
         public CheckResult(Type type, String message) {
             this.type = type;
@@ -61,6 +62,14 @@ public interface TicketCheckProvider {
 
         public void setMessage(String message) {
             this.message = message;
+        }
+
+        public String getOrderCode() {
+            return order_code;
+        }
+
+        public void setOrderCode(String order_code) {
+            this.order_code = order_code;
         }
     }
 

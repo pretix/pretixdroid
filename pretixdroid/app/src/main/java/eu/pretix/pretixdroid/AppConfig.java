@@ -30,4 +30,12 @@ public class AppConfig {
                 .remove(PREFS_KEY_API_KEY)
                 .apply();
     }
+
+    public String getApiUrl() {
+        return prefs.getString(PREFS_KEY_API_URL, "");
+    }
+
+    public String getApiKey() {
+        return prefs.getString(PREFS_KEY_API_KEY, "");
+    }
 }
