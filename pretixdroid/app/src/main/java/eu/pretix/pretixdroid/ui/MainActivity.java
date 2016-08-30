@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         ((TextView) findViewById(R.id.tvAttendeeName)).setText("");
         ((TextView) findViewById(R.id.tvOrderCode)).setText("");
         findViewById(R.id.rlScanStatus).setBackgroundColor(
-                getResources().getColor(R.color.scan_result_unknown));
+                ContextCompat.getColor(this,R.color.scan_result_unknown));
 
         if (config.isConfigured()) {
             tvScanResult.setText(R.string.hint_scan);
@@ -266,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         } else {
             tvScanResult.setText(getString(default_string));
         }
-        findViewById(R.id.rlScanStatus).setBackgroundColor(getResources().getColor(col));
+        findViewById(R.id.rlScanStatus).setBackgroundColor(ContextCompat.getColor(this,col));
 
         timeoutHandler.postDelayed(new Runnable() {
             public void run() {
