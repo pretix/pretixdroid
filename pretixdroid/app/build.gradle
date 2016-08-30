@@ -16,10 +16,25 @@ android {
         disable 'InvalidPackage' // problem with jetty and bouncycastle
     }
 
+    signingConfigs {
+        release {
+            storeFile file("../../release.keystore")
+            storePassword System.getenv("KSTOREPWD")
+            keyAlias "pretixdroid"
+            keyPassword System.getenv("KSTOREPWD")
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
         }
     }
 

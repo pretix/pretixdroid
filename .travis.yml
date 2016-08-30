@@ -8,7 +8,7 @@ android:
         - android-24
         - extra-android-m2repository
 script:
-    - cd opacclient
+    - cd pretixdroid
     - ./gradlew check lint assembleDebug
 cache:
     directories:
