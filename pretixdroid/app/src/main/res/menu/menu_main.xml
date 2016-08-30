@@ -3,6 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="eu.pretix.pretixdroid.ui.MainActivity">
     <item
+        android:id="@+id/action_flashlight"
+        android:title="@string/action_flashlight"
+        android:checkable="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_autofocus"
+        android:title="@string/action_autofocus"
+        android:checkable="true"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_clear_config"
         android:title="@string/action_clear_config"
         app:showAsAction="never" />

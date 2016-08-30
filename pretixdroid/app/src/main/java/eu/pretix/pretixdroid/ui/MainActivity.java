@@ -46,19 +46,21 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        checkProvider = new OnlineCheckProvider(this);
+        config = new AppConfig(this);
+
         setContentView(R.layout.activity_main);
 
         qrView = (ZBarScannerView) findViewById(R.id.qrdecoderview);
         qrView.setResultHandler(this);
-        qrView.setAutoFocus(true);
+        qrView.setAutoFocus(config.getAutofocus());
+        qrView.setFlash(config.getFlashlight());
 
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mediaPlayer = buildMediaPlayer(this);
 
         timeoutHandler = new Handler();
-
-        checkProvider = new OnlineCheckProvider(this);
-        config = new AppConfig(this);
 
         resetView();
 
@@ -269,6 +271,13 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+
+        MenuItem checkable = menu.findItem(R.id.action_flashlight);
+        checkable.setChecked(config.getFlashlight());
+
+        checkable = menu.findItem(R.id.action_autofocus);
+        checkable.setChecked(config.getAutofocus());
+
         return true;
     }
 
@@ -278,6 +287,16 @@ public class MainActivity extends AppCompatActivity implements ZBarScannerView.R
             case R.id.action_clear_config:
                 config.resetEventConfig();
                 resetView();
+                return true;
+            case R.id.action_autofocus:
+                config.setAutofocus(!item.isChecked());
+                qrView.setAutoFocus(!item.isChecked());
+                item.setChecked(!item.isChecked());
+                return true;
+            case R.id.action_flashlight:
+                config.setFlashlight(!item.isChecked());
+                qrView.setFlash(!item.isChecked());
+                item.setChecked(!item.isChecked());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
