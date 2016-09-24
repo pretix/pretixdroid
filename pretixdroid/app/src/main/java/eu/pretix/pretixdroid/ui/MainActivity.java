@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         lastScanCode = s;
 
         mediaPlayer.start();
-        state = State.LOADING;
         resetView();
 
         if (config.isConfigured()) {
@@ -160,6 +159,9 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
     private void handleTicketScanned(String s) {
+        state = State.LOADING;
+        findViewById(R.id.tvScanResult).setVisibility(View.GONE);
+        findViewById(R.id.pbScan).setVisibility(View.VISIBLE);
         new CheckTask().execute(s);
     }
 
@@ -187,12 +189,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     public class CheckTask extends AsyncTask<String, Integer, TicketCheckProvider.CheckResult> {
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            findViewById(R.id.pbScan).setVisibility(View.INVISIBLE);
-        }
-
-        @Override
         protected TicketCheckProvider.CheckResult doInBackground(String... params) {
             if (params[0].matches("[0-9A-Za-z-]+")) {
                 return checkProvider.check(params[0]);
@@ -208,11 +204,13 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
     private void displayScanResult(TicketCheckProvider.CheckResult checkResult) {
+
         TextView tvScanResult = (TextView) findViewById(R.id.tvScanResult);
         TextView tvTicketName = (TextView) findViewById(R.id.tvTicketName);
         TextView tvAttendeeName = (TextView) findViewById(R.id.tvAttendeeName);
         TextView tvOrderCode = (TextView) findViewById(R.id.tvOrderCode);
 
+        state = State.RESULT;
         findViewById(R.id.pbScan).setVisibility(View.INVISIBLE);
         tvScanResult.setVisibility(View.VISIBLE);
 
