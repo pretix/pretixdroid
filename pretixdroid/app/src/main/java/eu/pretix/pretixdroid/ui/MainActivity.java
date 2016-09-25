@@ -2,6 +2,7 @@ package eu.pretix.pretixdroid.ui;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -332,6 +334,10 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 config.setFlashlight(!item.isChecked());
                 qrView.setFlash(!item.isChecked());
                 item.setChecked(!item.isChecked());
+                return true;
+            case R.id.action_search:
+                Intent intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

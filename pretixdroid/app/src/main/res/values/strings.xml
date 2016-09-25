@@ -17,5 +17,7 @@
     <string name="action_clear_config">Reset event configuration</string>
     <string name="action_autofocus">Autofocus</string>
     <string name="action_flashlight">Flashlight</string>
+    <string name="action_search">Manual search</string>
     <string name="permission_required">Camera permission is required</string>
+    <string name="search_hint">Search…</string>
 </resources>

@@ -4,11 +4,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import javax.net.ssl.SSLException;
 
 import eu.pretix.pretixdroid.AppConfig;
 import okhttp3.FormBody;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -40,6 +43,19 @@ public class PretixApi {
                 .url(url + "redeem/?key=" + key)
                 .post(body)
                 .build();
+        return apiCall(request);
+    }
+
+    public JSONObject search(String query) throws ApiException {
+        Request request = null;
+        try {
+            request = new Request.Builder()
+                    .url(url + "redeem/?key=" + key + "&query=" + URLEncoder.encode(query, "UTF-8"))
+                    .get()
+                    .build();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         return apiCall(request);
     }
 
