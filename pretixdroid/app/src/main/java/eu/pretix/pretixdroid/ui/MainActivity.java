@@ -1,10 +1,12 @@
 package eu.pretix.pretixdroid.ui;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -12,11 +14,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +33,10 @@ import com.google.zxing.Result;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -343,8 +352,50 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                     Toast.makeText(this, R.string.not_configured, Toast.LENGTH_SHORT).show();
                 }
                 return true;
+            case R.id.action_about:
+                asset_dialog("about.html", R.string.about);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void asset_dialog(String filename, int title) {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_about);
+        dialog.setTitle(title);
+        TextView textview1 = (TextView) dialog.findViewById(R.id.textView1);
+
+        String text = "";
+
+        StringBuilder builder = new StringBuilder();
+        InputStream fis;
+        try {
+            fis = getResources().openRawResource(R.raw.about);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, "utf-8"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+
+            text = builder.toString();
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        textview1.setText(Html.fromHtml(text));
+        textview1.setMovementMethod(LinkMovementMethod.getInstance());
+
+        Button dialogButton = (Button) dialog.findViewById(R.id.button1);
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }
