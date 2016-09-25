@@ -336,8 +336,12 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 item.setChecked(!item.isChecked());
                 return true;
             case R.id.action_search:
-                Intent intent = new Intent(this, SearchActivity.class);
-                startActivity(intent);
+                if (config.isConfigured()) {
+                    Intent intent = new Intent(this, SearchActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, R.string.not_configured, Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -5,6 +5,9 @@ import android.content.Context;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import eu.pretix.pretixdroid.AppConfig;
 import eu.pretix.pretixdroid.net.api.ApiException;
 import eu.pretix.pretixdroid.net.api.PretixApi;
@@ -51,6 +54,32 @@ public class OnlineCheckProvider implements TicketCheckProvider {
             return new CheckResult(CheckResult.Type.ERROR, "Invalid server response");
         } catch (ApiException e) {
             return new CheckResult(CheckResult.Type.ERROR, e.getMessage());
+        }
+    }
+
+    @Override
+    public List<SearchResult> search(String query) throws CheckException {
+        try {
+            JSONObject response = api.search(query);
+
+            List<SearchResult> results = new ArrayList<>();
+            for (int i = 0; i < response.getJSONArray("results").length(); i++) {
+                JSONObject res = response.getJSONArray("results").getJSONObject(i);
+                SearchResult sr = new SearchResult();
+                sr.setAttendee_name(res.getString("attendee_name"));
+                sr.setTicket(res.getString("item"));
+                sr.setVariation(res.getString("variation"));
+                sr.setOrderCode(res.getString("order"));
+                sr.setSecret(res.getString("secret"));
+                sr.setRedeemed(res.getBoolean("redeemed"));
+                sr.setPaid(res.getBoolean("paid"));
+                results.add(sr);
+            }
+            return results;
+        } catch (JSONException e) {
+            throw new CheckException("Unknown server response");
+        } catch (ApiException e) {
+            throw new CheckException(e.getMessage());
         }
     }
 }

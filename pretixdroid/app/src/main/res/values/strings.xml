@@ -19,5 +19,9 @@
     <string name="action_flashlight">Flashlight</string>
     <string name="action_search">Manual search</string>
     <string name="permission_required">Camera permission is required</string>
-    <string name="search_hint">Search…</string>
+    <string name="search_hint">Search (min. 4 characters)…</string>
+    <string name="not_configured">App is not yet configured</string>
+    <string name="status_redeemed">Redeemed</string>
+    <string name="status_unpaid">Unpaid</string>
+    <string name="status_valid">Valid</string>
 </resources>

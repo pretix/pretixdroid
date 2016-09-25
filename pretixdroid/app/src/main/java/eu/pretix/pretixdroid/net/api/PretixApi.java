@@ -50,7 +50,7 @@ public class PretixApi {
         Request request = null;
         try {
             request = new Request.Builder()
-                    .url(url + "redeem/?key=" + key + "&query=" + URLEncoder.encode(query, "UTF-8"))
+                    .url(url + "search/?key=" + key + "&query=" + URLEncoder.encode(query, "UTF-8"))
                     .get()
                     .build();
         } catch (UnsupportedEncodingException e) {
