@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                         getString(R.string.err_qr_version)));
             } else {
                 config.setEventConfig(jsonObject.getString("url"), jsonObject.getString("key"));
+                checkProvider = new OnlineCheckProvider(this);
                 displayScanResult(new TicketCheckProvider.CheckResult(
                         TicketCheckProvider.CheckResult.Type.VALID,
                         getString(R.string.config_done)));
