@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pretixdroid</string>
+    <string name="err_qr_invalid">Der gescannte QR-Code ist ungültig.</string>
+    <string name="err_qr_version">Die App-Version ist nicht mit dem pretix-Server kompatibel. Bitte prüfen Sie, ob es ein Update gibt.</string>
+    <string name="config_done">App konfiguriert. Sie können nun Tickets scannen.</string>
+    <string name="err_title">Fehler</string>
+    <string name="dismiss">Schließen</string>
+    <string name="err_unknown">Unbekannter Fehler</string>
+    <string name="title_activity_main">pretixdroid</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="scan_result_valid">Ticket gültig</string>
+    <string name="scan_result_used">Ticket bereits eingelöst</string>
+    <string name="scan_result_invalid">Ticket ungültig</string>
+    <string name="scan_result_unpaid">Ticket nicht bezahlt</string>
+    <string name="hint_config">Scannen Sie einen Konfigurations-Code ein</string>
+    <string name="hint_scan">Scannen Sie ein Ticket ein</string>
+    <string name="action_clear_config">Konfiguration zurücksetzen</string>
+    <string name="action_autofocus">Autofokus</string>
+    <string name="action_flashlight">Taschenlampe</string>
+    <string name="action_search">Manuelle Suche</string>
+    <string name="permission_required">Kameraberechtigung ist erforderlich</string>
+    <string name="search_hint">Suche (min. 4 Zeichen)…</string>
+    <string name="not_configured">App ist noch nicht konfiguriert</string>
+    <string name="status_redeemed">Eingelöst</string>
+    <string name="status_unpaid">Unbezahlt</string>
+    <string name="status_valid">Gültig</string>
+    <string name="redeeming">Löse Ticket ein…</string>
+    <string name="loading">Lade…</string>
+    <string name="scan_result_redeemed">Ticket erfolgreich eingelöst.</string>
+</resources>
