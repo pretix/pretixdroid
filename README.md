@@ -17,11 +17,11 @@ Features that work:
 * Connecting the app to a pretix installation for a specific event
 * Scanning and validating tickets simultaneously on multiple devices
 * Toggling autofocus and flashlight
+* Manually search for a ticket code or an attendee name
 
 Features that are planned but not yet implemented:
 
 * Support for usage without an internet connection
-* Manually search for a ticket code or an attendee name
 
 License
 -------
