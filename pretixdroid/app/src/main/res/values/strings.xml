@@ -24,4 +24,7 @@
     <string name="status_redeemed">Redeemed</string>
     <string name="status_unpaid">Unpaid</string>
     <string name="status_valid">Valid</string>
+    <string name="redeeming">Redeem ticket…</string>
+    <string name="loading">Loading…</string>
+    <string name="scan_result_redeemed">Ticket successfully redeemed.</string>
 </resources>

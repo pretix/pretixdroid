@@ -1,14 +1,18 @@
 package eu.pretix.pretixdroid.ui;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -27,6 +31,7 @@ public class SearchActivity extends AppCompatActivity {
     private EditText etQuery;
     private ListView lvResults;
     private TicketCheckProvider checkProvider;
+    private ProgressDialog pdCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,15 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+
+        lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TicketCheckProvider.SearchResult item = (TicketCheckProvider.SearchResult) adapterView.getAdapter().getItem(i);
+
+                new CheckTask().execute(item.getSecret());
             }
         });
     }
@@ -101,6 +115,60 @@ public class SearchActivity extends AppCompatActivity {
             }
             loading--;
             toggleLoadingIndicator();
+        }
+    }
+
+    public class CheckTask extends AsyncTask<String, Integer, TicketCheckProvider.CheckResult> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            pdCheck = ProgressDialog.show(SearchActivity.this, "",
+                    getString(R.string.redeeming), true);
+        }
+
+        @Override
+        protected TicketCheckProvider.CheckResult doInBackground(String... params) {
+            if (params[0].matches("[0-9A-Za-z-]+")) {
+                return checkProvider.check(params[0]);
+            } else {
+                return new TicketCheckProvider.CheckResult(TicketCheckProvider.CheckResult.Type.INVALID);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(TicketCheckProvider.CheckResult checkResult) {
+            pdCheck.dismiss();
+
+            int default_string = 0;
+            switch (checkResult.getType()) {
+                case ERROR:
+                    default_string = R.string.err_unknown;
+                    break;
+                case INVALID:
+                    default_string = R.string.scan_result_invalid;
+                    break;
+                case UNPAID:
+                    default_string = R.string.scan_result_unpaid;
+                    break;
+                case USED:
+                    default_string = R.string.scan_result_used;
+                    break;
+                case VALID:
+                    default_string = R.string.scan_result_redeemed;
+                    break;
+            }
+
+            new AlertDialog.Builder(SearchActivity.this)
+                    .setMessage(getString(default_string))
+                    .setPositiveButton(R.string.dismiss, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+
+            startSearch(etQuery.getText().toString());
         }
     }
 
