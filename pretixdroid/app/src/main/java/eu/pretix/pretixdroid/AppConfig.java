@@ -50,7 +50,7 @@ public class AppConfig {
         return prefs.getBoolean(PREFS_KEY_AUTOFOCUS, true);
     }
 
-    public boolean getSound() {
+    public boolean getSoundEnabled() {
         return prefs.getBoolean(PREFS_PLAY_AUDIO, true);
     }
 
@@ -62,7 +62,7 @@ public class AppConfig {
         prefs.edit().putBoolean(PREFS_KEY_AUTOFOCUS, val).apply();
     }
 
-    public void setSound(boolean val) {
+    public void setSoundEnabled(boolean val) {
         prefs.edit().putBoolean(PREFS_PLAY_AUDIO, val).apply();
     }
 }
