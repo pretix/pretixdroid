@@ -18,6 +18,11 @@
         android:checkable="true"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_play_sound"
+        android:title="@string/action_play_sound"
+        android:checkable="true"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_clear_config"
         android:title="@string/action_clear_config"
         app:showAsAction="never" />
