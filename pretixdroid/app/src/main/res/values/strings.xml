@@ -1,4 +1,5 @@
 <resources>
+    <string name="action_play_sound">Play sounds</string>
     <string name="app_name">pretixdroid</string>
     <string name="err_qr_invalid">The scanned QR code is not valid.</string>
     <string name="err_qr_version">Your app is not compatible with the version of pretix on the server. Please check for updates.</string>

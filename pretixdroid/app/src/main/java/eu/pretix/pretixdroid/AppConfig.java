@@ -9,6 +9,7 @@ public class AppConfig {
     public static final String PREFS_KEY_API_KEY = "pretix_api_key";
     public static final String PREFS_KEY_FLASHLIGHT = "flashlight";
     public static final String PREFS_KEY_AUTOFOCUS = "autofocus";
+    public static final String PREFS_PLAY_AUDIO = "playaudio";
     private SharedPreferences prefs;
 
     public AppConfig(Context ctx) {
@@ -49,11 +50,19 @@ public class AppConfig {
         return prefs.getBoolean(PREFS_KEY_AUTOFOCUS, true);
     }
 
+    public boolean getSoundEnabled() {
+        return prefs.getBoolean(PREFS_PLAY_AUDIO, true);
+    }
+
     public void setFlashlight(boolean val) {
         prefs.edit().putBoolean(PREFS_KEY_FLASHLIGHT, val).apply();
     }
 
     public void setAutofocus(boolean val) {
         prefs.edit().putBoolean(PREFS_KEY_AUTOFOCUS, val).apply();
+    }
+
+    public void setSoundEnabled(boolean val) {
+        prefs.edit().putBoolean(PREFS_PLAY_AUDIO, val).apply();
     }
 }

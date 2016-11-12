@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         lastScanTime = System.currentTimeMillis();
         lastScanCode = s;
 
-        mediaPlayer.start();
+        if (config.getSoundEnabled()) mediaPlayer.start();
         resetView();
 
         if (config.isConfigured()) {
@@ -324,6 +324,9 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         checkable = menu.findItem(R.id.action_autofocus);
         checkable.setChecked(config.getAutofocus());
 
+        checkable = menu.findItem(R.id.action_play_sound);
+        checkable.setChecked(config.getSoundEnabled());
+
         return true;
     }
 
@@ -342,6 +345,10 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             case R.id.action_flashlight:
                 config.setFlashlight(!item.isChecked());
                 qrView.setFlash(!item.isChecked());
+                item.setChecked(!item.isChecked());
+                return true;
+            case R.id.action_play_sound:
+                config.setSoundEnabled(!item.isChecked());
                 item.setChecked(!item.isChecked());
                 return true;
             case R.id.action_search:

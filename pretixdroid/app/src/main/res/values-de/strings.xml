@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="action_play_sound">Ton abspielen</string>
     <string name="app_name">pretixdroid</string>
     <string name="err_qr_invalid">Der gescannte QR-Code ist ungültig.</string>
     <string name="err_qr_version">Die App-Version ist nicht mit dem pretix-Server kompatibel. Bitte prüfen Sie, ob es ein Update gibt.</string>
