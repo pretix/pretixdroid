@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             if (params[0].matches("[0-9A-Za-z-]+")) {
                 return checkProvider.check(params[0]);
             } else {
-                return new TicketCheckProvider.CheckResult(TicketCheckProvider.CheckResult.Type.INVALID);
+                return new TicketCheckProvider.CheckResult(TicketCheckProvider.CheckResult.Type.INVALID, getString(R.string.scan_result_invalid));
             }
         }
 
