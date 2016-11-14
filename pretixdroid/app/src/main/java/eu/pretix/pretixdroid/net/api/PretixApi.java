@@ -66,10 +66,10 @@ public class PretixApi {
             response = client.newCall(request).execute();
         } catch (SSLException e) {
             e.printStackTrace();
-            throw new ApiException("Error while creating a secure connection.");
+            throw new ApiException("Error while creating a secure connection.", e);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new ApiException("Connection error.");
+            throw new ApiException("Connection error.", e);
         }
         if (response.code() >= 500) {
             throw new ApiException("Server error.");
@@ -82,10 +82,10 @@ public class PretixApi {
             return new JSONObject(response.body().string());
         } catch (JSONException e) {
             e.printStackTrace();
-            throw new ApiException("Invalid JSON received.");
+            throw new ApiException("Invalid JSON received.", e);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new ApiException("Connection error.");
+            throw new ApiException("Connection error.", e);
         }
     }
 

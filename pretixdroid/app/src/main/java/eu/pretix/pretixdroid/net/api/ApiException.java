@@ -8,4 +8,8 @@ public class ApiException extends IOException {
         super(msg);
     }
 
+    public ApiException(String msg, Exception e) {
+        super(msg, e);
+    }
+
 }
