@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,8 +37,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import android.util.Base64;
 
 import eu.pretix.pretixdroid.AppConfig;
 import eu.pretix.pretixdroid.R;
@@ -45,6 +48,8 @@ import eu.pretix.pretixdroid.check.OnlineCheckProvider;
 import eu.pretix.pretixdroid.check.TicketCheckProvider;
 import eu.pretix.pretixdroid.net.api.PretixApi;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
+import static android.R.attr.action;
 
 public class MainActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler, MediaPlayer.OnCompletionListener {
     public enum State {
@@ -96,6 +101,18 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_logo);
+
+        Intent intent = getIntent();
+        Uri uri = intent.getData();
+        if (uri != null) {
+            byte[] value = Base64.decode(uri.getHost(), Base64.DEFAULT);
+            try {
+                String text = new String(value, "UTF-8");
+                Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+                handleConfigScanned(text);
+            } catch (UnsupportedEncodingException e) {
+            }
+        }
     }
 
     @Override
