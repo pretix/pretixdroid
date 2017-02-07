@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             byte[] value = Base64.decode(uri.getHost(), Base64.DEFAULT);
             try {
                 String text = new String(value, "UTF-8");
-                Toast.makeText(this, text, Toast.LENGTH_LONG).show();
                 handleConfigScanned(text);
             } catch (UnsupportedEncodingException e) {
             }
