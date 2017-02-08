@@ -10,9 +10,6 @@ android {
         targetSdkVersion 24
         versionCode 3
         versionName "1.2"
-        jackOptions {
-            enabled true
-        }
     }
 
     lintOptions {
@@ -44,10 +41,6 @@ android {
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
-    }
-    compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
     }
 }
 
