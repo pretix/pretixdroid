@@ -8,6 +8,7 @@ import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+import com.joshdholtz.sentry.Sentry;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.pretix.pretixdroid.AppConfig;
+import eu.pretix.pretixdroid.BuildConfig;
 import eu.pretix.pretixdroid.R;
 import eu.pretix.pretixdroid.check.OnlineCheckProvider;
 import eu.pretix.pretixdroid.check.TicketCheckProvider;
@@ -60,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
+        if (BuildConfig.SENTRY_DSN != null) {
+            Sentry.init(this, BuildConfig.SENTRY_DSN);
+        }
+
         checkProvider = new OnlineCheckProvider(this);
         config = new AppConfig(this);
 
@@ -71,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         qrView.setFlash(config.getFlashlight());
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            Sentry.addBreadcrumb("main.startup", "Permission request started");
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA},
                     PERMISSIONS_REQUEST_CAMERA);
@@ -100,8 +108,10 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Sentry.addBreadcrumb("main.startup", "Permission granted");
                     qrView.startCamera();
                 } else {
+                    Sentry.addBreadcrumb("main.startup", "Permission request denied");
                     Toast.makeText(this, R.string.permission_required, Toast.LENGTH_LONG).show();
                     finish();
                 }
@@ -134,6 +144,10 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         lastScanTime = System.currentTimeMillis();
         lastScanCode = s;
 
+        handleScan(s);
+    }
+
+    public void handleScan(String s) {
         if (config.getSoundEnabled()) mediaPlayer.start();
         resetView();
 
@@ -145,6 +159,8 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
     private void handleConfigScanned(String s) {
+        Sentry.addBreadcrumb("main.scanned", "Config scanned");
+
         try {
             JSONObject jsonObject = new JSONObject(s);
             if (jsonObject.getInt("version") != PretixApi.API_VERSION) {
@@ -166,6 +182,8 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
     private void handleTicketScanned(String s) {
+        Sentry.addBreadcrumb("main.scanned", "Ticket scanned");
+
         state = State.LOADING;
         findViewById(R.id.tvScanResult).setVisibility(View.GONE);
         findViewById(R.id.pbScan).setVisibility(View.VISIBLE);

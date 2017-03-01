@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.joshdholtz.sentry.Sentry;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,6 +77,7 @@ public class SettingsFragment extends PreferenceFragment {
             text = builder.toString();
             fis.close();
         } catch (IOException e) {
+            Sentry.captureException(e);
             e.printStackTrace();
         }
 

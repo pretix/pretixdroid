@@ -27,15 +27,26 @@ android {
     }
 
     buildTypes {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def sentry_dsn = properties.getProperty('sentry.dsn')
+        if (sentry_dsn == null) {
+            sentry_dsn = "\"null\""
+        } else {
+            sentry_dsn = "\"" + sentry_dsn + "\""
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            buildConfigField "String", "SENTRY_DSN", sentry_dsn
         }
         debug {
             debuggable true
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
+            buildConfigField "String", "SENTRY_DSN", "null"
         }
     }
 
@@ -53,4 +64,5 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.android.support:support-vector-drawable:25.2.0'
+    compile 'com.joshdholtz.sentry:sentry-android:1.6.0'
 }
