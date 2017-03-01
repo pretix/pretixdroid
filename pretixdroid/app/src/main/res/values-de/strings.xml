@@ -30,4 +30,6 @@
     <string name="loading">Lade…</string>
     <string name="scan_result_redeemed">Ticket erfolgreich eingelöst.</string>
     <string name="about">Über die App</string>
+    <string name="pref_head_feedback">Scan-Feedback</string>
+    <string name="action_preferences">Einstellungen</string>
 </resources>

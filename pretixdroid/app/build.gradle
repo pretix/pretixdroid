@@ -10,6 +10,7 @@ android {
         targetSdkVersion 25
         versionCode 3
         versionName "1.2"
+        vectorDrawables.useSupportLibrary = true
     }
 
     lintOptions {
@@ -50,4 +51,6 @@ dependencies {
     compile 'com.android.support:design:25.2.0'
     compile 'me.dm7.barcodescanner:zxing:1.9'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:support-vector-drawable:25.2.0'
 }

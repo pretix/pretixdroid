@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.RawRes;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
         checkProvider = new OnlineCheckProvider(this);
         config = new AppConfig(this);
 
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         super.onResume();
         qrView.setResultHandler(this);
         qrView.startCamera();
+        qrView.setAutoFocus(config.getAutofocus());
     }
 
     @Override
@@ -321,12 +325,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         MenuItem checkable = menu.findItem(R.id.action_flashlight);
         checkable.setChecked(config.getFlashlight());
 
-        checkable = menu.findItem(R.id.action_autofocus);
-        checkable.setChecked(config.getAutofocus());
-
-        checkable = menu.findItem(R.id.action_play_sound);
-        checkable.setChecked(config.getSoundEnabled());
-
         return true;
     }
 
@@ -337,19 +335,14 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 config.resetEventConfig();
                 resetView();
                 return true;
-            case R.id.action_autofocus:
-                config.setAutofocus(!item.isChecked());
-                qrView.setAutoFocus(!item.isChecked());
-                item.setChecked(!item.isChecked());
-                return true;
             case R.id.action_flashlight:
                 config.setFlashlight(!item.isChecked());
                 qrView.setFlash(!item.isChecked());
                 item.setChecked(!item.isChecked());
                 return true;
-            case R.id.action_play_sound:
-                config.setSoundEnabled(!item.isChecked());
-                item.setChecked(!item.isChecked());
+            case R.id.action_preferences:
+                Intent intent_settings = new Intent(this, SettingsActivity.class);
+                startActivity(intent_settings);
                 return true;
             case R.id.action_search:
                 if (config.isConfigured()) {

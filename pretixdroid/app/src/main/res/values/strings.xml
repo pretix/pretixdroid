@@ -29,4 +29,6 @@
     <string name="loading">Loading…</string>
     <string name="scan_result_redeemed">Ticket successfully redeemed.</string>
     <string name="about">About the app</string>
+    <string name="pref_head_feedback">Scan feedback</string>
+    <string name="action_preferences">Settings</string>
 </resources>
