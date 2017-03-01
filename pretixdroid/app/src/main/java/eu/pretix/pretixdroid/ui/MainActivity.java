@@ -11,15 +11,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.annotation.RawRes;
-import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,10 +27,7 @@ import com.google.zxing.Result;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         qrView.setResultHandler(this);
         qrView.startCamera();
         qrView.setAutoFocus(config.getAutofocus());
+        resetView();
     }
 
     @Override
@@ -331,10 +323,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_clear_config:
-                config.resetEventConfig();
-                resetView();
-                return true;
             case R.id.action_flashlight:
                 config.setFlashlight(!item.isChecked());
                 qrView.setFlash(!item.isChecked());
@@ -352,45 +340,8 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                     Toast.makeText(this, R.string.not_configured, Toast.LENGTH_SHORT).show();
                 }
                 return true;
-            case R.id.action_about:
-                asset_dialog(R.raw.about, R.string.about);
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void asset_dialog(@RawRes int htmlRes, @StringRes int title) {
-        final View view = LayoutInflater.from(this).inflate(R.layout.dialog_about, null, false);
-        final AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(title)
-                .setView(view)
-                .setPositiveButton(R.string.dismiss, null)
-                .create();
-
-        TextView textView = (TextView) view.findViewById(R.id.aboutText);
-
-        String text = "";
-
-        StringBuilder builder = new StringBuilder();
-        InputStream fis;
-        try {
-            fis = getResources().openRawResource(htmlRes);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, "utf-8"));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
-
-            text = builder.toString();
-            fis.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        textView.setText(Html.fromHtml(text));
-        textView.setMovementMethod(LinkMovementMethod.getInstance());
-
-        dialog.show();
     }
 }

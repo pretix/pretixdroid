@@ -13,15 +13,7 @@
         android:checkable="true"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_clear_config"
-        android:title="@string/action_clear_config"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/action_preferences"
         android:title="@string/action_preferences"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_about"
-        android:title="@string/about"
         app:showAsAction="never" />
 </menu>

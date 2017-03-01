@@ -16,6 +16,7 @@
     <string name="hint_config">Scan a configuration code to start</string>
     <string name="hint_scan">Scan a ticket code</string>
     <string name="action_clear_config">Reset event configuration</string>
+    <string name="hint_clear_config">Resets the connection of the app with a specific event and allows you to select a new event.</string>
     <string name="action_autofocus">Autofocus</string>
     <string name="action_flashlight">Flashlight</string>
     <string name="action_search">Manual search</string>
@@ -29,6 +30,9 @@
     <string name="loading">Loading…</string>
     <string name="scan_result_redeemed">Ticket successfully redeemed.</string>
     <string name="about">About the app</string>
-    <string name="pref_head_feedback">Scan feedback</string>
+    <string name="pref_head_scan">Scanning</string>
+    <string name="pref_head_connection">Connection</string>
+    <string name="pref_head_other">Other</string>
+    <string name="reset_success">You can now scan a new configuration code</string>
     <string name="action_preferences">Settings</string>
 </resources>
