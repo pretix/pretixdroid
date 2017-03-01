@@ -8,13 +8,18 @@
             android:title="@string/action_clear_config" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_head_scan">
-
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="camera"
+            android:summary="@string/pref_camera_hint"
+            android:title="@string/pref_camera" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="playaudio"
             android:title="@string/action_play_sound" />
         <CheckBoxPreference
             android:defaultValue="true"
+            android:dependency="camera"
             android:key="autofocus"
             android:title="@string/action_autofocus" />
     </PreferenceCategory>

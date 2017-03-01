@@ -10,6 +10,7 @@ public class AppConfig {
     public static final String PREFS_KEY_API_KEY = "pretix_api_key";
     public static final String PREFS_KEY_FLASHLIGHT = "flashlight";
     public static final String PREFS_KEY_AUTOFOCUS = "autofocus";
+    public static final String PREFS_KEY_CAMERA = "camera";
     public static final String PREFS_PLAY_AUDIO = "playaudio";
     private SharedPreferences prefs;
     private SharedPreferences default_prefs;
@@ -53,6 +54,10 @@ public class AppConfig {
         return default_prefs.getBoolean(PREFS_KEY_AUTOFOCUS, true);
     }
 
+    public boolean getCamera() {
+        return default_prefs.getBoolean(PREFS_KEY_CAMERA, true);
+    }
+
     public boolean getSoundEnabled() {
         return default_prefs.getBoolean(PREFS_PLAY_AUDIO, true);
     }
@@ -67,5 +72,9 @@ public class AppConfig {
 
     public void setSoundEnabled(boolean val) {
         default_prefs.edit().putBoolean(PREFS_PLAY_AUDIO, val).apply();
+    }
+
+    public void setCamera(boolean val) {
+        default_prefs.edit().putBoolean(PREFS_KEY_CAMERA, val).apply();
     }
 }

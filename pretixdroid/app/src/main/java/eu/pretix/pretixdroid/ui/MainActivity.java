@@ -1,20 +1,23 @@
 package eu.pretix.pretixdroid.ui;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -56,6 +59,18 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     private MediaPlayer mediaPlayer;
     private TicketCheckProvider checkProvider;
     private AppConfig config;
+
+    private BroadcastReceiver scanReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Intent receiver for LECOM-manufactured hardware scanners
+            byte[] barcode = intent.getByteArrayExtra("barocode"); // sic!
+            int barocodelen = intent.getIntExtra("length", 0);
+            String barcodeStr = new String(barcode, 0, barocodelen);
+            handleScan(barcodeStr);
+        }
+
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,7 +124,9 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Sentry.addBreadcrumb("main.startup", "Permission granted");
-                    qrView.startCamera();
+                    if (config.getCamera()) {
+                        qrView.startCamera();
+                    }
                 } else {
                     Sentry.addBreadcrumb("main.startup", "Permission request denied");
                     Toast.makeText(this, R.string.permission_required, Toast.LENGTH_LONG).show();
@@ -122,21 +139,34 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     @Override
     public void onResume() {
         super.onResume();
-        qrView.setResultHandler(this);
-        qrView.startCamera();
-        qrView.setAutoFocus(config.getAutofocus());
-        resetView();
+        if (config.getCamera()) {
+            qrView.setResultHandler(this);
+            qrView.startCamera();
+            qrView.setAutoFocus(config.getAutofocus());
+            resetView();
+        } else {
+            IntentFilter filter = new IntentFilter();
+            // Broadcast sent by Lecom scanners
+            filter.addAction("scan.rcv.message");
+            registerReceiver(scanReceiver, filter);
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        qrView.stopCamera();
+        if (config.getCamera()) {
+            qrView.stopCamera();
+        } else {
+            unregisterReceiver(scanReceiver);
+        }
     }
 
     @Override
     public void handleResult(Result rawResult) {
-        qrView.resumeCameraPreview(this);
+        if (config.getCamera()) {
+            qrView.resumeCameraPreview(this);
+        }
         String s = rawResult.getText();
         if (s.equals(lastScanCode) && System.currentTimeMillis() - lastScanTime < 5000) {
             return;
@@ -208,6 +238,12 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             tvScanResult.setText(R.string.hint_scan);
         } else {
             tvScanResult.setText(R.string.hint_config);
+        }
+
+        if (!config.getCamera()) {
+            qrView.setVisibility(View.GONE);
+        } else {
+            qrView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -343,7 +379,9 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         switch (item.getItemId()) {
             case R.id.action_flashlight:
                 config.setFlashlight(!item.isChecked());
-                qrView.setFlash(!item.isChecked());
+                if (config.getCamera()) {
+                    qrView.setFlash(!item.isChecked());
+                }
                 item.setChecked(!item.isChecked());
                 return true;
             case R.id.action_preferences:
