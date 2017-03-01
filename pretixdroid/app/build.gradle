@@ -27,14 +27,19 @@ android {
     }
 
     buildTypes {
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        def sentry_dsn = properties.getProperty('sentry.dsn')
-        if (sentry_dsn == null) {
-            sentry_dsn = "\"null\""
-        } else {
-            sentry_dsn = "\"" + sentry_dsn + "\""
-        }
+		def sentry_dsn = "";
+		try {
+			Properties properties = new Properties()
+			properties.load(project.rootProject.file('local.properties').newDataInputStream())
+			sentry_dsn = properties.getProperty('sentry.dsn')
+			if (sentry_dsn == null) {
+				sentry_dsn = "null"
+			} else {
+				sentry_dsn = "\"" + sentry_dsn + "\""
+			}
+		} catch (all) {
+			sentry_dsn = "null"
+		}
 
         release {
             minifyEnabled false
