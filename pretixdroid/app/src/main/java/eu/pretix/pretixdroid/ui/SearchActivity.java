@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.joshdholtz.sentry.Sentry;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +70,8 @@ public class SearchActivity extends AppCompatActivity {
         lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Sentry.addBreadcrumb("search.result.clicked", "Search result clicked");
+
                 TicketCheckProvider.SearchResult item = (TicketCheckProvider.SearchResult) adapterView.getAdapter().getItem(i);
 
                 new CheckTask().execute(item.getSecret());

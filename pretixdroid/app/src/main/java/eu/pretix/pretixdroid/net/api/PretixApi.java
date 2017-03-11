@@ -1,5 +1,7 @@
 package eu.pretix.pretixdroid.net.api;
 
+import com.joshdholtz.sentry.Sentry;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -71,6 +73,10 @@ public class PretixApi {
             e.printStackTrace();
             throw new ApiException("Connection error.", e);
         }
+
+        String safe_url = request.url().toString().replaceAll("^(.*)key=([0-9A-Za-z]+)([^0-9A-Za-z]*)", "$1key=redacted$3");
+        Sentry.addHttpBreadcrumb(safe_url, request.method(), response.code());
+
         if (response.code() >= 500) {
             throw new ApiException("Server error.");
         } else if (response.code() == 404) {
@@ -82,6 +88,7 @@ public class PretixApi {
             return new JSONObject(response.body().string());
         } catch (JSONException e) {
             e.printStackTrace();
+            Sentry.captureException(e);
             throw new ApiException("Invalid JSON received.", e);
         } catch (IOException e) {
             e.printStackTrace();

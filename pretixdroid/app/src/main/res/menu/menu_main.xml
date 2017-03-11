@@ -13,21 +13,7 @@
         android:checkable="true"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_autofocus"
-        android:title="@string/action_autofocus"
-        android:checkable="true"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_play_sound"
-        android:title="@string/action_play_sound"
-        android:checkable="true"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_clear_config"
-        android:title="@string/action_clear_config"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_about"
-        android:title="@string/about"
+        android:id="@+id/action_preferences"
+        android:title="@string/action_preferences"
         app:showAsAction="never" />
 </menu>

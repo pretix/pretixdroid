@@ -30,4 +30,13 @@
     <string name="loading">Lade…</string>
     <string name="scan_result_redeemed">Ticket erfolgreich eingelöst.</string>
     <string name="about">Über die App</string>
+    <string name="pref_head_feedback">Scannen</string>
+    <string name="action_preferences">Einstellungen</string>
+    <string name="hint_clear_config">Setzt die Verbindung der App mit einer Veranstaltung zurück und erlaubt, eine neue Veranstaltung auszuwählen.</string>
+    <string name="pref_camera">Geräte-Kamera benutzen</string>
+    <string name="pref_camera_hint">Deaktivieren Sie diese Option, wenn Ihr Gerät einen eingebauten Barcode-Scanner hat. Dies funktioniert derzeit nur bei wenigen Geräten.</string>
+    <string name="pref_head_connection">Verbindung</string>
+    <string name="pref_head_other">Sonstiges</string>
+    <string name="pref_head_scan">Scannen</string>
+    <string name="reset_success">Sie können nun einen neuen Konfigurations-Code scannen</string>
 </resources>
