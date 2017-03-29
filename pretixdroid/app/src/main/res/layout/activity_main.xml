@@ -8,7 +8,7 @@
         android:id="@+id/rlScanStatus"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:background="@color/scan_result_unknown"
@@ -68,6 +68,6 @@
         android:id="@+id/qrdecoderview"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/rlScanStatus" />
+        android:layout_above="@id/rlScanStatus" />
 
 </RelativeLayout>

@@ -2,8 +2,6 @@ package eu.pretix.pretixdroid.check;
 
 import android.content.Context;
 
-import com.joshdholtz.sentry.Sentry;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,7 +26,6 @@ public class OnlineCheckProvider implements TicketCheckProvider {
 
     @Override
     public CheckResult check(String ticketid) {
-        Sentry.addBreadcrumb("provider.check", "started");
         try {
             CheckResult res = new CheckResult(CheckResult.Type.ERROR);
             JSONObject response = api.redeem(ticketid);
@@ -54,13 +51,11 @@ public class OnlineCheckProvider implements TicketCheckProvider {
             }
             return res;
         } catch (JSONException e) {
-            Sentry.captureException(e);
             CheckResult cr = new CheckResult(CheckResult.Type.ERROR, "Invalid server response");
             if (e.getCause() != null)
                 cr.setTicket(e.getCause().getMessage());
             return cr;
         } catch (ApiException e) {
-            Sentry.addBreadcrumb("provider.check", "API Error: " + e.getMessage());
             CheckResult cr = new CheckResult(CheckResult.Type.ERROR, e.getMessage());
             if (e.getCause() != null)
                 cr.setTicket(e.getCause().getMessage());
@@ -70,7 +65,6 @@ public class OnlineCheckProvider implements TicketCheckProvider {
 
     @Override
     public List<SearchResult> search(String query) throws CheckException {
-        Sentry.addBreadcrumb("provider.search", "started");
         try {
             JSONObject response = api.search(query);
 
@@ -89,10 +83,8 @@ public class OnlineCheckProvider implements TicketCheckProvider {
             }
             return results;
         } catch (JSONException e) {
-            Sentry.captureException(e);
             throw new CheckException("Unknown server response");
         } catch (ApiException e) {
-            Sentry.addBreadcrumb("provider.search", "API Error: " + e.getMessage());
             throw new CheckException(e.getMessage());
         }
     }

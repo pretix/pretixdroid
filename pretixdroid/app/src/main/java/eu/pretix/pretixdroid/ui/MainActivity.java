@@ -1,23 +1,25 @@
 package eu.pretix.pretixdroid.ui;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
+import android.support.annotation.RawRes;
+import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.KeyEvent;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,22 +29,27 @@ import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-import com.joshdholtz.sentry.Sentry;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import android.util.Base64;
 
 import eu.pretix.pretixdroid.AppConfig;
-import eu.pretix.pretixdroid.BuildConfig;
 import eu.pretix.pretixdroid.R;
 import eu.pretix.pretixdroid.check.OnlineCheckProvider;
 import eu.pretix.pretixdroid.check.TicketCheckProvider;
 import eu.pretix.pretixdroid.net.api.PretixApi;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
+import static android.R.attr.action;
 
 public class MainActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler, MediaPlayer.OnCompletionListener {
     public enum State {
@@ -60,27 +67,9 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     private TicketCheckProvider checkProvider;
     private AppConfig config;
 
-    private BroadcastReceiver scanReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Intent receiver for LECOM-manufactured hardware scanners
-            byte[] barcode = intent.getByteArrayExtra("barocode"); // sic!
-            int barocodelen = intent.getIntExtra("length", 0);
-            String barcodeStr = new String(barcode, 0, barocodelen);
-            handleScan(barcodeStr);
-        }
-
-    };
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
-        if (BuildConfig.SENTRY_DSN != null) {
-            Sentry.init(this, BuildConfig.SENTRY_DSN);
-        }
 
         checkProvider = new OnlineCheckProvider(this);
         config = new AppConfig(this);
@@ -93,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         qrView.setFlash(config.getFlashlight());
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            Sentry.addBreadcrumb("main.startup", "Permission request started");
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA},
                     PERMISSIONS_REQUEST_CAMERA);
@@ -113,6 +101,21 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_logo);
+
+        Intent intent = getIntent();
+        Uri uri = intent.getData();
+        if (uri != null) {
+            byte[] value = Base64.decode(uri.getHost(), Base64.DEFAULT);
+            try {
+                String text = new String(value, "UTF-8");
+                JSONObject newConfig = new JSONObject(text);
+                if (!newConfig.getString("key").equals(config.getApiKey())) {
+                    handleConfigScanned(text);
+                }
+            } catch (UnsupportedEncodingException e) {
+            } catch (JSONException e) {
+            }
+        }
     }
 
     @Override
@@ -123,12 +126,8 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Sentry.addBreadcrumb("main.startup", "Permission granted");
-                    if (config.getCamera()) {
-                        qrView.startCamera();
-                    }
+                    qrView.startCamera();
                 } else {
-                    Sentry.addBreadcrumb("main.startup", "Permission request denied");
                     Toast.makeText(this, R.string.permission_required, Toast.LENGTH_LONG).show();
                     finish();
                 }
@@ -139,34 +138,19 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     @Override
     public void onResume() {
         super.onResume();
-        if (config.getCamera()) {
-            qrView.setResultHandler(this);
-            qrView.startCamera();
-            qrView.setAutoFocus(config.getAutofocus());
-            resetView();
-        } else {
-            IntentFilter filter = new IntentFilter();
-            // Broadcast sent by Lecom scanners
-            filter.addAction("scan.rcv.message");
-            registerReceiver(scanReceiver, filter);
-        }
+        qrView.setResultHandler(this);
+        qrView.startCamera();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (config.getCamera()) {
-            qrView.stopCamera();
-        } else {
-            unregisterReceiver(scanReceiver);
-        }
+        qrView.stopCamera();
     }
 
     @Override
     public void handleResult(Result rawResult) {
-        if (config.getCamera()) {
-            qrView.resumeCameraPreview(this);
-        }
+        qrView.resumeCameraPreview(this);
         String s = rawResult.getText();
         if (s.equals(lastScanCode) && System.currentTimeMillis() - lastScanTime < 5000) {
             return;
@@ -174,10 +158,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         lastScanTime = System.currentTimeMillis();
         lastScanCode = s;
 
-        handleScan(s);
-    }
-
-    public void handleScan(String s) {
         if (config.getSoundEnabled()) mediaPlayer.start();
         resetView();
 
@@ -189,10 +169,17 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
     private void handleConfigScanned(String s) {
-        Sentry.addBreadcrumb("main.scanned", "Config scanned");
-
         try {
-            JSONObject jsonObject = new JSONObject(s);
+            handleConfigScanned(new JSONObject(s));
+        } catch (JSONException e) {
+            displayScanResult(new TicketCheckProvider.CheckResult(
+                    TicketCheckProvider.CheckResult.Type.ERROR,
+                    getString(R.string.err_qr_invalid)));
+        }
+    }
+
+    private void handleConfigScanned(JSONObject jsonObject) {
+        try {
             if (jsonObject.getInt("version") != PretixApi.API_VERSION) {
                 displayScanResult(new TicketCheckProvider.CheckResult(
                         TicketCheckProvider.CheckResult.Type.ERROR,
@@ -212,8 +199,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
     private void handleTicketScanned(String s) {
-        Sentry.addBreadcrumb("main.scanned", "Ticket scanned");
-
         state = State.LOADING;
         findViewById(R.id.tvScanResult).setVisibility(View.GONE);
         findViewById(R.id.pbScan).setVisibility(View.VISIBLE);
@@ -238,12 +223,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             tvScanResult.setText(R.string.hint_scan);
         } else {
             tvScanResult.setText(R.string.hint_config);
-        }
-
-        if (!config.getCamera()) {
-            qrView.setVisibility(View.GONE);
-        } else {
-            qrView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -371,22 +350,35 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         MenuItem checkable = menu.findItem(R.id.action_flashlight);
         checkable.setChecked(config.getFlashlight());
 
+        checkable = menu.findItem(R.id.action_autofocus);
+        checkable.setChecked(config.getAutofocus());
+
+        checkable = menu.findItem(R.id.action_play_sound);
+        checkable.setChecked(config.getSoundEnabled());
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_flashlight:
-                config.setFlashlight(!item.isChecked());
-                if (config.getCamera()) {
-                    qrView.setFlash(!item.isChecked());
-                }
+            case R.id.action_clear_config:
+                config.resetEventConfig();
+                resetView();
+                return true;
+            case R.id.action_autofocus:
+                config.setAutofocus(!item.isChecked());
+                qrView.setAutoFocus(!item.isChecked());
                 item.setChecked(!item.isChecked());
                 return true;
-            case R.id.action_preferences:
-                Intent intent_settings = new Intent(this, SettingsActivity.class);
-                startActivity(intent_settings);
+            case R.id.action_flashlight:
+                config.setFlashlight(!item.isChecked());
+                qrView.setFlash(!item.isChecked());
+                item.setChecked(!item.isChecked());
+                return true;
+            case R.id.action_play_sound:
+                config.setSoundEnabled(!item.isChecked());
+                item.setChecked(!item.isChecked());
                 return true;
             case R.id.action_search:
                 if (config.isConfigured()) {
@@ -396,8 +388,45 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                     Toast.makeText(this, R.string.not_configured, Toast.LENGTH_SHORT).show();
                 }
                 return true;
+            case R.id.action_about:
+                asset_dialog(R.raw.about, R.string.about);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void asset_dialog(@RawRes int htmlRes, @StringRes int title) {
+        final View view = LayoutInflater.from(this).inflate(R.layout.dialog_about, null, false);
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setView(view)
+                .setPositiveButton(R.string.dismiss, null)
+                .create();
+
+        TextView textView = (TextView) view.findViewById(R.id.aboutText);
+
+        String text = "";
+
+        StringBuilder builder = new StringBuilder();
+        InputStream fis;
+        try {
+            fis = getResources().openRawResource(htmlRes);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, "utf-8"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+
+            text = builder.toString();
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        textView.setText(Html.fromHtml(text));
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        dialog.show();
     }
 }
