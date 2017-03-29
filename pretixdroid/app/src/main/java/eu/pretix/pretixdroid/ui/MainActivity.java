@@ -108,8 +108,12 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             byte[] value = Base64.decode(uri.getHost(), Base64.DEFAULT);
             try {
                 String text = new String(value, "UTF-8");
-                handleConfigScanned(text);
+                JSONObject newConfig = new JSONObject(text);
+                if (!newConfig.getString("key").equals(config.getApiKey())) {
+                    handleConfigScanned(text);
+                }
             } catch (UnsupportedEncodingException e) {
+            } catch (JSONException e) {
             }
         }
     }
@@ -166,7 +170,16 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
     private void handleConfigScanned(String s) {
         try {
-            JSONObject jsonObject = new JSONObject(s);
+            handleConfigScanned(new JSONObject(s));
+        } catch (JSONException e) {
+            displayScanResult(new TicketCheckProvider.CheckResult(
+                    TicketCheckProvider.CheckResult.Type.ERROR,
+                    getString(R.string.err_qr_invalid)));
+        }
+    }
+
+    private void handleConfigScanned(JSONObject jsonObject) {
+        try {
             if (jsonObject.getInt("version") != PretixApi.API_VERSION) {
                 displayScanResult(new TicketCheckProvider.CheckResult(
                         TicketCheckProvider.CheckResult.Type.ERROR,
