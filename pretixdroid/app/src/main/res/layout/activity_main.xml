@@ -68,6 +68,32 @@
         android:id="@+id/qrdecoderview"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/rlScanStatus" />
+        android:layout_below="@id/rlScanStatus">
+
+    </me.dm7.barcodescanner.zxing.ZXingScannerView>
+
+    <RelativeLayout
+        android:id="@+id/rlSyncStaus"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/scan_result_ok">
+
+        <TextView
+            android:id="@+id/tvSyncStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
 
 </RelativeLayout>
