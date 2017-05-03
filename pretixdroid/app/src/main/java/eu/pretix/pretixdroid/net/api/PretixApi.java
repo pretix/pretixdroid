@@ -9,6 +9,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.net.ssl.SSLException;
 
@@ -21,17 +26,23 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class PretixApi {
-    public static final int API_VERSION = 2;
+    /**
+     * See https://docs.pretix.eu/en/latest/plugins/pretixdroid.html for API documentation
+     */
+
+    public static final int SUPPORTED_API_VERSION = 3;
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
 
     private String url;
     private String key;
+    private int version;
     private OkHttpClient client;
 
-    public PretixApi(String url, String key) {
+    public PretixApi(String url, String key, int version) {
         this.url = url;
         this.key = key;
+        this.version = version;
         if (BuildConfig.DEBUG) {
             client = new OkHttpClient.Builder()
                     .addNetworkInterceptor(new StethoInterceptor())
@@ -43,16 +54,31 @@ public class PretixApi {
     }
 
     public static PretixApi fromConfig(AppConfig config) {
-        return new PretixApi(config.getApiUrl(), config.getApiKey());
+        return new PretixApi(config.getApiUrl(), config.getApiKey(), config.getApiVersion());
     }
 
     public JSONObject redeem(String secret) throws ApiException {
-        RequestBody body = new FormBody.Builder()
-                .add("secret", secret)
-                .build();
+        return redeem(secret, null, false, null);
+    }
+
+    public JSONObject redeem(String secret, Date datetime, boolean force, String nonce) throws ApiException {
+        FormBody.Builder body = new FormBody.Builder()
+                .add("secret", secret);
+        if (datetime != null) {
+            TimeZone tz = TimeZone.getTimeZone("UTC");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.ENGLISH); // Quoted "Z" to indicate UTC, no timezone offset
+            df.setTimeZone(tz);
+            body.add("datetime", df.format(datetime));
+        }
+        if (force) {
+            body.add("force", "true");
+        }
+        if (nonce != null) {
+            body.add("nonce", nonce);
+        }
         Request request = new Request.Builder()
                 .url(url + "redeem/?key=" + key)
-                .post(body)
+                .post(body.build())
                 .build();
         return apiCall(request);
     }
@@ -67,6 +93,17 @@ public class PretixApi {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        return apiCall(request);
+    }
+
+    public JSONObject download() throws ApiException {
+        if (version < 3) {
+            throw new ApiException("Unsupoorted in API versions lower than 3.");
+        }
+        Request request = new Request.Builder()
+                .url(url + "download/?key=" + key)
+                .get()
+                .build();
         return apiCall(request);
     }
 

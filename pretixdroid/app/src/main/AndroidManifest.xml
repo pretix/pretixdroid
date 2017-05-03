@@ -43,6 +43,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="eu.pretix.pretixdroid.ui.MainActivity" />
         </activity>
+
+        <service
+            android:name=".async.SyncService"
+            android:exported="false" />
     </application>
 
 </manifest>

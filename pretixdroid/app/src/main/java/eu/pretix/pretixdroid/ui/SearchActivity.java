@@ -2,6 +2,7 @@ package eu.pretix.pretixdroid.ui;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -22,9 +23,10 @@ import com.joshdholtz.sentry.Sentry;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.pretix.pretixdroid.PretixDroid;
 import eu.pretix.pretixdroid.R;
+import eu.pretix.pretixdroid.async.SyncService;
 import eu.pretix.pretixdroid.check.CheckException;
-import eu.pretix.pretixdroid.check.OnlineCheckProvider;
 import eu.pretix.pretixdroid.check.TicketCheckProvider;
 
 public class SearchActivity extends AppCompatActivity {
@@ -39,7 +41,7 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        checkProvider = new OnlineCheckProvider(this);
+        checkProvider = ((PretixDroid) getApplication()).getNewCheckProvider();
 
         setContentView(R.layout.activity_search);
 
@@ -173,7 +175,13 @@ public class SearchActivity extends AppCompatActivity {
                     .show();
 
             startSearch(etQuery.getText().toString());
+            triggerSync();
         }
+    }
+
+    private void triggerSync() {
+        Intent i = new Intent(this, SyncService.class);
+        startService(i);
     }
 
     private void showList(List<TicketCheckProvider.SearchResult> checkResult) {

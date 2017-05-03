@@ -2,10 +2,11 @@
     <string name="action_play_sound">Play sounds</string>
     <string name="app_name">pretixdroid</string>
     <string name="err_qr_invalid">The scanned QR code is not valid.</string>
-    <string name="err_qr_version">Your app is not compatible with the version of pretix on the server. Please check for updates.</string>
+    <string name="err_qr_version">Your app is older than the version of pretix on the server. Please check for updates of the pretixdroid app.</string>
     <string name="config_done">Configuration processed. You can now start scanning tickets.</string>
     <string name="err_title">Error</string>
     <string name="dismiss">Dismiss</string>
+    <string name="ok">OK</string>
     <string name="err_unknown">Unknown error</string>
     <string name="title_activity_main">pretixdroid</string>
     <string name="cancel">Cancel</string>
@@ -38,4 +39,29 @@
     <string name="pref_camera">Use device camera</string>
     <string name="pref_camera_hint">Disable if your device has a dedicated barcode scanner built-in. Only works for a few devices so far.</string>
     <string name="pref_head_feedback">Scanning</string>
+    <string name="pref_async">Asynchronous scanning (beta)</string>
+    <string name="pref_async_hint_on">Scanned tickets are checked against an offline copy of the database. The app will try to synchronize with the server in regular intervals.</string>
+    <string name="pref_async_hint_off">Scanned tickets are checked directly with the server. The app requires an internet connection to work.</string>
+    <string name="pref_async_not_supported">Asynchronous scanning is not supported by the version of pretix running on your server. Please check for updates of pretix.</string>
+    <string name="pref_async_warning">If you turn on asynchronous scanning, your phone will not be always up to date about the current database state. For example, if you use more than one device for scanning, a ticket might be shown as valid twice if it has already been scanned by a different device before.</string>
+    <string name="pref_reset_warning">Your app is not fully synchronized. If you reset it now, some scans made on this device might get permanently lost.</string>
+    <plurals name="time_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="time_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="time_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <string name="sync_status">Synchronization status</string>
+    <string name="sync_status_last">Last successful synchronization:</string>
+    <string name="sync_status_last_failed">Last failed synchronization:</string>
+    <string name="sync_status_never">not yet synchronized</string>
+    <string name="sync_status_now">just now</string>
+    <string name="sync_status_date_format">yyyy-MM-dd HH:mm:ss</string>
+    <string name="sync_status_local">Checkins queued to upload:</string>
 </resources>

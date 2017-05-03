@@ -39,4 +39,29 @@
     <string name="pref_head_other">Sonstiges</string>
     <string name="pref_head_scan">Scannen</string>
     <string name="reset_success">Sie können nun einen neuen Konfigurations-Code scannen</string>
+    <string name="pref_async">Asynchrones Scannen (beta)</string>
+    <string name="pref_async_hint_on">Gescannte Tickets werden mit einer Offline-Kopie der Datenbank abgeglichen. Die App versucht sich regelmäßig automatisch mit dem Server zu synchronisieren.</string>
+    <string name="pref_async_hint_off">Gescannte Tickets werden direkt mit dem Server abgeglichen. Die App benötigt eine Internetverbindung.</string>
+    <string name="pref_async_not_supported">Asynchrones Scannen wird von Ihrem pretix-Server nicht unterstützt. Bitte prüfen Sie pretix auf Updates.</string>
+    <string name="pref_async_warning">Wenn Sie asynchrones Scannen anschalten, wird dieses Gerät nicht immer den aktuellesten Stand der Datenbank kennen. Das kann, beispielsweise wenn Sie mehrere Geräte einsetzen, dazu führen, dass das selbe Ticket auf zwei verschiedenen Geräten zweimal als gültig angezeigt wird, wenn in kurzer Folge mehrfach gescannt wird.</string>
+    <string name="pref_reset_warning">Die App ist nicht voll synchronisiert. Wenn Sie sie nun zurücksetzen, könnten einige auf diesem Gerät geschehene Checkins dauerhaft verloren gehen.</string>
+    <plurals name="time_minutes">
+        <item quantity="one">%d Minute</item>
+        <item quantity="other">%d Minuten</item>
+    </plurals>
+    <plurals name="time_hours">
+        <item quantity="one">%d Stunde</item>
+        <item quantity="other">%d Stunden</item>
+    </plurals>
+    <plurals name="time_days">
+        <item quantity="one">%d Tag</item>
+        <item quantity="other">%d Tage</item>
+    </plurals>
+    <string name="sync_status">Synchronisierungs-Status</string>
+    <string name="sync_status_last">Letzte erfolgreiche Synchronisierung:</string>
+    <string name="sync_status_last_failed">Letzte fehlgeschlagene Synchronisierung:</string>
+    <string name="sync_status_never">nicht synchronisiert</string>
+    <string name="sync_status_now">gerade eben</string>
+    <string name="sync_status_date_format">dd.MM.yyyy HH:mm:ss</string>
+    <string name="sync_status_local">Noch nicht hochgeladene Checkins:</string>
 </resources>

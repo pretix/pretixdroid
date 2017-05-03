@@ -3,18 +3,21 @@ package eu.pretix.pretixdroid.ui;
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -33,14 +36,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import eu.pretix.pretixdroid.AppConfig;
 import eu.pretix.pretixdroid.BuildConfig;
+import eu.pretix.pretixdroid.PretixDroid;
 import eu.pretix.pretixdroid.R;
-import eu.pretix.pretixdroid.check.OnlineCheckProvider;
+import eu.pretix.pretixdroid.async.SyncService;
 import eu.pretix.pretixdroid.check.TicketCheckProvider;
+import eu.pretix.pretixdroid.db.QueuedCheckIn;
 import eu.pretix.pretixdroid.net.api.PretixApi;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -59,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     private MediaPlayer mediaPlayer;
     private TicketCheckProvider checkProvider;
     private AppConfig config;
+    private Timer timer;
 
     private BroadcastReceiver scanReceiver = new BroadcastReceiver() {
         @Override
@@ -82,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             Sentry.init(this, BuildConfig.SENTRY_DSN);
         }
 
-        checkProvider = new OnlineCheckProvider(this);
+        checkProvider = ((PretixDroid) getApplication()).getNewCheckProvider();
         config = new AppConfig(this);
 
         setContentView(R.layout.activity_main);
@@ -108,6 +118,13 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         mediaPlayer = buildMediaPlayer(this);
 
         timeoutHandler = new Handler();
+
+        findViewById(R.id.rlSyncStaus).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSyncStatusDetails();
+            }
+        });
 
         resetView();
 
@@ -136,6 +153,27 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         }
     }
 
+    private class SyncTriggerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            triggerSync();
+        }
+    }
+
+    private class UpdateSyncStatusTask extends TimerTask {
+
+        @Override
+        public void run() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    updateSyncStatus();
+                }
+            });
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -150,6 +188,11 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             filter.addAction("scan.rcv.message");
             registerReceiver(scanReceiver, filter);
         }
+
+        timer = new Timer();
+        timer.schedule(new SyncTriggerTask(), 1000, 10000);
+        timer.schedule(new UpdateSyncStatusTask(), 500, 500);
+        updateSyncStatus();
     }
 
     @Override
@@ -160,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         } else {
             unregisterReceiver(scanReceiver);
         }
+        timer.cancel();
     }
 
     @Override
@@ -193,22 +237,33 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
         try {
             JSONObject jsonObject = new JSONObject(s);
-            if (jsonObject.getInt("version") != PretixApi.API_VERSION) {
+            if (jsonObject.getInt("version") > PretixApi.SUPPORTED_API_VERSION) {
                 displayScanResult(new TicketCheckProvider.CheckResult(
                         TicketCheckProvider.CheckResult.Type.ERROR,
                         getString(R.string.err_qr_version)));
             } else {
-                config.setEventConfig(jsonObject.getString("url"), jsonObject.getString("key"));
-                checkProvider = new OnlineCheckProvider(this);
+                if (jsonObject.getInt("version") < 3) {
+                    config.setAsyncModeEnabled(false);
+                }
+                config.setEventConfig(jsonObject.getString("url"), jsonObject.getString("key"),
+                        jsonObject.getInt("version"));
+                checkProvider = ((PretixDroid) getApplication()).getNewCheckProvider();
                 displayScanResult(new TicketCheckProvider.CheckResult(
                         TicketCheckProvider.CheckResult.Type.VALID,
                         getString(R.string.config_done)));
+
+                triggerSync();
             }
         } catch (JSONException e) {
             displayScanResult(new TicketCheckProvider.CheckResult(
                     TicketCheckProvider.CheckResult.Type.ERROR,
                     getString(R.string.err_qr_invalid)));
         }
+    }
+
+    private void triggerSync() {
+        Intent i = new Intent(this, SyncService.class);
+        startService(i);
     }
 
     private void handleTicketScanned(String s) {
@@ -218,6 +273,68 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         findViewById(R.id.tvScanResult).setVisibility(View.GONE);
         findViewById(R.id.pbScan).setVisibility(View.VISIBLE);
         new CheckTask().execute(s);
+    }
+
+    private void updateSyncStatus() {
+        if (config.getAsyncModeEnabled()) {
+            findViewById(R.id.rlSyncStaus).setVisibility(View.VISIBLE);
+
+            if (config.getLastFailedSync() > config.getLastSync() || System.currentTimeMillis() - config.getLastDownload() > 5 * 60 * 1000) {
+                findViewById(R.id.rlSyncStaus).setBackgroundColor(ContextCompat.getColor(this, R.color.scan_result_err));
+            } else {
+                findViewById(R.id.rlSyncStaus).setBackgroundColor(ContextCompat.getColor(this, R.color.scan_result_ok));
+            }
+            String text;
+            long diff = System.currentTimeMillis() - config.getLastDownload();
+            if (config.getLastDownload() == 0) {
+                text = getString(R.string.sync_status_never);
+            } else if (diff > 24 * 3600 * 1000) {
+                int days = (int) (diff / (24 * 3600 * 1000));
+                text = getResources().getQuantityString(R.plurals.time_days, days, days);
+            } else if (diff > 3600 * 1000) {
+                int hours = (int) (diff / (3600 * 1000));
+                text = getResources().getQuantityString(R.plurals.time_hours, hours, hours);
+            } else if (diff > 60 * 1000) {
+                int mins = (int) (diff / (60 * 1000));
+                text = getResources().getQuantityString(R.plurals.time_minutes, mins, mins);
+            } else {
+                text = getString(R.string.sync_status_now);
+            }
+
+            ((TextView) findViewById(R.id.tvSyncStatus)).setText(text);
+        } else {
+            findViewById(R.id.rlSyncStaus).setVisibility(View.GONE);
+        }
+    }
+
+    public void showSyncStatusDetails() {
+        Calendar lastSync = Calendar.getInstance();
+        lastSync.setTimeInMillis(config.getLastSync());
+        Calendar lastSyncFailed = Calendar.getInstance();
+        lastSyncFailed.setTimeInMillis(config.getLastFailedSync());
+        long cnt = ((PretixDroid) getApplication()).getData().count(QueuedCheckIn.class).get().value();
+
+        SimpleDateFormat formatter = new SimpleDateFormat(getString(R.string.sync_status_date_format));
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.sync_status)
+                .setMessage(
+                        getString(R.string.sync_status_last) + "\n" +
+                                formatter.format(lastSync.getTime()) + "\n\n" +
+                                getString(R.string.sync_status_local) + cnt +
+                                (config.getLastFailedSync() > 0 ? (
+                                        "\n\n" +
+                                                getString(R.string.sync_status_last_failed) + "\n" +
+                                                formatter.format(lastSyncFailed.getTime()) +
+                                                "\n" + config.getLastFailedSyncMsg()
+                                ) : "")
+
+                )
+                .setPositiveButton(R.string.dismiss, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .show();
+
     }
 
     private void resetView() {
@@ -261,6 +378,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         @Override
         protected void onPostExecute(TicketCheckProvider.CheckResult checkResult) {
             displayScanResult(checkResult);
+            triggerSync();
         }
     }
 
