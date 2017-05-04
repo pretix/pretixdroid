@@ -1,5 +1,6 @@
 package eu.pretix.pretixdroid.net.api;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.joshdholtz.sentry.Sentry;
 
 import org.json.JSONException;
@@ -12,12 +13,11 @@ import java.net.URLEncoder;
 import javax.net.ssl.SSLException;
 
 import eu.pretix.pretixdroid.AppConfig;
+import eu.pretix.pretixdroid.BuildConfig;
 import okhttp3.FormBody;
-import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class PretixApi {
@@ -27,10 +27,19 @@ public class PretixApi {
 
     private String url;
     private String key;
+    private OkHttpClient client;
 
     public PretixApi(String url, String key) {
         this.url = url;
         this.key = key;
+        if (BuildConfig.DEBUG) {
+            client = new OkHttpClient.Builder()
+                    .addNetworkInterceptor(new StethoInterceptor())
+                    .build();
+        } else {
+            client = new OkHttpClient.Builder()
+                    .build();
+        }
     }
 
     public static PretixApi fromConfig(AppConfig config) {
@@ -62,7 +71,6 @@ public class PretixApi {
     }
 
     private JSONObject apiCall(Request request) throws ApiException {
-        OkHttpClient client = new OkHttpClient();
         Response response;
         try {
             response = client.newCall(request).execute();
