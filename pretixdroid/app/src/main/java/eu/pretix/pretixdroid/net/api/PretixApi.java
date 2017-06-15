@@ -98,7 +98,7 @@ public class PretixApi {
 
     public JSONObject download() throws ApiException {
         if (version < 3) {
-            throw new ApiException("Unsupoorted in API versions lower than 3.");
+            throw new ApiException("Unsuported in API versions lower than 3.");
         }
         Request request = new Request.Builder()
                 .url(url + "download/?key=" + key)
