@@ -83,6 +83,14 @@ public class PretixApi {
         return apiCall(request);
     }
 
+    public JSONObject status() throws ApiException {
+        Request request = new Request.Builder()
+                    .url(url + "status/?key=" + key)
+                    .get()
+                    .build();
+        return apiCall(request);
+    }
+
     public JSONObject search(String query) throws ApiException {
         Request request = null;
         try {
