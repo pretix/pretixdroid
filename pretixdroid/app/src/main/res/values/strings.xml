@@ -5,6 +5,7 @@
     <string name="err_qr_version">Your app is older than the version of pretix on the server. Please check for updates of the pretixdroid app.</string>
     <string name="config_done">Configuration processed. You can now start scanning tickets.</string>
     <string name="err_title">Error</string>
+    <string name="action_eventinfo">Event Info</string>
     <string name="dismiss">Dismiss</string>
     <string name="ok">OK</string>
     <string name="err_unknown">Unknown error</string>

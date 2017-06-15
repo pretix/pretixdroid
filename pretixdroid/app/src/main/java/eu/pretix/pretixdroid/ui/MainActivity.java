@@ -514,6 +514,14 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                     Toast.makeText(this, R.string.not_configured, Toast.LENGTH_SHORT).show();
                 }
                 return true;
+            case R.id.action_eventinfo:
+                if (config.isConfigured()) {
+                    Intent intent = new Intent(this, EventinfoActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, R.string.not_configured, Toast.LENGTH_SHORT).show();
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
