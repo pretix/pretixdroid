@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import eu.pretix.pretixdroid.AppConfig;
 import eu.pretix.pretixdroid.R;
@@ -33,6 +34,7 @@ public class EventinfoActivity extends AppCompatActivity {
     private PretixApi api;
 
     private ListView mListView;
+    private EventItemAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,8 @@ public class EventinfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_eventinfo);
 
         this.mListView = (ListView)findViewById(R.id.eventinfo_list);
-        this.mListView.setAdapter(new EventItemAdapter(getApplicationContext()));
+        this.mAdapter = new EventItemAdapter(getApplicationContext());
+        this.mListView.setAdapter(this.mAdapter);
 
         this.config = new AppConfig(getApplicationContext());
         this.api = PretixApi.fromConfig(config);
@@ -72,17 +75,15 @@ public class EventinfoActivity extends AppCompatActivity {
          */
         @Override
         protected void onPostExecute(JSONObject result) {
-            TextView testTextView = (TextView)findViewById(R.id.testTextView);
+            EventItemAdapter eia = EventinfoActivity.this.mAdapter;
             try {
-                testTextView.setText(result.getJSONObject("event").getString("name"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                EventCardItem ici = new EventCardItem(result);
+                eia.addItem(ici);
 
-            try {
                 JSONArray items = result.getJSONArray("items");
                 for (int i = 0; i < items.length(); i++) {
-                    // TODO parse json arrays to EventItemCardItems and add it to the adapter
+                    EventItemCardItem eici = new EventItemCardItem(items.getJSONObject(i));
+                    eia.addItem(eici);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
