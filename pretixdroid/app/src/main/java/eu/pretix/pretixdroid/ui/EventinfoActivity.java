@@ -178,6 +178,36 @@ public class EventinfoActivity extends AppCompatActivity {
      * is the handler of a card that displays basic information about the event
      */
     public class EventCardItem implements EventinfoListItem {
+
+        private final String eventName;
+        private final int totalTickets;
+        private final int alreadyScanned;
+
+        EventCardItem(String name, int totalTickets, int alreadyScanned) {
+            this.eventName = name;
+            this.totalTickets = totalTickets;
+            this.alreadyScanned = alreadyScanned;
+        }
+
+        EventCardItem(JSONObject json) throws JSONException {
+            eventName = json.getJSONObject("event").getString("name");
+            totalTickets = json.getInt("total");
+            alreadyScanned = json.getInt("checkins");
+        }
+
+        public String getEventName() {
+            return eventName;
+        }
+
+        public int getTotalTickets() {
+            return totalTickets;
+        }
+
+        public int getAlreadyScanned() {
+            return alreadyScanned;
+        }
+
+        // --- used for the adapter --- //
         @Override
         public int getType() {
             return EventItemAdapter.TYPE_EVENTCARD;
@@ -193,14 +223,69 @@ public class EventinfoActivity extends AppCompatActivity {
 
         @Override
         public void fillView(View view) {
-            // TODO implement filling of a card as an EventCard
+            ((TextView) view.findViewById(R.id.eventTitle)).setText(this.getEventName());
         }
+
     }
 
     /**
      * is the handler of a card that displays information about each item of an event
      */
     public class EventItemCardItem implements EventinfoListItem {
+
+        private final String name;
+        private final int checkins;
+        private final int total;
+        private final int variationCount;
+
+        private final LinkedList<Variation> variations = new LinkedList<>();
+
+        EventItemCardItem(JSONObject json) throws JSONException {
+            this.name = json.getString("name");
+            this.checkins = json.getInt("checkins");
+            this.total = json.getInt("total");
+
+            JSONArray vars = json.getJSONArray("variations");
+            this.variationCount = vars.length();
+
+            for (int i = 0; i < this.variationCount; i++) {
+                this.variations.add(new Variation(vars.getJSONObject(i)));
+            }
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getCheckins() {
+            return checkins;
+        }
+
+        public int getTotal() {
+            return total;
+        }
+
+        public int getVariationCount() {
+            return variationCount;
+        }
+
+        public LinkedList<Variation> getVariations() {
+            return variations;
+        }
+
+        private class Variation {
+            private final String name;
+            private final int checkins;
+            private final int total;
+
+            public Variation(JSONObject json) throws JSONException {
+                this.name = json.getString("name");
+                this.checkins = json.getInt("checkins");
+                this.total = json.getInt("total");
+            }
+        }
+
+        // --- used for the adapter --- //
         @Override
         public int getType() {
             return EventItemAdapter.TYPE_EVENTITEMCARD;
@@ -216,7 +301,7 @@ public class EventinfoActivity extends AppCompatActivity {
 
         @Override
         public void fillView(View view) {
-            // TODO implement filling of a card as an EventItemCard
+            ((TextView) view.findViewById(R.id.itemTitle)).setText(this.getName());
         }
     }
 }
