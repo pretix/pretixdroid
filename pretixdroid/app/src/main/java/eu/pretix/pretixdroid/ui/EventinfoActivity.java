@@ -50,6 +50,12 @@ public class EventinfoActivity extends AppCompatActivity {
 
     public class StatusTask extends AsyncTask<String, Integer, JSONObject> {
 
+        /**
+         * exexutes an asyncron request to obtain status information from the pretix instance
+         * @param params are ignored
+         * @return the associated json object recieved from the pretix-endpoint or
+         * @return null if the request was not successful
+         */
         @Override
         protected JSONObject doInBackground(String... params) {
             try {
@@ -60,6 +66,10 @@ public class EventinfoActivity extends AppCompatActivity {
             return null;
         }
 
+        /**
+         * it parses the answer of the pretix endpoint into objects and adds them to the list
+         * @param result the answer of the pretix status endpoint
+         */
         @Override
         protected void onPostExecute(JSONObject result) {
             TextView testTextView = (TextView)findViewById(R.id.testTextView);
