@@ -42,10 +42,10 @@ public class EventinfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_eventinfo);
 
         this.mListView = (ListView)findViewById(R.id.eventinfo_list);
-        this.mAdapter = new EventItemAdapter(getApplicationContext());
+        this.mAdapter = new EventItemAdapter(getBaseContext());
         this.mListView.setAdapter(this.mAdapter);
 
-        this.config = new AppConfig(getApplicationContext());
+        this.config = new AppConfig(this);
         this.api = PretixApi.fromConfig(config);
 
         new StatusTask().execute();
