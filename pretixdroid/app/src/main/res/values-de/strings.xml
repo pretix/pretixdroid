@@ -64,4 +64,6 @@
     <string name="sync_status_now">gerade eben</string>
     <string name="sync_status_date_format">dd.MM.yyyy HH:mm:ss</string>
     <string name="sync_status_local">Noch nicht hochgeladene Checkins:</string>
+    <string name="action_eventinfo">Event Informationen</string>
+    <string name="ok">OK</string>
 </resources>
