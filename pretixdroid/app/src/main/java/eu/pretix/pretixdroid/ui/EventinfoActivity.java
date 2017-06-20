@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import eu.pretix.pretixdroid.AppConfig;
@@ -142,7 +143,7 @@ public class EventinfoActivity extends AppCompatActivity {
                 EventinfoListItem item = this.getItem(position);
                 return item.getCard(mInflater, parent);
             } else {
-                ((EventinfoListItem) convertView.getTag()).fillView(convertView);
+                ((EventinfoListItem) convertView.getTag()).fillView(convertView, mInflater, parent);
                 return convertView;
             }
 
@@ -172,7 +173,7 @@ public class EventinfoActivity extends AppCompatActivity {
          * returns a recycled view filled with the contents of this item
          * @param view a recycled view filled with the contents of this item
          */
-        void fillView(View view);
+        void fillView(View view, LayoutInflater inflater, ViewGroup parent);
     }
 
     /**
@@ -217,13 +218,13 @@ public class EventinfoActivity extends AppCompatActivity {
         @Override
         public View getCard(LayoutInflater inflater, ViewGroup parent) {
             View v = inflater.inflate(R.layout.listitem_eventcard, parent, false);
-            fillView(v);
+            fillView(v, inflater, parent);
             v.setTag(this);
             return v;
         }
 
         @Override
-        public void fillView(View view) {
+        public void fillView(View view, LayoutInflater inflater, ViewGroup parent) {
             ((TextView) view.findViewById(R.id.eventTitle)).setText(this.getEventName());
             ((TextView) view.findViewById(R.id.tickets_sold)).setText(String.valueOf(this.getTotalTickets()));
             ((TextView) view.findViewById(R.id.total_scanned)).setText(String.valueOf((this.getAlreadyScanned())));
@@ -286,6 +287,18 @@ public class EventinfoActivity extends AppCompatActivity {
                 this.checkins = json.getInt("checkins");
                 this.total = json.getInt("total");
             }
+
+            public String getName() {
+                return name;
+            }
+
+            public int getCheckins() {
+                return checkins;
+            }
+
+            public int getTotal() {
+                return total;
+            }
         }
 
         // --- used for the adapter --- //
@@ -297,15 +310,29 @@ public class EventinfoActivity extends AppCompatActivity {
         @Override
         public View getCard(LayoutInflater inflater, ViewGroup parent) {
             View v = inflater.inflate(R.layout.listitem_eventitemcard, parent, false);
-            fillView(v);
+            fillView(v, inflater, parent);
             v.setTag(this);
             return v;
         }
 
         @Override
-        public void fillView(View view) {
+        public void fillView(View view, LayoutInflater inflater, ViewGroup parent) {
             ((TextView) view.findViewById(R.id.itemTitle)).setText(this.getName());
             ((TextView) view.findViewById(R.id.itemQuantity)).setText(String.valueOf(this.getCheckins()) + "/" + String.valueOf(this.getTotal()));
+
+            Iterator<Variation> iterator = this.variations.iterator();
+            while (iterator.hasNext()) {
+                Variation current = iterator.next();
+
+                View variationLine = inflater.inflate(R.layout.listitem_eventitemvariation, parent, false);
+                ((TextView) variationLine.findViewById(R.id.itemVariationTitle)).setText(current.getName());
+                ((TextView) variationLine.findViewById(R.id.itemVariationQuantity)).setText(String.valueOf(current.getCheckins()) + "/" + String.valueOf(current.getTotal()));
+
+                ViewGroup variationList = ((ViewGroup) view.findViewById(R.id.variationList));
+
+                variationList.removeAllViews();
+                variationList.addView(variationLine);
+            }
         }
     }
 }

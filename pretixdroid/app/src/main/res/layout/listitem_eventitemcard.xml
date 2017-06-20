@@ -7,7 +7,7 @@ android:layout_height="match_parent">
         android:id="@+id/card_view"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         card_view:cardCornerRadius="4dp"
         android:layout_margin="10dp">
 
@@ -26,6 +26,13 @@ android:layout_height="match_parent">
                 android:layout_height="wrap_content"
                 android:text="08/15"
                 android:layout_alignParentRight="true" />
+            <LinearLayout
+                android:id="@+id/variationList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/itemTitle"
+                android:orientation="vertical">
+            </LinearLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
