@@ -15,17 +15,21 @@ android:layout_height="match_parent">
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:padding="16dp">
+
             <TextView
                 android:id="@+id/itemTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Itemname" />
+                android:text="Itemname"
+                android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+
             <TextView
                 android:id="@+id/itemQuantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:text="08/15"
-                android:layout_alignParentRight="true" />
+                android:textAppearance="@android:style/TextAppearance.Material.Body1" />
             <LinearLayout
                 android:id="@+id/variationList"
                 android:layout_width="wrap_content"
