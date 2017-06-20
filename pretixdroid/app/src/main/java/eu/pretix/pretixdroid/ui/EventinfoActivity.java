@@ -225,6 +225,8 @@ public class EventinfoActivity extends AppCompatActivity {
         @Override
         public void fillView(View view) {
             ((TextView) view.findViewById(R.id.eventTitle)).setText(this.getEventName());
+            ((TextView) view.findViewById(R.id.tickets_sold)).setText(String.valueOf(this.getTotalTickets()));
+            ((TextView) view.findViewById(R.id.total_scanned)).setText(String.valueOf((this.getAlreadyScanned())));
         }
 
     }
