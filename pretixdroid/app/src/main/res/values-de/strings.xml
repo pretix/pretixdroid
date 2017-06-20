@@ -66,4 +66,6 @@
     <string name="sync_status_local">Noch nicht hochgeladene Checkins:</string>
     <string name="action_eventinfo">Event Informationen</string>
     <string name="ok">OK</string>
+    <string name="already_scanned">bereits gescannt</string>
+    <string name="total_tickets_sold">Tickets (gesamt)</string>
 </resources>

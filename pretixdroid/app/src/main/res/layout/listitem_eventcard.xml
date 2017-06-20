@@ -44,13 +44,12 @@
                     android:id="@+id/tickets_sold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="123"
                     android:textAppearance="@android:style/TextAppearance.Material.Title" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="total tickets sold"
+                    android:text="@string/total_tickets_sold"
                     android:textAppearance="@android:style/TextAppearance.Material.Body2" />
             </LinearLayout>
 
@@ -65,13 +64,12 @@
                     android:id="@+id/total_scanned"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="456"
                     android:textAppearance="@android:style/TextAppearance.Material.Title" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="total scanned"
+                    android:text="@string/already_scanned"
                     android:textAppearance="@android:style/TextAppearance.Material.Body2" />
             </LinearLayout>
         </LinearLayout>

@@ -65,4 +65,6 @@
     <string name="sync_status_now">just now</string>
     <string name="sync_status_date_format">yyyy-MM-dd HH:mm:ss</string>
     <string name="sync_status_local">Checkins queued to upload:</string>
+    <string name="already_scanned">already scanned</string>
+    <string name="total_tickets_sold">total tickets sold</string>
 </resources>
