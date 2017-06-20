@@ -305,6 +305,7 @@ public class EventinfoActivity extends AppCompatActivity {
         @Override
         public void fillView(View view) {
             ((TextView) view.findViewById(R.id.itemTitle)).setText(this.getName());
+            ((TextView) view.findViewById(R.id.itemQuantity)).setText(String.valueOf(this.getCheckins()) + "/" + String.valueOf(this.getTotal()));
         }
     }
 }
