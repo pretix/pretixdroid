@@ -79,6 +79,7 @@ public class EventinfoActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONObject result) {
             EventItemAdapter eia = EventinfoActivity.this.mAdapter;
+            eia.clear();
             try {
                 EventCardItem ici = new EventCardItem(result);
                 eia.addItem(ici);
@@ -111,6 +112,11 @@ public class EventinfoActivity extends AppCompatActivity {
 
         public void addItem(EventinfoListItem item) {
             this.mData.add(item);
+            notifyDataSetChanged();
+        }
+
+        public void clear() {
+            this.mData.clear();
             notifyDataSetChanged();
         }
 
