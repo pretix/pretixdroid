@@ -20,7 +20,7 @@ android:layout_height="match_parent">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Itemname"
-                android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+                android:textAppearance="?android:attr/textAppearanceSearchResultTitle" />
 
             <TextView
                 android:id="@+id/itemQuantity"
@@ -28,7 +28,7 @@ android:layout_height="match_parent">
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:text="08/15"
-                android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+                android:textAppearance="?android:attr/textAppearanceSearchResultTitle" />
             <LinearLayout
                 android:id="@+id/variationList"
                 android:layout_width="wrap_content"
