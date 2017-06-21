@@ -28,6 +28,7 @@ import eu.pretix.pretixdroid.net.api.PretixApi;
 /**
  * This class is the activity for the Eventinfo page to let the user see statistics about their
  * event.
+ *
  * @author jfwiebe
  */
 public class EventinfoActivity extends AppCompatActivity {
@@ -42,7 +43,7 @@ public class EventinfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eventinfo);
 
-        this.mListView = (ListView)findViewById(R.id.eventinfo_list);
+        this.mListView = (ListView) findViewById(R.id.eventinfo_list);
         this.mAdapter = new EventItemAdapter(getBaseContext());
         this.mListView.setAdapter(this.mAdapter);
 
@@ -56,9 +57,9 @@ public class EventinfoActivity extends AppCompatActivity {
 
         /**
          * exexutes an asyncron request to obtain status information from the pretix instance
+         *
          * @param params are ignored
-         * @return the associated json object recieved from the pretix-endpoint or
-         * @return null if the request was not successful
+         * @return the associated json object recieved from the pretix-endpoint or null if the request was not successful
          */
         @Override
         protected JSONObject doInBackground(String... params) {
@@ -72,6 +73,7 @@ public class EventinfoActivity extends AppCompatActivity {
 
         /**
          * it parses the answer of the pretix endpoint into objects and adds them to the list
+         *
          * @param result the answer of the pretix status endpoint
          */
         @Override
@@ -157,20 +159,23 @@ public class EventinfoActivity extends AppCompatActivity {
     public interface EventinfoListItem {
         /**
          * returns an integer for the adapter to distinguish between cards
+         *
          * @return an integer for the adapter to distinguish between cards
          */
         int getType();
 
         /**
          * returns a newly inflated card with the content of this item
+         *
          * @param inflater the inflater to use
-         * @param parent the parent ViewGroup
+         * @param parent   the parent ViewGroup
          * @return a newly inflated card with the content of this item
          */
         View getCard(LayoutInflater inflater, ViewGroup parent);
 
         /**
          * returns a recycled view filled with the contents of this item
+         *
          * @param view a recycled view filled with the contents of this item
          */
         void fillView(View view, LayoutInflater inflater, ViewGroup parent);
