@@ -104,6 +104,8 @@ public class EventItemCardItem implements EventinfoListItem {
         ((TextView) view.findViewById(R.id.itemTitle)).setText(this.getName());
         ((TextView) view.findViewById(R.id.itemQuantity)).setText(String.valueOf(this.getCheckins()) + "/" + String.valueOf(this.getTotal()));
 
+        ViewGroup variationList = ((ViewGroup) view.findViewById(R.id.variationList));
+        variationList.removeAllViews();
         Iterator<Variation> iterator = this.variations.iterator();
         while (iterator.hasNext()) {
             Variation current = iterator.next();
@@ -112,9 +114,6 @@ public class EventItemCardItem implements EventinfoListItem {
             ((TextView) variationLine.findViewById(R.id.itemVariationTitle)).setText(current.getName());
             ((TextView) variationLine.findViewById(R.id.itemVariationQuantity)).setText(String.valueOf(current.getCheckins()) + "/" + String.valueOf(current.getTotal()));
 
-            ViewGroup variationList = ((ViewGroup) view.findViewById(R.id.variationList));
-
-            variationList.removeAllViews();
             variationList.addView(variationLine);
         }
     }
