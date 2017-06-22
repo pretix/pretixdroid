@@ -68,4 +68,5 @@
     <string name="ok">OK</string>
     <string name="already_scanned">bereits gescannt</string>
     <string name="total_tickets_sold">Tickets (gesamt)</string>
+    <string name="no_connection">Es konnte keine Verbindung hergestellt werden!</string>
 </resources>

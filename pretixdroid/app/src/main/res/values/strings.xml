@@ -67,4 +67,5 @@
     <string name="sync_status_local">Checkins queued to upload:</string>
     <string name="already_scanned">already scanned</string>
     <string name="total_tickets_sold">total tickets sold</string>
+    <string name="no_connection">Could not connect to the server!</string>
 </resources>

@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,6 +77,13 @@ public class EventinfoActivity extends AppCompatActivity {
          */
         @Override
         protected void onPostExecute(JSONObject result) {
+            if (result == null) {
+                Toast.makeText(EventinfoActivity.this, R.string.no_connection, Toast.LENGTH_LONG).show();
+                finish();
+                return;
+            }
+
+            ((ProgressBar) findViewById(R.id.progressBar)).setVisibility(ProgressBar.GONE);
             EventItemAdapter eia = EventinfoActivity.this.mAdapter;
             eia.clear();
             try {
