@@ -99,7 +99,9 @@ public class EventinfoActivity extends AppCompatActivity {
                     eia.addItem(eici);
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                Toast.makeText(EventinfoActivity.this, R.string.err_unknown, Toast.LENGTH_LONG).show();
+                finish();
+                return;
             }
         }
     }
