@@ -54,6 +54,8 @@ public class EventinfoActivity extends AppCompatActivity {
 
     public class StatusTask extends AsyncTask<String, Integer, JSONObject> {
 
+        Exception e;
+
         /**
          * exexutes an asyncron request to obtain status information from the pretix instance
          *
@@ -66,6 +68,7 @@ public class EventinfoActivity extends AppCompatActivity {
                 return EventinfoActivity.this.api.status();
             } catch (ApiException e) {
                 e.printStackTrace();
+                this.e = e;
             }
             return null;
         }
@@ -77,7 +80,7 @@ public class EventinfoActivity extends AppCompatActivity {
          */
         @Override
         protected void onPostExecute(JSONObject result) {
-            if (result == null) {
+            if (this.e != null) {
                 Toast.makeText(EventinfoActivity.this, R.string.no_connection, Toast.LENGTH_LONG).show();
                 finish();
                 return;
