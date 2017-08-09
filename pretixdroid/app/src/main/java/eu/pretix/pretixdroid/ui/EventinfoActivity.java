@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -175,6 +176,11 @@ public class EventinfoActivity extends AppCompatActivity {
                 return item.getCard(mInflater, parent);
             } else {
                 EventinfoListItem eili = ((EventinfoListItem) convertView.getTag());
+                try {
+                    eili.setData(this.getItem(position).getData());
+                } catch (JSONException e) {
+                    Log.e("Parsing", "Could not parse update", e);
+                }
                 eili.fillView(convertView, mInflater, parent);
                 return convertView;
             }
