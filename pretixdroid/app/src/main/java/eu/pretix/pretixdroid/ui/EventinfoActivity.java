@@ -175,17 +175,8 @@ public class EventinfoActivity extends AppCompatActivity {
                 EventinfoListItem item = this.getItem(position);
                 return item.getCard(mInflater, parent);
             } else {
-                EventinfoListItem eili = ((EventinfoListItem) convertView.getTag());
-                try {
-                    eili.setData(this.getItem(position).getData());
-                } catch (JSONException e) {
-                    Log.e("Parsing", "Could not parse update", e);
-                }
-                eili.fillView(convertView, mInflater, parent);
+                this.getItem(position).fillView(convertView, mInflater, parent);
                 return convertView;
-
-                // EventinfoListItem item = this.getItem(position);
-                // return item.getCard(mInflater, parent);
             }
 
         }
