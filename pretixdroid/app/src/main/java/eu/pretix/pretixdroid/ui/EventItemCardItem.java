@@ -20,6 +20,7 @@ import eu.pretix.pretixdroid.R;
 public class EventItemCardItem implements EventinfoListItem {
 
     private EventinfoActivity eventinfoActivity;
+    private JSONObject data;
     private String name;
     private int checkins;
     private int total;
@@ -111,6 +112,7 @@ public class EventItemCardItem implements EventinfoListItem {
 
     @Override
     public void setData(JSONObject json) throws JSONException {
+        this.data = json;
         this.name = json.getString("name");
         this.checkins = json.getInt("checkins");
         this.total = json.getInt("total");
@@ -122,5 +124,10 @@ public class EventItemCardItem implements EventinfoListItem {
         for (int i = 0; i < this.variationCount; i++) {
             this.variations.add(new Variation(vars.getJSONObject(i)));
         }
+    }
+
+    @Override
+    public JSONObject getData() {
+        return this.data;
     }
 }

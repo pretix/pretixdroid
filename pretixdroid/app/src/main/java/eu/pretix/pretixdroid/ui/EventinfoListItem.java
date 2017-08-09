@@ -37,4 +37,10 @@ public interface EventinfoListItem {
      * @throws JSONException if the content can not be parsed
      */
     void setData(JSONObject json) throws JSONException;
+
+    /**
+     *
+     * @return the currently contained data in this ListItem
+     */
+    JSONObject getData();
 }
