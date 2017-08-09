@@ -1,6 +1,7 @@
 package eu.pretix.pretixdroid.ui;
 
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -36,6 +37,7 @@ public class EventinfoActivity extends AppCompatActivity {
 
     private ListView mListView;
     private EventItemAdapter mAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,15 @@ public class EventinfoActivity extends AppCompatActivity {
         this.mListView = (ListView) findViewById(R.id.eventinfo_list);
         this.mAdapter = new EventItemAdapter(getBaseContext());
         this.mListView.setAdapter(this.mAdapter);
+
+        this.mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        this.mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                new StatusTask().execute();
+            }
+        });
 
         this.config = new AppConfig(this);
         this.api = PretixApi.fromConfig(config);
@@ -80,6 +91,7 @@ public class EventinfoActivity extends AppCompatActivity {
          */
         @Override
         protected void onPostExecute(JSONObject result) {
+            EventinfoActivity.this.mSwipeRefreshLayout.setRefreshing(false);
             if (this.e != null) {
                 Toast.makeText(EventinfoActivity.this, R.string.no_connection, Toast.LENGTH_LONG).show();
                 finish();
