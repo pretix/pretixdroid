@@ -183,6 +183,9 @@ public class EventinfoActivity extends AppCompatActivity {
                 }
                 eili.fillView(convertView, mInflater, parent);
                 return convertView;
+
+                // EventinfoListItem item = this.getItem(position);
+                // return item.getCard(mInflater, parent);
             }
 
         }
