@@ -174,7 +174,8 @@ public class EventinfoActivity extends AppCompatActivity {
                 EventinfoListItem item = this.getItem(position);
                 return item.getCard(mInflater, parent);
             } else {
-                ((EventinfoListItem) convertView.getTag()).fillView(convertView, mInflater, parent);
+                EventinfoListItem eili = ((EventinfoListItem) convertView.getTag());
+                eili.fillView(convertView, mInflater, parent);
                 return convertView;
             }
 

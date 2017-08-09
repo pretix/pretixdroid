@@ -4,20 +4,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * interface of all CardItems that are displayed on the eventinfo page
  */
 public interface EventinfoListItem {
     /**
-     * returns an integer for the adapter to distinguish between cards
-     *
      * @return an integer for the adapter to distinguish between cards
      */
     int getType();
 
     /**
-     * returns a newly inflated card with the content of this item
-     *
      * @param inflater the inflater to use
      * @param parent   the parent ViewGroup
      * @return a newly inflated card with the content of this item
@@ -30,4 +29,12 @@ public interface EventinfoListItem {
      * @param view a recycled view filled with the contents of this item
      */
     void fillView(View view, LayoutInflater inflater, ViewGroup parent);
+
+    /**
+     * refreshes the contained data for this EventinfoListItem
+     *
+     * @param json the content to set for this ListItem
+     * @throws JSONException if the content can not be parsed
+     */
+    void setData(JSONObject json) throws JSONException;
 }

@@ -16,22 +16,13 @@ import eu.pretix.pretixdroid.R;
 public class EventCardItem implements EventinfoListItem {
 
     private EventinfoActivity eventinfoActivity;
-    private final String eventName;
-    private final int totalTickets;
-    private final int alreadyScanned;
-
-    EventCardItem(EventinfoActivity eventinfoActivity, String name, int totalTickets, int alreadyScanned) {
-        this.eventinfoActivity = eventinfoActivity;
-        this.eventName = name;
-        this.totalTickets = totalTickets;
-        this.alreadyScanned = alreadyScanned;
-    }
+    private String eventName;
+    private int totalTickets;
+    private int alreadyScanned;
 
     EventCardItem(EventinfoActivity eventinfoActivity, JSONObject json) throws JSONException {
         this.eventinfoActivity = eventinfoActivity;
-        eventName = json.getJSONObject("event").getString("name");
-        totalTickets = json.getInt("total");
-        alreadyScanned = json.getInt("checkins");
+        this.setData(json);
     }
 
     public String getEventName() {
@@ -65,6 +56,13 @@ public class EventCardItem implements EventinfoListItem {
         ((TextView) view.findViewById(R.id.eventTitle)).setText(this.getEventName());
         ((TextView) view.findViewById(R.id.tickets_sold)).setText(String.valueOf(this.getTotalTickets()));
         ((TextView) view.findViewById(R.id.total_scanned)).setText(String.valueOf((this.getAlreadyScanned())));
+    }
+
+    @Override
+    public void setData(JSONObject json) throws JSONException {
+        eventName = json.getJSONObject("event").getString("name");
+        totalTickets = json.getInt("total");
+        alreadyScanned = json.getInt("checkins");
     }
 
 }

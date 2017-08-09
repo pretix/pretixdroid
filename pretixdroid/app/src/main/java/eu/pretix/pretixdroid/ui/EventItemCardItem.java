@@ -20,25 +20,16 @@ import eu.pretix.pretixdroid.R;
 public class EventItemCardItem implements EventinfoListItem {
 
     private EventinfoActivity eventinfoActivity;
-    private final String name;
-    private final int checkins;
-    private final int total;
-    private final int variationCount;
+    private String name;
+    private int checkins;
+    private int total;
+    private int variationCount;
 
     private final LinkedList<Variation> variations = new LinkedList<>();
 
     EventItemCardItem(EventinfoActivity eventinfoActivity, JSONObject json) throws JSONException {
         this.eventinfoActivity = eventinfoActivity;
-        this.name = json.getString("name");
-        this.checkins = json.getInt("checkins");
-        this.total = json.getInt("total");
-
-        JSONArray vars = json.getJSONArray("variations");
-        this.variationCount = vars.length();
-
-        for (int i = 0; i < this.variationCount; i++) {
-            this.variations.add(new Variation(vars.getJSONObject(i)));
-        }
+        this.setData(json);
     }
 
     public String getName() {
@@ -115,6 +106,21 @@ public class EventItemCardItem implements EventinfoListItem {
             ((TextView) variationLine.findViewById(R.id.itemVariationQuantity)).setText(String.valueOf(current.getCheckins()) + "/" + String.valueOf(current.getTotal()));
 
             variationList.addView(variationLine);
+        }
+    }
+
+    @Override
+    public void setData(JSONObject json) throws JSONException {
+        this.name = json.getString("name");
+        this.checkins = json.getInt("checkins");
+        this.total = json.getInt("total");
+
+        JSONArray vars = json.getJSONArray("variations");
+        this.variationCount = vars.length();
+
+        this.variations.clear();
+        for (int i = 0; i < this.variationCount; i++) {
+            this.variations.add(new Variation(vars.getJSONObject(i)));
         }
     }
 }
