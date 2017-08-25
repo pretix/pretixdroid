@@ -110,6 +110,12 @@ public class SyncService extends IntentService {
         Sentry.addBreadcrumb("sync.queue", "Upload complete");
     }
 
+    private static boolean long_changed(Long newint, Long oldint) {
+        return (newint != null && oldint == null)
+                || (newint == null && oldint != null)
+                || (newint != null && oldint != null && !newint.equals(oldint));
+    }
+
     private static boolean string_changed(String newstring, String oldstring) {
         return (newstring != null && oldstring == null)
                 || (newstring == null && oldstring != null)
@@ -161,8 +167,14 @@ public class SyncService extends IntentService {
                 if (string_changed(res.getString("item"), ticket.getItem())) {
                     ticket.setItem(res.getString("item"));
                 }
+                if (long_changed(res.optLong("item_id"), ticket.getItem_id())) {
+                    ticket.setItem_id(res.optLong("item_id"));
+                }
                 if (string_changed(res.getString("variation"), ticket.getVariation())) {
                     ticket.setVariation(res.getString("variation"));
+                }
+                if (long_changed(res.optLong("variation_id"), ticket.getVariation_id())) {
+                    ticket.setVariation_id((long) res.optLong("variation_id"));
                 }
                 if (string_changed(res.getString("order"), ticket.getOrder())) {
                     ticket.setOrder(res.getString("order"));

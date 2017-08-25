@@ -98,42 +98,46 @@ public class OnlineCheckProvider implements TicketCheckProvider {
         }
     }
 
+    public static StatusResult parseStatusResponse(JSONObject response) throws JSONException {
+        List<StatusResultItem> items = new ArrayList<>();
+
+        int itemcount = response.getJSONArray("items").length();
+        for (int i = 0; i < itemcount; i++) {
+            JSONObject item = response.getJSONArray("items").getJSONObject(i);
+            List<StatusResultItemVariation> variations = new ArrayList<>();
+
+            int varcount = item.getJSONArray("variations").length();
+            for (int j = 0; j < varcount; j++) {
+                JSONObject var = item.getJSONArray("variations").getJSONObject(j);
+                variations.add(new StatusResultItemVariation(
+                        var.getString("name"),
+                        var.getInt("total"),
+                        var.getInt("checkins")
+                ));
+            }
+
+            items.add(new StatusResultItem(
+                    item.getString("name"),
+                    item.getInt("total"),
+                    item.getInt("checkins"),
+                    variations
+            ));
+        }
+
+        return new StatusResult(
+                response.getJSONObject("event").getString("name"),
+                response.getInt("total"),
+                response.getInt("checkins"),
+                items
+        );
+    }
+
     @Override
     public StatusResult status() throws CheckException {
         Sentry.addBreadcrumb("provider.status", "started");
         try {
             JSONObject response = api.status();
-            List<StatusResultItem> items = new ArrayList<>();
-
-            int itemcount = response.getJSONArray("items").length();
-            for (int i = 0; i < itemcount; i++) {
-                JSONObject item = response.getJSONArray("items").getJSONObject(i);
-                List<StatusResultItemVariation> variations = new ArrayList<>();
-
-                int varcount = item.getJSONArray("variations").length();
-                for (int j = 0; j < varcount; j++) {
-                    JSONObject var = item.getJSONArray("variations").getJSONObject(j);
-                    variations.add(new StatusResultItemVariation(
-                            var.getString("name"),
-                            var.getInt("total"),
-                            var.getInt("checkins")
-                    ));
-                }
-
-                items.add(new StatusResultItem(
-                        item.getString("name"),
-                        item.getInt("total"),
-                        item.getInt("checkins"),
-                        variations
-                ));
-            }
-
-            return new StatusResult(
-                    response.getJSONObject("event").getString("name"),
-                    response.getInt("total"),
-                    response.getInt("checkins"),
-                    items
-            );
+            return parseStatusResponse(response);
         } catch (JSONException e) {
             Sentry.captureException(e);
             throw new CheckException("Unknown server response");

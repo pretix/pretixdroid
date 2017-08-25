@@ -37,7 +37,7 @@ public class PretixDroid extends Application {
     public BlockingEntityStore<Persistable> getData() {
         if (dataStore == null) {
             // override onUpgrade to handle migrating to a new version
-            DatabaseSource source = new DatabaseSource(this, Models.DEFAULT, 1);
+            DatabaseSource source = new DatabaseSource(this, Models.DEFAULT, 2);
             Configuration configuration = source.getConfiguration();
             dataStore = new EntityDataStore<Persistable>(configuration);
         }

@@ -22,11 +22,16 @@ public abstract class AbstractTicket {
 
     public String item;
 
+    public Long item_id;
+
     @Nullable
     public String attendee_name;
 
     @Nullable
     public String variation;
+
+    @Nullable
+    public Long variation_id;
 
     public boolean redeemed;
 
