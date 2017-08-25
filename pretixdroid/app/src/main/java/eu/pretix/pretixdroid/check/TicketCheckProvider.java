@@ -18,6 +18,7 @@ public interface TicketCheckProvider {
         private String attendee_name;
         private String message;
         private String order_code;
+        private boolean require_attention;
 
         public CheckResult(Type type, String message) {
             this.type = type;
@@ -75,6 +76,14 @@ public interface TicketCheckProvider {
         public void setOrderCode(String order_code) {
             this.order_code = order_code;
         }
+
+        public boolean isRequireAttention() {
+            return require_attention;
+        }
+
+        public void setRequireAttention(boolean require_attention) {
+            this.require_attention = require_attention;
+        }
     }
 
     class SearchResult {
@@ -86,6 +95,7 @@ public interface TicketCheckProvider {
         private String order_code;
         private boolean paid;
         private boolean redeemed;
+        private boolean require_attention;
 
         public SearchResult() {
         }
@@ -144,6 +154,14 @@ public interface TicketCheckProvider {
 
         public void setOrderCode(String order_code) {
             this.order_code = order_code;
+        }
+
+        public boolean isRequireAttention() {
+            return require_attention;
+        }
+
+        public void setRequireAttention(boolean require_attention) {
+            this.require_attention = require_attention;
         }
     }
 

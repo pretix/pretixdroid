@@ -35,5 +35,8 @@ public abstract class AbstractTicket {
 
     public boolean redeemed;
 
+    @Column(value = "0")
+    public boolean require_attention;
+
     public boolean paid;
 }

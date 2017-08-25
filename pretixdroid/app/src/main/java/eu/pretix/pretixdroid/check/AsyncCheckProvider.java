@@ -72,6 +72,7 @@ public class AsyncCheckProvider implements TicketCheckProvider {
         res.setVariation(ticket.getVariation());
         res.setAttendee_name(ticket.getAttendee_name());
         res.setOrderCode(ticket.getOrder());
+        res.setRequireAttention(ticket.isRequire_attention());
         return res;
     }
 
@@ -103,6 +104,7 @@ public class AsyncCheckProvider implements TicketCheckProvider {
             sr.setSecret(ticket.getSecret());
             sr.setRedeemed(ticket.isRedeemed());
             sr.setPaid(ticket.isPaid());
+            sr.setRequireAttention(ticket.isRequire_attention());
             results.add(sr);
         }
         return results;
@@ -120,6 +122,9 @@ public class AsyncCheckProvider implements TicketCheckProvider {
         } catch (JSONException e) {
             e.printStackTrace();
             throw new CheckException("Invalid status data available.");
+        }
+        if (dataStore.count(Ticket.class).where(Ticket.ITEM_ID.eq((long) 0)).get().value() > 0) {
+            throw new CheckException("Incompatible with your current pretix version.");
         }
         int total_all = 0;
         int checkins_all = 0;

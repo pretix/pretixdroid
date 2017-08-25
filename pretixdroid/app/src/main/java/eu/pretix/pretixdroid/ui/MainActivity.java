@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     private String lastScanCode;
     private State state = State.SCANNING;
     private Handler timeoutHandler;
+    private Runnable blinkExecute;
+    private boolean blinkDark = true;
+    private Handler blinkHandler;
     private MediaPlayer mediaPlayer;
     private TicketCheckProvider checkProvider;
     private AppConfig config;
@@ -118,8 +122,9 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         mediaPlayer = buildMediaPlayer(this);
 
         timeoutHandler = new Handler();
+        blinkHandler = new Handler();
 
-        findViewById(R.id.rlSyncStaus).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.rlSyncStatus).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showSyncStatusDetails();
@@ -277,12 +282,12 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
     private void updateSyncStatus() {
         if (config.getAsyncModeEnabled()) {
-            findViewById(R.id.rlSyncStaus).setVisibility(View.VISIBLE);
+            findViewById(R.id.rlSyncStatus).setVisibility(View.VISIBLE);
 
             if (config.getLastFailedSync() > config.getLastSync() || System.currentTimeMillis() - config.getLastDownload() > 5 * 60 * 1000) {
-                findViewById(R.id.rlSyncStaus).setBackgroundColor(ContextCompat.getColor(this, R.color.scan_result_err));
+                findViewById(R.id.rlSyncStatus).setBackgroundColor(ContextCompat.getColor(this, R.color.scan_result_err));
             } else {
-                findViewById(R.id.rlSyncStaus).setBackgroundColor(ContextCompat.getColor(this, R.color.scan_result_ok));
+                findViewById(R.id.rlSyncStatus).setBackgroundColor(ContextCompat.getColor(this, R.color.scan_result_ok));
             }
             String text;
             long diff = System.currentTimeMillis() - config.getLastDownload();
@@ -303,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
             ((TextView) findViewById(R.id.tvSyncStatus)).setText(text);
         } else {
-            findViewById(R.id.rlSyncStaus).setVisibility(View.GONE);
+            findViewById(R.id.rlSyncStatus).setVisibility(View.GONE);
         }
     }
 
@@ -340,7 +345,9 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     private void resetView() {
         TextView tvScanResult = (TextView) findViewById(R.id.tvScanResult);
         timeoutHandler.removeCallbacksAndMessages(null);
+        blinkHandler.removeCallbacksAndMessages(null);
         tvScanResult.setVisibility(View.VISIBLE);
+        findViewById(R.id.rlWarning).setVisibility(View.GONE);
         findViewById(R.id.tvTicketName).setVisibility(View.INVISIBLE);
         findViewById(R.id.tvAttendeeName).setVisibility(View.INVISIBLE);
         findViewById(R.id.tvOrderCode).setVisibility(View.INVISIBLE);
@@ -444,6 +451,35 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             tvScanResult.setText(getString(default_string));
         }
         findViewById(R.id.rlScanStatus).setBackgroundColor(ContextCompat.getColor(this, col));
+
+        findViewById(R.id.rlWarning).setVisibility(
+                checkResult.isRequireAttention() ? View.VISIBLE : View.GONE
+        );
+
+        if (checkResult.isRequireAttention()) {
+            blinkExecute = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (blinkDark) {
+                            findViewById(R.id.rlWarning).setBackgroundColor(getResources().getColor(R.color.scan_result_attention_alternate));
+                            ((TextView) findViewById(R.id.tvWarning)).setTextColor(getResources().getColor(R.color.pretix_brand_dark));
+                            ((ImageView) findViewById(R.id.ivWarning)).setImageResource(R.drawable.ic_warning_dark_24dp);
+                            blinkDark = false;
+                        } else {
+                            findViewById(R.id.rlWarning).setBackgroundColor(getResources().getColor(R.color.scan_result_attention));
+                            ((TextView) findViewById(R.id.tvWarning)).setTextColor(getResources().getColor(R.color.white));
+                            ((ImageView) findViewById(R.id.ivWarning)).setImageResource(R.drawable.ic_warning_white_24dp);
+                            blinkDark = true;
+                        }
+                    } finally {
+                        blinkHandler.postDelayed(blinkExecute, 200);
+                    }
+                }
+            };
+            blinkExecute.run();
+        }
+
 
         timeoutHandler.postDelayed(new Runnable() {
             public void run() {

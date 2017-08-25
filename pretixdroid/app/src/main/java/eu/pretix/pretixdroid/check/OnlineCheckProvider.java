@@ -52,6 +52,7 @@ public class OnlineCheckProvider implements TicketCheckProvider {
                 res.setVariation(response.getJSONObject("data").getString("variation"));
                 res.setAttendee_name(response.getJSONObject("data").getString("attendee_name"));
                 res.setOrderCode(response.getJSONObject("data").getString("order"));
+                res.setRequireAttention(response.getJSONObject("data").optBoolean("attention", false));
             }
             return res;
         } catch (JSONException e) {
@@ -86,6 +87,7 @@ public class OnlineCheckProvider implements TicketCheckProvider {
                 sr.setSecret(res.getString("secret"));
                 sr.setRedeemed(res.getBoolean("redeemed"));
                 sr.setPaid(res.getBoolean("paid"));
+                sr.setRequireAttention(res.optBoolean("attention", false));
                 results.add(sr);
             }
             return results;

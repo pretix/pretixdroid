@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rlResult"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,25 +29,27 @@
 
     <TextView
         android:id="@+id/tvTicketName"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@id/tvSecret"
-        android:layout_toLeftOf="@id/tvStatus"
+        android:layout_toEndOf="@id/ivWarning"
+        android:layout_toRightOf="@id/ivWarning"
         android:ellipsize="end"
         android:lines="1"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/tvAttendeeName"
+    <ImageView
+        android:id="@+id/ivWarning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/tvTicketName"
-        android:ellipsize="end"
-        android:lines="1"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tvSecret"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:contentDescription=""
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_warning_dark_24dp" />
 
     <TextView
         android:id="@+id/tvOrderCode"
@@ -55,8 +58,20 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/tvTicketName"
-        android:layout_toLeftOf="@id/tvAttendeeName"
-        android:layout_toStartOf="@id/tvAttendeeName"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/tvAttendeeName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tvTicketName"
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@id/tvOrderCode"
+        android:layout_toRightOf="@id/tvOrderCode"
         android:ellipsize="end"
         android:lines="1"
         android:textAppearance="?android:attr/textAppearanceMedium" />

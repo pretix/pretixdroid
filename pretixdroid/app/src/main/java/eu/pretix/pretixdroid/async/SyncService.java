@@ -177,19 +177,22 @@ public class SyncService extends IntentService {
                     ticket.setItem(res.getString("item"));
                 }
                 if (long_changed(res.optLong("item_id"), ticket.getItem_id())) {
-                    ticket.setItem_id(res.optLong("item_id"));
+                    ticket.setItem_id(res.optLong("item_id", 0));
                 }
                 if (string_changed(res.getString("variation"), ticket.getVariation())) {
                     ticket.setVariation(res.getString("variation"));
                 }
                 if (long_changed(res.optLong("variation_id"), ticket.getVariation_id())) {
-                    ticket.setVariation_id((long) res.optLong("variation_id"));
+                    ticket.setVariation_id(res.optLong("variation_id", 0));
                 }
                 if (string_changed(res.getString("order"), ticket.getOrder())) {
                     ticket.setOrder(res.getString("order"));
                 }
                 if (string_changed(res.getString("secret"), ticket.getSecret())) {
                     ticket.setSecret(res.getString("secret"));
+                }
+                if (res.optBoolean("attention", false) != ticket.isRequire_attention()) {
+                    ticket.setRequire_attention(res.optBoolean("attention", false));
                 }
                 if (res.getBoolean("redeemed") != ticket.isRedeemed()) {
                     ticket.setRedeemed(res.getBoolean("redeemed"));

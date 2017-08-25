@@ -7,4 +7,6 @@
     <color name="scan_result_ok">#dd5cb85c</color>
     <color name="scan_result_warn">#ddF0AD4E</color>
     <color name="scan_result_err">#ddD9534F</color>
+    <color name="scan_result_attention">#dd3B1C4A</color>
+    <color name="scan_result_attention_alternate">#ddffee58</color>
 </resources>

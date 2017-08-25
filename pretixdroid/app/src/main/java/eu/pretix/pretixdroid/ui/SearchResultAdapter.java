@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class SearchResultAdapter extends ArrayAdapter<TicketCheckProvider.Search
         TextView tvStatus = (TextView) view.findViewById(R.id.tvStatus);
         TextView tvAttendeeName = (TextView) view.findViewById(R.id.tvAttendeeName);
         TextView tvTicketName = (TextView) view.findViewById(R.id.tvTicketName);
+        ImageView ivWarning = (ImageView) view.findViewById(R.id.ivWarning);
         View rlResult = view.findViewById(R.id.rlResult);
 
         tvSecret.setText(item.getSecret());
@@ -45,6 +47,7 @@ public class SearchResultAdapter extends ArrayAdapter<TicketCheckProvider.Search
                 item.getVariation() != null && !item.getVariation().equals("null")
                         ? " - " + item.getVariation() : ""
         ));
+        ivWarning.setVisibility(item.isRequireAttention() ? View.VISIBLE : View.GONE);
         if (item.isRedeemed()) {
             tvStatus.setText(R.string.status_redeemed);
             rlResult.setBackgroundColor(ContextCompat.getColor(context, R.color.scan_result_warn));

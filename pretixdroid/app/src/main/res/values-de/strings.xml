@@ -29,6 +29,7 @@
     <string name="redeeming">Löse Ticket ein…</string>
     <string name="loading">Lade…</string>
     <string name="scan_result_redeemed">Ticket erfolgreich eingelöst.</string>
+    <string name="ticket_attention">Vorsicht, besonderes Ticket!</string>
     <string name="about">Über die App</string>
     <string name="pref_head_feedback">Scannen</string>
     <string name="action_preferences">Einstellungen</string>
