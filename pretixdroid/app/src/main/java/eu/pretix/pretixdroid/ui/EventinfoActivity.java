@@ -20,9 +20,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import eu.pretix.pretixdroid.AppConfig;
+import eu.pretix.pretixdroid.PretixDroid;
 import eu.pretix.pretixdroid.R;
+import eu.pretix.pretixdroid.check.CheckException;
+import eu.pretix.pretixdroid.check.TicketCheckProvider;
 import eu.pretix.pretixdroid.net.api.ApiException;
 import eu.pretix.pretixdroid.net.api.PretixApi;
 
@@ -34,10 +38,10 @@ import eu.pretix.pretixdroid.net.api.PretixApi;
  */
 public class EventinfoActivity extends AppCompatActivity {
     private AppConfig config;
-    private PretixApi api;
 
     private ListView mListView;
     private EventItemAdapter mAdapter;
+    private TicketCheckProvider checkProvider;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
@@ -59,12 +63,12 @@ public class EventinfoActivity extends AppCompatActivity {
         });
 
         this.config = new AppConfig(this);
-        this.api = PretixApi.fromConfig(config);
+        this.checkProvider = ((PretixDroid) getApplication()).getNewCheckProvider();
 
         new StatusTask().execute();
     }
 
-    public class StatusTask extends AsyncTask<String, Integer, JSONObject> {
+    public class StatusTask extends AsyncTask<String, Integer, TicketCheckProvider.StatusResult> {
 
         Exception e;
 
@@ -75,10 +79,10 @@ public class EventinfoActivity extends AppCompatActivity {
          * @return the associated json object recieved from the pretix-endpoint or null if the request was not successful
          */
         @Override
-        protected JSONObject doInBackground(String... params) {
+        protected TicketCheckProvider.StatusResult doInBackground(String... params) {
             try {
-                return EventinfoActivity.this.api.status();
-            } catch (ApiException e) {
+                return EventinfoActivity.this.checkProvider.status();
+            } catch (CheckException e) {
                 e.printStackTrace();
                 this.e = e;
             }
@@ -91,7 +95,7 @@ public class EventinfoActivity extends AppCompatActivity {
          * @param result the answer of the pretix status endpoint
          */
         @Override
-        protected void onPostExecute(JSONObject result) {
+        protected void onPostExecute(TicketCheckProvider.StatusResult result) {
             EventinfoActivity.this.mSwipeRefreshLayout.setRefreshing(false);
             if (this.e != null) {
                 Toast.makeText(EventinfoActivity.this, R.string.no_connection, Toast.LENGTH_LONG).show();
@@ -106,9 +110,9 @@ public class EventinfoActivity extends AppCompatActivity {
                 EventCardItem ici = new EventCardItem(EventinfoActivity.this, result);
                 eia.addItem(ici);
 
-                JSONArray items = result.getJSONArray("items");
-                for (int i = 0; i < items.length(); i++) {
-                    EventItemCardItem eici = new EventItemCardItem(EventinfoActivity.this, items.getJSONObject(i));
+                List<TicketCheckProvider.StatusResultItem> items = result.getItems();
+                for (TicketCheckProvider.StatusResultItem item : items) {
+                    EventItemCardItem eici = new EventItemCardItem(EventinfoActivity.this, item);
                     eia.addItem(eici);
                 }
             } catch (JSONException e) {

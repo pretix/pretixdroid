@@ -1,6 +1,7 @@
 package eu.pretix.pretixdroid.check;
 
 import android.content.Context;
+import android.net.wifi.WifiConfiguration;
 
 import com.joshdholtz.sentry.Sentry;
 
@@ -88,6 +89,51 @@ public class OnlineCheckProvider implements TicketCheckProvider {
                 results.add(sr);
             }
             return results;
+        } catch (JSONException e) {
+            Sentry.captureException(e);
+            throw new CheckException("Unknown server response");
+        } catch (ApiException e) {
+            Sentry.addBreadcrumb("provider.search", "API Error: " + e.getMessage());
+            throw new CheckException(e.getMessage());
+        }
+    }
+
+    @Override
+    public StatusResult status() throws CheckException {
+        Sentry.addBreadcrumb("provider.status", "started");
+        try {
+            JSONObject response = api.status();
+            List<StatusResultItem> items = new ArrayList<>();
+
+            int itemcount = response.getJSONArray("items").length();
+            for (int i = 0; i < itemcount; i++) {
+                JSONObject item = response.getJSONArray("items").getJSONObject(i);
+                List<StatusResultItemVariation> variations = new ArrayList<>();
+
+                int varcount = item.getJSONArray("variations").length();
+                for (int j = 0; j < varcount; j++) {
+                    JSONObject var = item.getJSONArray("variations").getJSONObject(j);
+                    variations.add(new StatusResultItemVariation(
+                            var.getString("name"),
+                            var.getInt("total"),
+                            var.getInt("checkins")
+                    ));
+                }
+
+                items.add(new StatusResultItem(
+                        item.getString("name"),
+                        item.getInt("total"),
+                        item.getInt("checkins"),
+                        variations
+                ));
+            }
+
+            return new StatusResult(
+                    response.getJSONObject("event").getString("name"),
+                    response.getInt("total"),
+                    response.getInt("checkins"),
+                    items
+            );
         } catch (JSONException e) {
             Sentry.captureException(e);
             throw new CheckException("Unknown server response");

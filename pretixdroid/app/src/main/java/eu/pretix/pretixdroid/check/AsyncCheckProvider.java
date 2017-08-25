@@ -104,4 +104,9 @@ public class AsyncCheckProvider implements TicketCheckProvider {
         }
         return results;
     }
+
+    @Override
+    public StatusResult status() throws CheckException {
+        return null;
+    }
 }

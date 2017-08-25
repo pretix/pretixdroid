@@ -29,18 +29,4 @@ public interface EventinfoListItem {
      * @param view a recycled view filled with the contents of this item
      */
     void fillView(View view, LayoutInflater inflater, ViewGroup parent);
-
-    /**
-     * refreshes the contained data for this EventinfoListItem
-     *
-     * @param json the content to set for this ListItem
-     * @throws JSONException if the content can not be parsed
-     */
-    void setData(JSONObject json) throws JSONException;
-
-    /**
-     *
-     * @return the currently contained data in this ListItem
-     */
-    JSONObject getData();
 }

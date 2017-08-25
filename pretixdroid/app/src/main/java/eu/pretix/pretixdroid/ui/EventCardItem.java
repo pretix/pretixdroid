@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import eu.pretix.pretixdroid.R;
+import eu.pretix.pretixdroid.check.TicketCheckProvider;
 
 /**
  * is the handler of a card that displays basic information about the event
@@ -16,26 +17,11 @@ import eu.pretix.pretixdroid.R;
 public class EventCardItem implements EventinfoListItem {
 
     private EventinfoActivity eventinfoActivity;
-    private JSONObject data;
-    private String eventName;
-    private int totalTickets;
-    private int alreadyScanned;
+    private TicketCheckProvider.StatusResult statusResult;
 
-    EventCardItem(EventinfoActivity eventinfoActivity, JSONObject json) throws JSONException {
+    EventCardItem(EventinfoActivity eventinfoActivity, TicketCheckProvider.StatusResult statusResult) throws JSONException {
         this.eventinfoActivity = eventinfoActivity;
-        this.setData(json);
-    }
-
-    public String getEventName() {
-        return eventName;
-    }
-
-    public int getTotalTickets() {
-        return totalTickets;
-    }
-
-    public int getAlreadyScanned() {
-        return alreadyScanned;
+        this.statusResult = statusResult;
     }
 
     // --- used for the adapter --- //
@@ -54,22 +40,9 @@ public class EventCardItem implements EventinfoListItem {
 
     @Override
     public void fillView(View view, LayoutInflater inflater, ViewGroup parent) {
-        ((TextView) view.findViewById(R.id.eventTitle)).setText(this.getEventName());
-        ((TextView) view.findViewById(R.id.tickets_sold)).setText(String.valueOf(this.getTotalTickets()));
-        ((TextView) view.findViewById(R.id.total_scanned)).setText(String.valueOf((this.getAlreadyScanned())));
-    }
-
-    @Override
-    public void setData(JSONObject json) throws JSONException {
-        this.data = json;
-        eventName = json.getJSONObject("event").getString("name");
-        totalTickets = json.getInt("total");
-        alreadyScanned = json.getInt("checkins");
-    }
-
-    @Override
-    public JSONObject getData() {
-        return this.data;
+        ((TextView) view.findViewById(R.id.eventTitle)).setText(statusResult.getEventName());
+        ((TextView) view.findViewById(R.id.tickets_sold)).setText(String.valueOf(statusResult.getTotalTickets()));
+        ((TextView) view.findViewById(R.id.total_scanned)).setText(String.valueOf((statusResult.getAlreadyScanned())));
     }
 
 }
