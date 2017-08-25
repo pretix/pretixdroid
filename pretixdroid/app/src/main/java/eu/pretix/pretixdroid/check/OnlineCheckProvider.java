@@ -110,6 +110,7 @@ public class OnlineCheckProvider implements TicketCheckProvider {
             for (int j = 0; j < varcount; j++) {
                 JSONObject var = item.getJSONArray("variations").getJSONObject(j);
                 variations.add(new StatusResultItemVariation(
+                        var.getLong("id"),
                         var.getString("name"),
                         var.getInt("total"),
                         var.getInt("checkins")
@@ -117,10 +118,12 @@ public class OnlineCheckProvider implements TicketCheckProvider {
             }
 
             items.add(new StatusResultItem(
+                    item.getLong("id"),
                     item.getString("name"),
                     item.getInt("total"),
                     item.getInt("checkins"),
-                    variations
+                    variations,
+                    item.getBoolean("admission")
             ));
         }
 

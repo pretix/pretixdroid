@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.joshdholtz.sentry.Sentry;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -107,6 +110,60 @@ public class AsyncCheckProvider implements TicketCheckProvider {
 
     @Override
     public StatusResult status() throws CheckException {
-        return null;
+        Sentry.addBreadcrumb("provider.status", "offline status started");
+        if (config.getLastStatusData() == null) {
+            throw new CheckException("No current data available.");
+        }
+        StatusResult statusResult;
+        try {
+            statusResult = OnlineCheckProvider.parseStatusResponse(new JSONObject(config.getLastStatusData()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            throw new CheckException("Invalid status data available.");
+        }
+        int total_all = 0;
+        int checkins_all = 0;
+        for (StatusResultItem resultItem : statusResult.getItems()) {
+            int total = 0;
+            int checkins = 0;
+            if (resultItem.getVariations().size() > 0) {
+                for (StatusResultItemVariation itemVariation : resultItem.getVariations()) {
+                    itemVariation.setTotal(
+                            dataStore.count(Ticket.class).where(
+                                    Ticket.ITEM_ID.eq(resultItem.getId())
+                                            .and(Ticket.VARIATION_ID.eq(itemVariation.getId()))
+                                            .and(Ticket.PAID.eq(true))
+                            ).get().value()
+                    );
+                    itemVariation.setCheckins(
+                            dataStore.count(Ticket.class).where(
+                                    Ticket.ITEM_ID.eq(resultItem.getId())
+                                            .and(Ticket.VARIATION_ID.eq(itemVariation.getId()))
+                                            .and(Ticket.REDEEMED.eq(true))
+                                            .and(Ticket.PAID.eq(true))
+                            ).get().value()
+                    );
+                    total += itemVariation.getTotal();
+                    checkins += itemVariation.getCheckins();
+                }
+            } else {
+                total = dataStore.count(Ticket.class).where(
+                        Ticket.ITEM_ID.eq(resultItem.getId())
+                                .and(Ticket.PAID.eq(true))
+                ).get().value();
+                checkins = dataStore.count(Ticket.class).where(
+                        Ticket.ITEM_ID.eq(resultItem.getId())
+                                .and(Ticket.REDEEMED.eq(true))
+                                .and(Ticket.PAID.eq(true))
+                ).get().value();
+            }
+            resultItem.setTotal(total);
+            resultItem.setCheckins(checkins);
+            total_all += total;
+            checkins_all += checkins;
+        }
+        statusResult.setAlreadyScanned(checkins_all);
+        statusResult.setTotalTickets(total_all);
+        return statusResult;
     }
 }

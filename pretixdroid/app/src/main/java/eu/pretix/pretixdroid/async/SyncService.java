@@ -125,8 +125,17 @@ public class SyncService extends IntentService {
     private void downloadTicketData() throws SyncException {
         Sentry.addBreadcrumb("sync.tickets", "Start download");
 
-        // Download objects from server
+        // Download metadata
         JSONObject response;
+        try {
+            response = api.status();
+        } catch (ApiException e) {
+            Sentry.addBreadcrumb("sync.tickets", "API Error: " + e.getMessage());
+            throw new SyncException(e.getMessage());
+        }
+        config.setLastStatusData(response.toString());
+
+        // Download objects from server
         try {
             response = api.download();
         } catch (ApiException e) {

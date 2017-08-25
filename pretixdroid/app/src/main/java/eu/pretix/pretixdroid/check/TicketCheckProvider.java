@@ -148,14 +148,20 @@ public interface TicketCheckProvider {
     }
 
     class StatusResultItemVariation {
+        private long id;
         private String name;
         private int checkins;
         private int total;
 
-        public StatusResultItemVariation(String name, int total, int checkins) {
+        public StatusResultItemVariation(long id, String name, int total, int checkins) {
             this.name = name;
             this.checkins = checkins;
             this.total = total;
+            this.id = id;
+        }
+
+        public long getId() {
+            return id;
         }
 
         public String getName() {
@@ -168,20 +174,36 @@ public interface TicketCheckProvider {
 
         public int getTotal() {
             return total;
+        }
+
+        public void setCheckins(int checkins) {
+            this.checkins = checkins;
+        }
+
+        public void setTotal(int total) {
+            this.total = total;
         }
     }
 
     class StatusResultItem {
+        private long id;
         private String name;
         private int checkins;
         private int total;
         private List<StatusResultItemVariation> variations;
+        private boolean admission;
 
-        public StatusResultItem(String name, int total, int checkins, List<StatusResultItemVariation> variations) {
+        public StatusResultItem(long id, String name, int total, int checkins, List<StatusResultItemVariation> variations, boolean admission) {
             this.name = name;
             this.checkins = checkins;
             this.total = total;
             this.variations = variations;
+            this.admission = admission;
+            this.id = id;
+        }
+
+        public long getId() {
+            return id;
         }
 
         public String getName() {
@@ -196,8 +218,24 @@ public interface TicketCheckProvider {
             return total;
         }
 
+        public boolean isAdmission() {
+            return admission;
+        }
+
         public List<StatusResultItemVariation> getVariations() {
             return variations;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setCheckins(int checkins) {
+            this.checkins = checkins;
+        }
+
+        public void setTotal(int total) {
+            this.total = total;
         }
     }
 
@@ -228,6 +266,14 @@ public interface TicketCheckProvider {
 
         public List<StatusResultItem> getItems() {
             return items;
+        }
+
+        public void setTotalTickets(int totalTickets) {
+            this.totalTickets = totalTickets;
+        }
+
+        public void setAlreadyScanned(int alreadyScanned) {
+            this.alreadyScanned = alreadyScanned;
         }
     }
 

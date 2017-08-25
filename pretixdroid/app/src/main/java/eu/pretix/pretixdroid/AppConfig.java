@@ -20,6 +20,7 @@ public class AppConfig {
     public static final String PREFS_KEY_LAST_FAILED_SYNC = "last_failed_sync";
     public static final String PREFS_KEY_LAST_FAILED_SYNC_MSG = "last_failed_sync_msg";
     public static final String PREFS_KEY_LAST_DOWNLOAD = "last_download";
+    public static final String PREFS_KEY_LAST_STATUS_DATA = "last_status_data";
     private SharedPreferences prefs;
     private SharedPreferences default_prefs;
 
@@ -40,6 +41,7 @@ public class AppConfig {
                 .remove(PREFS_KEY_LAST_DOWNLOAD)
                 .remove(PREFS_KEY_LAST_SYNC)
                 .remove(PREFS_KEY_LAST_FAILED_SYNC)
+                .remove(PREFS_KEY_LAST_STATUS_DATA)
                 .apply();
     }
 
@@ -51,6 +53,7 @@ public class AppConfig {
                 .remove(PREFS_KEY_LAST_DOWNLOAD)
                 .remove(PREFS_KEY_LAST_SYNC)
                 .remove(PREFS_KEY_LAST_FAILED_SYNC)
+                .remove(PREFS_KEY_LAST_STATUS_DATA)
                 .apply();
     }
 
@@ -104,6 +107,14 @@ public class AppConfig {
 
     public void setAsyncModeEnabled(boolean val) {
         default_prefs.edit().putBoolean(PREFS_KEY_ASYNC_MODE, val).apply();
+    }
+
+    public String getLastStatusData() {
+        return prefs.getString(PREFS_KEY_LAST_STATUS_DATA, null);
+    }
+
+    public void setLastStatusData(String val) {
+        prefs.edit().putString(PREFS_KEY_LAST_STATUS_DATA, val).apply();
     }
 
     public long getLastDownload() {
