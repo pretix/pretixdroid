@@ -3,10 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="eu.pretix.pretixdroid.ui.MainActivity">
     <item
+        android:id="@+id/action_eventinfo"
+        android:title="@string/action_eventinfo"
+        android:icon="@drawable/ic_info_outline_white_24dp"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_search"
         android:title="@string/action_search"
         android:icon="@drawable/ic_keyboard_white_24dp"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_flashlight"
         android:title="@string/action_flashlight"

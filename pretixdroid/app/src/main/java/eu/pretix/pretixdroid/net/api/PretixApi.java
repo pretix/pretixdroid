@@ -83,6 +83,14 @@ public class PretixApi {
         return apiCall(request);
     }
 
+    public JSONObject status() throws ApiException {
+        Request request = new Request.Builder()
+                    .url(url + "status/?key=" + key)
+                    .get()
+                    .build();
+        return apiCall(request);
+    }
+
     public JSONObject search(String query) throws ApiException {
         Request request = null;
         try {
@@ -98,7 +106,7 @@ public class PretixApi {
 
     public JSONObject download() throws ApiException {
         if (version < 3) {
-            throw new ApiException("Unsupoorted in API versions lower than 3.");
+            throw new ApiException("Unsupported in API versions lower than 3.");
         }
         Request request = new Request.Builder()
                 .url(url + "download/?key=" + key)

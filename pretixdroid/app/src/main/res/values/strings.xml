@@ -5,6 +5,7 @@
     <string name="err_qr_version">Your app is older than the version of pretix on the server. Please check for updates of the pretixdroid app.</string>
     <string name="config_done">Configuration processed. You can now start scanning tickets.</string>
     <string name="err_title">Error</string>
+    <string name="action_eventinfo">Event Info</string>
     <string name="dismiss">Dismiss</string>
     <string name="ok">OK</string>
     <string name="err_unknown">Unknown error</string>
@@ -64,4 +65,7 @@
     <string name="sync_status_now">just now</string>
     <string name="sync_status_date_format">yyyy-MM-dd HH:mm:ss</string>
     <string name="sync_status_local">Checkins queued to upload:</string>
+    <string name="already_scanned">already scanned</string>
+    <string name="total_tickets_sold">total tickets sold</string>
+    <string name="no_connection">Could not connect to the server!</string>
 </resources>

@@ -64,4 +64,9 @@
     <string name="sync_status_now">gerade eben</string>
     <string name="sync_status_date_format">dd.MM.yyyy HH:mm:ss</string>
     <string name="sync_status_local">Noch nicht hochgeladene Checkins:</string>
+    <string name="action_eventinfo">Event Informationen</string>
+    <string name="ok">OK</string>
+    <string name="already_scanned">bereits gescannt</string>
+    <string name="total_tickets_sold">Tickets (gesamt)</string>
+    <string name="no_connection">Es konnte keine Verbindung hergestellt werden!</string>
 </resources>
