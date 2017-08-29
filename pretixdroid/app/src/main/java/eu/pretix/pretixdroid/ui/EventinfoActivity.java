@@ -65,6 +65,12 @@ public class EventinfoActivity extends AppCompatActivity {
         this.config = new AppConfig(this);
         this.checkProvider = ((PretixDroid) getApplication()).getNewCheckProvider();
 
+        if (!config.getShowInfo()) {
+            Toast.makeText(EventinfoActivity.this, R.string.info_disabled, Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+
         new StatusTask().execute();
     }
 

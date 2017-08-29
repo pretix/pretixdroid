@@ -9,7 +9,7 @@ public interface TicketCheckProvider {
 
     class CheckResult {
         public enum Type {
-            INVALID, VALID, USED, ERROR, UNPAID
+            INVALID, VALID, USED, ERROR, UNPAID, PRODUCT
         }
 
         private Type type;

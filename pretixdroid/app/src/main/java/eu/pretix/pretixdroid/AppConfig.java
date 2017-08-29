@@ -10,6 +10,8 @@ public class AppConfig {
     public static final String PREFS_NAME = "pretixdroid";
     public static final String PREFS_KEY_API_URL = "pretix_api_url";
     public static final String PREFS_KEY_API_KEY = "pretix_api_key";
+    public static final String PREFS_KEY_SHOW_INFO = "show_info";
+    public static final String PREFS_KEY_ALLOW_SEARCH = "allow_search";
     public static final String PREFS_KEY_API_VERSION = "pretix_api_version";
     public static final String PREFS_KEY_FLASHLIGHT = "flashlight";
     public static final String PREFS_KEY_AUTOFOCUS = "autofocus";
@@ -33,10 +35,12 @@ public class AppConfig {
         return prefs.contains(PREFS_KEY_API_URL);
     }
 
-    public void setEventConfig(String url, String key, int version) {
+    public void setEventConfig(String url, String key, int version, boolean show_info, boolean allow_search) {
         prefs.edit()
                 .putString(PREFS_KEY_API_URL, url)
                 .putString(PREFS_KEY_API_KEY, key)
+                .putBoolean(PREFS_KEY_ALLOW_SEARCH, allow_search)
+                .putBoolean(PREFS_KEY_SHOW_INFO, show_info)
                 .putInt(PREFS_KEY_API_VERSION, version)
                 .remove(PREFS_KEY_LAST_DOWNLOAD)
                 .remove(PREFS_KEY_LAST_SYNC)
@@ -49,6 +53,8 @@ public class AppConfig {
         prefs.edit()
                 .remove(PREFS_KEY_API_URL)
                 .remove(PREFS_KEY_API_KEY)
+                .remove(PREFS_KEY_SHOW_INFO)
+                .remove(PREFS_KEY_ALLOW_SEARCH)
                 .remove(PREFS_KEY_API_VERSION)
                 .remove(PREFS_KEY_LAST_DOWNLOAD)
                 .remove(PREFS_KEY_LAST_SYNC)
@@ -67,6 +73,14 @@ public class AppConfig {
 
     public String getApiKey() {
         return prefs.getString(PREFS_KEY_API_KEY, "");
+    }
+
+    public boolean getShowInfo() {
+        return prefs.getBoolean(PREFS_KEY_SHOW_INFO, true);
+    }
+
+    public boolean getAllowSearch() {
+        return prefs.getBoolean(PREFS_KEY_ALLOW_SEARCH, true);
     }
 
     public boolean getFlashlight() {

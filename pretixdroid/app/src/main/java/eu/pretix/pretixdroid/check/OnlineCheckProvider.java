@@ -44,6 +44,8 @@ public class OnlineCheckProvider implements TicketCheckProvider {
                     res.setType(CheckResult.Type.INVALID);
                 } else if ("unpaid".equals(reason)) {
                     res.setType(CheckResult.Type.UNPAID);
+                } else if ("product".equals(reason)) {
+                    res.setType(CheckResult.Type.PRODUCT);
                 }
             }
 

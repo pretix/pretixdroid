@@ -14,6 +14,7 @@
     <string name="scan_result_valid">Valid ticket</string>
     <string name="scan_result_used">Ticket already used</string>
     <string name="scan_result_invalid">Invalid ticket</string>
+    <string name="scan_result_product">Invalid product</string>
     <string name="scan_result_unpaid">Ticket not paid</string>
     <string name="hint_config">Scan a configuration code to start</string>
     <string name="hint_scan">Scan a ticket code</string>
@@ -69,4 +70,5 @@
     <string name="already_scanned">already scanned</string>
     <string name="total_tickets_sold">total tickets sold</string>
     <string name="no_connection">Could not connect to the server!</string>
+    <string name="info_disabled">Info view is disabled</string>
 </resources>

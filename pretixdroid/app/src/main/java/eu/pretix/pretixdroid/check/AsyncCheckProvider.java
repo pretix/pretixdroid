@@ -86,14 +86,25 @@ public class AsyncCheckProvider implements TicketCheckProvider {
             return results;
         }
 
-        List<Ticket> tickets = dataStore.select(Ticket.class)
-                .where(
-                        Ticket.SECRET.like(query + "%")
-                                .or(Ticket.ATTENDEE_NAME.like("%" + query + "%"))
-                                .or(Ticket.ORDER.like(query + "%"))
-                )
-                .limit(25)
-                .get().toList();
+
+        List<Ticket> tickets;
+        if (config.getAllowSearch()) {
+            tickets = dataStore.select(Ticket.class)
+                    .where(
+                            Ticket.SECRET.like(query + "%")
+                                    .or(Ticket.ATTENDEE_NAME.like("%" + query + "%"))
+                                    .or(Ticket.ORDER.like(query + "%"))
+                    )
+                    .limit(25)
+                    .get().toList();
+        } else {
+            tickets = dataStore.select(Ticket.class)
+                    .where(
+                            Ticket.SECRET.like(query + "%")
+                    )
+                    .limit(25)
+                    .get().toList();
+        }
 
         for (Ticket ticket : tickets) {
             SearchResult sr = new SearchResult();

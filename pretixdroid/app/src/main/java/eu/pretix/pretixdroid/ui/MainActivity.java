@@ -251,7 +251,8 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                     config.setAsyncModeEnabled(false);
                 }
                 config.setEventConfig(jsonObject.getString("url"), jsonObject.getString("key"),
-                        jsonObject.getInt("version"));
+                        jsonObject.getInt("version"), jsonObject.optBoolean("show_info", true),
+                        jsonObject.optBoolean("allow_search", true));
                 checkProvider = ((PretixDroid) getApplication()).getNewCheckProvider();
                 displayScanResult(new TicketCheckProvider.CheckResult(
                         TicketCheckProvider.CheckResult.Type.VALID,
@@ -434,6 +435,10 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             case UNPAID:
                 col = R.color.scan_result_err;
                 default_string = R.string.scan_result_unpaid;
+                break;
+            case PRODUCT:
+                col = R.color.scan_result_err;
+                default_string = R.string.scan_result_product;
                 break;
             case USED:
                 col = R.color.scan_result_warn;
