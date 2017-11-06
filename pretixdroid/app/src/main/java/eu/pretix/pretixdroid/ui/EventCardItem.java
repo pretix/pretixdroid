@@ -6,10 +6,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
+import eu.pretix.libpretixsync.check.TicketCheckProvider;
 import eu.pretix.pretixdroid.R;
-import eu.pretix.pretixdroid.check.TicketCheckProvider;
 
 /**
  * is the handler of a card that displays basic information about the event

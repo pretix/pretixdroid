@@ -14,12 +14,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import eu.pretix.libpretixsync.api.ApiException;
+import eu.pretix.libpretixsync.api.PretixApi;
+import eu.pretix.libpretixsync.db.QueuedCheckIn;
+import eu.pretix.libpretixsync.db.Ticket;
+import eu.pretix.pretixdroid.AndroidHttpClientFactory;
 import eu.pretix.pretixdroid.AppConfig;
 import eu.pretix.pretixdroid.PretixDroid;
-import eu.pretix.pretixdroid.db.QueuedCheckIn;
-import eu.pretix.pretixdroid.db.Ticket;
-import eu.pretix.pretixdroid.net.api.ApiException;
-import eu.pretix.pretixdroid.net.api.PretixApi;
 import io.requery.BlockingEntityStore;
 import io.requery.Persistable;
 import io.requery.util.CloseableIterator;
@@ -46,7 +47,7 @@ public class SyncService extends IntentService {
         Log.i("SyncService", "Sync triggered");
 
         // Rebuild in case config has changed
-        api = PretixApi.fromConfig(config);
+        api = PretixApi.fromConfig(config, new AndroidHttpClientFactory());
 
         if (!config.isConfigured()) {
             return;

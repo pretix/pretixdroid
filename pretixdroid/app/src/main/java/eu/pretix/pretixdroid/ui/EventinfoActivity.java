@@ -1,12 +1,10 @@
 package eu.pretix.pretixdroid.ui;
 
+import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,20 +13,16 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.pretix.libpretixsync.check.CheckException;
+import eu.pretix.libpretixsync.check.TicketCheckProvider;
 import eu.pretix.pretixdroid.AppConfig;
 import eu.pretix.pretixdroid.PretixDroid;
 import eu.pretix.pretixdroid.R;
-import eu.pretix.pretixdroid.check.CheckException;
-import eu.pretix.pretixdroid.check.TicketCheckProvider;
-import eu.pretix.pretixdroid.net.api.ApiException;
-import eu.pretix.pretixdroid.net.api.PretixApi;
 
 /**
  * This class is the activity for the Eventinfo page to let the user see statistics about their

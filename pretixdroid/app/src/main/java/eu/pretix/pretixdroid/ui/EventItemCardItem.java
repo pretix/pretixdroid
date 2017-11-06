@@ -5,15 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-
+import eu.pretix.libpretixsync.check.TicketCheckProvider;
 import eu.pretix.pretixdroid.R;
-import eu.pretix.pretixdroid.check.TicketCheckProvider;
 
 /**
  * is the handler of a card that displays information about each item of an event

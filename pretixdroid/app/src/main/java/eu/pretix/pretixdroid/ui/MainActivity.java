@@ -44,14 +44,14 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import eu.pretix.libpretixsync.api.PretixApi;
+import eu.pretix.libpretixsync.check.TicketCheckProvider;
+import eu.pretix.libpretixsync.db.QueuedCheckIn;
 import eu.pretix.pretixdroid.AppConfig;
 import eu.pretix.pretixdroid.BuildConfig;
 import eu.pretix.pretixdroid.PretixDroid;
 import eu.pretix.pretixdroid.R;
 import eu.pretix.pretixdroid.async.SyncService;
-import eu.pretix.pretixdroid.check.TicketCheckProvider;
-import eu.pretix.pretixdroid.db.QueuedCheckIn;
-import eu.pretix.pretixdroid.net.api.PretixApi;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class MainActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler, MediaPlayer.OnCompletionListener {

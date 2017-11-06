@@ -4,11 +4,10 @@ import android.app.Application;
 
 import com.facebook.stetho.Stetho;
 
-
-import eu.pretix.pretixdroid.check.AsyncCheckProvider;
-import eu.pretix.pretixdroid.check.OnlineCheckProvider;
-import eu.pretix.pretixdroid.check.TicketCheckProvider;
-import eu.pretix.pretixdroid.db.Models;
+import eu.pretix.libpretixsync.check.AsyncCheckProvider;
+import eu.pretix.libpretixsync.check.OnlineCheckProvider;
+import eu.pretix.libpretixsync.check.TicketCheckProvider;
+import eu.pretix.libpretixsync.db.Models;
 import io.requery.BlockingEntityStore;
 import io.requery.Persistable;
 import io.requery.android.sqlite.DatabaseSource;
@@ -46,10 +45,13 @@ public class PretixDroid extends Application {
 
     public TicketCheckProvider getNewCheckProvider() {
         AppConfig config = new AppConfig(this);
+        TicketCheckProvider p;
         if (config.getAsyncModeEnabled()) {
-            return new AsyncCheckProvider(this);
+            p = new AsyncCheckProvider(config, getData(), new AndroidHttpClientFactory());
         } else {
-            return new OnlineCheckProvider(this);
+            p = new OnlineCheckProvider(config, new AndroidHttpClientFactory());
         }
+        p.setSentry(new AndroidSentryImplementation());
+        return p;
     }
 }

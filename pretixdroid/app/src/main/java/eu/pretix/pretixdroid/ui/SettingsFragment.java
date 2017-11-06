@@ -23,10 +23,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import eu.pretix.libpretixsync.db.QueuedCheckIn;
+
 import eu.pretix.pretixdroid.AppConfig;
 import eu.pretix.pretixdroid.PretixDroid;
 import eu.pretix.pretixdroid.R;
-import eu.pretix.pretixdroid.db.QueuedCheckIn;
 
 public class SettingsFragment extends PreferenceFragment {
 

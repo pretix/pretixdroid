@@ -23,11 +23,11 @@ import com.joshdholtz.sentry.Sentry;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.pretix.libpretixsync.check.CheckException;
+import eu.pretix.libpretixsync.check.TicketCheckProvider;
 import eu.pretix.pretixdroid.PretixDroid;
 import eu.pretix.pretixdroid.R;
 import eu.pretix.pretixdroid.async.SyncService;
-import eu.pretix.pretixdroid.check.CheckException;
-import eu.pretix.pretixdroid.check.TicketCheckProvider;
 
 public class SearchActivity extends AppCompatActivity {
 

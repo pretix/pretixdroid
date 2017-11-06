@@ -2,11 +2,13 @@ package eu.pretix.pretixdroid;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 
-import eu.pretix.pretixdroid.net.api.PretixApi;
+import eu.pretix.libpretixsync.api.PretixApi;
+import eu.pretix.libpretixsync.config.ConfigStore;
 
-public class AppConfig {
+public class AppConfig implements ConfigStore {
     public static final String PREFS_NAME = "pretixdroid";
     public static final String PREFS_KEY_API_URL = "pretix_api_url";
     public static final String PREFS_KEY_API_KEY = "pretix_api_key";
@@ -29,6 +31,11 @@ public class AppConfig {
     public AppConfig(Context ctx) {
         prefs = ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         default_prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+    }
+
+    @Override
+    public boolean isDebug() {
+        return BuildConfig.DEBUG;
     }
 
     public boolean isConfigured() {
