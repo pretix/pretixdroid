@@ -1,1 +1,2 @@
 include ':app', ':libpretixsync'
+project(':libpretixsync').projectDir = new File('libpretixsync-repo/libpretixsync')

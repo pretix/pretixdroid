@@ -1,0 +1,42 @@
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+doc/
+build/
+out/
+dist/
+jre/
+
+# Local configuration file (sdk path, etc)
+local.properties
+ant.properties
+
+.classpath
+.project
+.settings
+proguard-project.txt
+
+*.pyc
+
+assets/buildnum.txt
+
+# Windows Thumbnail files
+Thumbs.db
+
+.gradle
+local.properties
+.idea/*
+.idea
+*.iml
+.DS_Store
+build/
+.ropeproject/
+
+upload.sh
+release.sh
+
+*.keystore
+*.bak
