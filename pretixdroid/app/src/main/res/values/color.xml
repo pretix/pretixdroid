@@ -9,4 +9,6 @@
     <color name="scan_result_err">#ddD9534F</color>
     <color name="scan_result_attention">#dd3B1C4A</color>
     <color name="scan_result_attention_alternate">#ddffee58</color>
+    <color name="viewfinder_mask">#00000000</color>
+    <color name="viewfinder_border">#00000000</color>
 </resources>

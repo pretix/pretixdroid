@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
     public static final int PERMISSIONS_REQUEST_CAMERA = 10001;
 
-    private ZXingScannerView qrView = null;
+    private CustomizedScannerView qrView = null;
     private long lastScanTime;
     private String lastScanCode;
     private State state = State.SCANNING;
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
         setContentView(R.layout.activity_main);
 
-        qrView = (ZXingScannerView) findViewById(R.id.qrdecoderview);
+        qrView = (CustomizedScannerView) findViewById(R.id.qrdecoderview);
         qrView.setResultHandler(this);
         qrView.setAutoFocus(config.getAutofocus());
         qrView.setFlash(config.getFlashlight());

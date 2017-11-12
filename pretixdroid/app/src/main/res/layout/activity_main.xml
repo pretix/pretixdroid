@@ -66,12 +66,12 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>
 
-    <me.dm7.barcodescanner.zxing.ZXingScannerView
+    <eu.pretix.pretixdroid.ui.CustomizedScannerView
         android:id="@+id/qrdecoderview"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_below="@id/rlScanStatus">
-    </me.dm7.barcodescanner.zxing.ZXingScannerView>
+    </eu.pretix.pretixdroid.ui.CustomizedScannerView>
 
     <RelativeLayout
         android:id="@+id/rlWarning"
