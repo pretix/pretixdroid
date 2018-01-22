@@ -72,6 +72,7 @@ dependencies {
     compile 'com.android.support:support-v4:27.0.0'
     compile 'com.android.support:support-vector-drawable:27.0.0'
     compile 'com.joshdholtz.sentry:sentry-android:1.6.0'
+    compile 'joda-time:joda-time:2.9.9'
     compile 'io.requery:requery:1.4.1'
     compile 'io.requery:requery-android:1.4.1'
     compile 'com.facebook.stetho:stetho:1.5.0'

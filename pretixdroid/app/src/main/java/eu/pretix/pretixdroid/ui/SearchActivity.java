@@ -76,9 +76,13 @@ public class SearchActivity extends AppCompatActivity {
 
                 TicketCheckProvider.SearchResult item = (TicketCheckProvider.SearchResult) adapterView.getAdapter().getItem(i);
 
-                new CheckTask().execute(item.getSecret());
+                startRedeem(item.getSecret(), new ArrayList<TicketCheckProvider.Answer>());
             }
         });
+    }
+
+    private void startRedeem(String secret, List<TicketCheckProvider.Answer> answers) {
+        new CheckTask().execute(secret, answers);
     }
 
     private void startSearch(String query) {
@@ -124,7 +128,9 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    public class CheckTask extends AsyncTask<String, Integer, TicketCheckProvider.CheckResult> {
+    public class CheckTask extends AsyncTask<Object, Integer, TicketCheckProvider.CheckResult> {
+        private String secret;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -134,9 +140,11 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         @Override
-        protected TicketCheckProvider.CheckResult doInBackground(String... params) {
-            if (params[0].matches("[0-9A-Za-z-]+")) {
-                return checkProvider.check(params[0]);
+        protected TicketCheckProvider.CheckResult doInBackground(Object... params) {
+            secret = (String) params[0];
+            List<TicketCheckProvider.Answer> answers = (List<TicketCheckProvider.Answer>) params[1];
+            if (secret.matches("[0-9A-Za-z-]+")) {
+                return checkProvider.check(secret, answers);
             } else {
                 return new TicketCheckProvider.CheckResult(TicketCheckProvider.CheckResult.Type.INVALID);
             }
@@ -165,17 +173,26 @@ public class SearchActivity extends AppCompatActivity {
                     break;
             }
 
-            new AlertDialog.Builder(SearchActivity.this)
-                    .setMessage(getString(default_string))
-                    .setPositiveButton(R.string.dismiss, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
+            if (checkResult.getType() == TicketCheckProvider.CheckResult.Type.ANSWERS_REQUIRED) {
+                QuestionDialogHelper.showDialog(SearchActivity.this, checkResult, secret, new QuestionDialogHelper.RetryHandler() {
+                    @Override
+                    public void retry(String secret, List<TicketCheckProvider.Answer> answers) {
+                        startRedeem(secret, answers);
+                    }
+                });
+            } else {
+                new AlertDialog.Builder(SearchActivity.this)
+                        .setMessage(getString(default_string))
+                        .setPositiveButton(R.string.dismiss, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
 
-            startSearch(etQuery.getText().toString());
-            triggerSync();
+                startSearch(etQuery.getText().toString());
+                triggerSync();
+            }
         }
     }
 

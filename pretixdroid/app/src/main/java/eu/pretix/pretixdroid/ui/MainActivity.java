@@ -1,6 +1,7 @@
 package eu.pretix.pretixdroid.ui;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     private TicketCheckProvider checkProvider;
     private AppConfig config;
     private Timer timer;
+    private Dialog questionsDialog;
 
     private BroadcastReceiver scanReceiver = new BroadcastReceiver() {
         @Override
@@ -227,11 +229,16 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
     public void handleScan(String s) {
+        if (questionsDialog != null && questionsDialog.isShowing()) {
+            // Do not scan while asking questions
+            return;
+        }
+
         if (config.getSoundEnabled()) mediaPlayer.start();
         resetView();
 
         if (config.isConfigured()) {
-            handleTicketScanned(s);
+            handleTicketScanned(s, new ArrayList<TicketCheckProvider.Answer>());
         } else {
             handleConfigScanned(s);
         }
@@ -272,13 +279,13 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         startService(i);
     }
 
-    private void handleTicketScanned(String s) {
+    private void handleTicketScanned(String s, List<TicketCheckProvider.Answer> answers) {
         Sentry.addBreadcrumb("main.scanned", "Ticket scanned");
 
         state = State.LOADING;
         findViewById(R.id.tvScanResult).setVisibility(View.GONE);
         findViewById(R.id.pbScan).setVisibility(View.VISIBLE);
-        new CheckTask().execute(s);
+        new CheckTask().execute(s, answers);
     }
 
     private void updateSyncStatus() {
@@ -372,12 +379,14 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         }
     }
 
-    public class CheckTask extends AsyncTask<String, Integer, TicketCheckProvider.CheckResult> {
+    public class CheckTask extends AsyncTask<Object, Integer, TicketCheckProvider.CheckResult> {
 
         @Override
-        protected TicketCheckProvider.CheckResult doInBackground(String... params) {
-            if (params[0].matches("[0-9A-Za-z-]+")) {
-                return checkProvider.check(params[0]);
+        protected TicketCheckProvider.CheckResult doInBackground(Object... params) {
+            String secret = (String) params[0];
+            List<TicketCheckProvider.Answer> answers = (List<TicketCheckProvider.Answer>) params[1];
+            if (secret.matches("[0-9A-Za-z-]+")) {
+                return checkProvider.check(secret, answers);
             } else {
                 return new TicketCheckProvider.CheckResult(TicketCheckProvider.CheckResult.Type.INVALID, getString(R.string.scan_result_invalid));
             }
@@ -391,6 +400,15 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
     private void displayScanResult(TicketCheckProvider.CheckResult checkResult) {
+        if (checkResult.getType() == TicketCheckProvider.CheckResult.Type.ANSWERS_REQUIRED) {
+            questionsDialog = QuestionDialogHelper.showDialog(this, checkResult, lastScanCode, new QuestionDialogHelper.RetryHandler() {
+                @Override
+                public void retry(String secret, List<TicketCheckProvider.Answer> answers) {
+                    handleTicketScanned(secret, answers);
+                }
+            });
+        }
+
         TextView tvScanResult = (TextView) findViewById(R.id.tvScanResult);
         TextView tvTicketName = (TextView) findViewById(R.id.tvTicketName);
         TextView tvAttendeeName = (TextView) findViewById(R.id.tvAttendeeName);
@@ -486,10 +504,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 }
             };
             blinkExecute.run();
-        }
-
-        if (checkResult.getType() == TicketCheckProvider.CheckResult.Type.ANSWERS_REQUIRED) {
-            QuestionDialogHelper.showDialog(this, checkResult);
         }
 
         timeoutHandler.postDelayed(new Runnable() {
