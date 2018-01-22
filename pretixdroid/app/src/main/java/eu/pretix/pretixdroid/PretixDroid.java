@@ -7,6 +7,7 @@ import com.facebook.stetho.Stetho;
 import eu.pretix.libpretixsync.check.AsyncCheckProvider;
 import eu.pretix.libpretixsync.check.OnlineCheckProvider;
 import eu.pretix.libpretixsync.check.TicketCheckProvider;
+import eu.pretix.libpretixsync.db.Migrations;
 import eu.pretix.libpretixsync.db.Models;
 import io.requery.BlockingEntityStore;
 import io.requery.Persistable;
@@ -36,7 +37,7 @@ public class PretixDroid extends Application {
     public BlockingEntityStore<Persistable> getData() {
         if (dataStore == null) {
             // override onUpgrade to handle migrating to a new version
-            DatabaseSource source = new DatabaseSource(this, Models.DEFAULT, 3);
+            DatabaseSource source = new DatabaseSource(this, Models.DEFAULT, 4);
             Configuration configuration = source.getConfiguration();
             dataStore = new EntityDataStore<Persistable>(configuration);
         }
@@ -47,7 +48,7 @@ public class PretixDroid extends Application {
         AppConfig config = new AppConfig(this);
         TicketCheckProvider p;
         if (config.getAsyncModeEnabled()) {
-            p = new AsyncCheckProvider(config, getData(), new AndroidHttpClientFactory());
+            p = new AsyncCheckProvider(config, getData());
         } else {
             p = new OnlineCheckProvider(config, new AndroidHttpClientFactory());
         }

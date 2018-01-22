@@ -11,8 +11,14 @@
     <string name="err_unknown">Unknown error</string>
     <string name="title_activity_main">pretixdroid</string>
     <string name="cancel">Cancel</string>
+    <string name="cont">Continue</string>
+    <string name="question_validation_error">Some of your input could not be validated.</string>
+    <string name="question_input_required">This field is required.</string>
+    <string name="question_input_invalid">This input is not valid.</string>
+    <string name="yes">Yes</string>
     <string name="scan_result_valid">Valid ticket</string>
     <string name="scan_result_used">Ticket already used</string>
+    <string name="scan_result_questions">Information required</string>
     <string name="scan_result_invalid">Invalid ticket</string>
     <string name="scan_result_product">Invalid product</string>
     <string name="scan_result_unpaid">Ticket not paid</string>
