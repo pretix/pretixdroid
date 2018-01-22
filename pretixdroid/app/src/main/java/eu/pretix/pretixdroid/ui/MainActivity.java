@@ -391,7 +391,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
     private void displayScanResult(TicketCheckProvider.CheckResult checkResult) {
-
         TextView tvScanResult = (TextView) findViewById(R.id.tvScanResult);
         TextView tvTicketName = (TextView) findViewById(R.id.tvTicketName);
         TextView tvAttendeeName = (TextView) findViewById(R.id.tvAttendeeName);
@@ -440,6 +439,10 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 col = R.color.scan_result_err;
                 default_string = R.string.scan_result_product;
                 break;
+            case ANSWERS_REQUIRED:
+                col = R.color.scan_result_warn;
+                default_string = R.string.scan_result_questions;
+                break;
             case USED:
                 col = R.color.scan_result_warn;
                 default_string = R.string.scan_result_used;
@@ -485,6 +488,9 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             blinkExecute.run();
         }
 
+        if (checkResult.getType() == TicketCheckProvider.CheckResult.Type.ANSWERS_REQUIRED) {
+            QuestionDialogHelper.showDialog(this, checkResult);
+        }
 
         timeoutHandler.postDelayed(new Runnable() {
             public void run() {
