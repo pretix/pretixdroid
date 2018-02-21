@@ -8,8 +8,8 @@ android {
         applicationId "eu.pretix.pretixdroid"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 9
-        versionName "1.8"
+        versionCode 11
+        versionName "1.9"
         vectorDrawables.useSupportLibrary = true
     }
 
