@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     private AppConfig config;
     private Timer timer;
     private Dialog questionsDialog;
+    private Dialog unpaidDialog;
 
     private BroadcastReceiver scanReceiver = new BroadcastReceiver() {
         @Override
@@ -233,12 +234,16 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             // Do not scan while asking questions
             return;
         }
+        if (unpaidDialog != null && unpaidDialog.isShowing()) {
+            // Do not scan while asking questions
+            return;
+        }
 
         if (config.getSoundEnabled()) mediaPlayer.start();
         resetView();
 
         if (config.isConfigured()) {
-            handleTicketScanned(s, new ArrayList<TicketCheckProvider.Answer>());
+            handleTicketScanned(s, new ArrayList<TicketCheckProvider.Answer>(), false);
         } else {
             handleConfigScanned(s);
         }
@@ -252,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             if (jsonObject.getInt("version") > PretixApi.SUPPORTED_API_VERSION) {
                 displayScanResult(new TicketCheckProvider.CheckResult(
                         TicketCheckProvider.CheckResult.Type.ERROR,
-                        getString(R.string.err_qr_version)));
+                        getString(R.string.err_qr_version)), null, false);
             } else {
                 if (jsonObject.getInt("version") < 3) {
                     config.setAsyncModeEnabled(false);
@@ -263,14 +268,14 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 checkProvider = ((PretixDroid) getApplication()).getNewCheckProvider();
                 displayScanResult(new TicketCheckProvider.CheckResult(
                         TicketCheckProvider.CheckResult.Type.VALID,
-                        getString(R.string.config_done)));
+                        getString(R.string.config_done)), null, false);
 
                 triggerSync();
             }
         } catch (JSONException e) {
             displayScanResult(new TicketCheckProvider.CheckResult(
                     TicketCheckProvider.CheckResult.Type.ERROR,
-                    getString(R.string.err_qr_invalid)));
+                    getString(R.string.err_qr_invalid)), null, false);
         }
     }
 
@@ -279,13 +284,13 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         startService(i);
     }
 
-    private void handleTicketScanned(String s, List<TicketCheckProvider.Answer> answers) {
+    private void handleTicketScanned(String s, List<TicketCheckProvider.Answer> answers, boolean ignore_unpaid) {
         Sentry.addBreadcrumb("main.scanned", "Ticket scanned");
 
         state = State.LOADING;
         findViewById(R.id.tvScanResult).setVisibility(View.GONE);
         findViewById(R.id.pbScan).setVisibility(View.VISIBLE);
-        new CheckTask().execute(s, answers);
+        new CheckTask().execute(s, answers, ignore_unpaid);
     }
 
     private void updateSyncStatus() {
@@ -380,13 +385,16 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
     public class CheckTask extends AsyncTask<Object, Integer, TicketCheckProvider.CheckResult> {
+        List<TicketCheckProvider.Answer> answers;
+        boolean ignore_unpaid;
 
         @Override
         protected TicketCheckProvider.CheckResult doInBackground(Object... params) {
             String secret = (String) params[0];
-            List<TicketCheckProvider.Answer> answers = (List<TicketCheckProvider.Answer>) params[1];
+            answers = (List<TicketCheckProvider.Answer>) params[1];
+            ignore_unpaid = (boolean) params[2];
             if (secret.matches("[0-9A-Za-z-]+")) {
-                return checkProvider.check(secret, answers);
+                return checkProvider.check(secret, answers, ignore_unpaid);
             } else {
                 return new TicketCheckProvider.CheckResult(TicketCheckProvider.CheckResult.Type.INVALID, getString(R.string.scan_result_invalid));
             }
@@ -394,17 +402,25 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
         @Override
         protected void onPostExecute(TicketCheckProvider.CheckResult checkResult) {
-            displayScanResult(checkResult);
+            displayScanResult(checkResult, answers, ignore_unpaid);
             triggerSync();
         }
     }
 
-    private void displayScanResult(TicketCheckProvider.CheckResult checkResult) {
+    private void displayScanResult(TicketCheckProvider.CheckResult checkResult, List<TicketCheckProvider.Answer> answers, boolean ignore_unpaid) {
         if (checkResult.getType() == TicketCheckProvider.CheckResult.Type.ANSWERS_REQUIRED) {
             questionsDialog = QuestionDialogHelper.showDialog(this, checkResult, lastScanCode, new QuestionDialogHelper.RetryHandler() {
                 @Override
-                public void retry(String secret, List<TicketCheckProvider.Answer> answers) {
-                    handleTicketScanned(secret, answers);
+                public void retry(String secret, List<TicketCheckProvider.Answer> answers, boolean ignore_unpaid) {
+                    handleTicketScanned(secret, answers, ignore_unpaid);
+                }
+            }, ignore_unpaid);
+        }
+        if (checkResult.getType() == TicketCheckProvider.CheckResult.Type.UNPAID && checkResult.isCheckinAllowed()) {
+            unpaidDialog = UnpaidOrderDialogHelper.showDialog(this, checkResult, lastScanCode, answers, new UnpaidOrderDialogHelper.RetryHandler() {
+                @Override
+                public void retry(String secret, List<TicketCheckProvider.Answer> answers, boolean ignore_unpaid) {
+                    handleTicketScanned(secret, answers, ignore_unpaid);
                 }
             });
         }

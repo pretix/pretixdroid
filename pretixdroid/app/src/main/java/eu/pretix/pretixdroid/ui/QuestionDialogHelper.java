@@ -39,7 +39,7 @@ import eu.pretix.pretixdroid.R;
 
 public class QuestionDialogHelper {
     public interface RetryHandler {
-        public void retry(String secret, List<TicketCheckProvider.Answer> answers);
+        public void retry(String secret, List<TicketCheckProvider.Answer> answers, boolean ignore_unpaid);
     }
 
     static class OptionAdapter extends ArrayAdapter<QuestionOption> {
@@ -60,7 +60,8 @@ public class QuestionDialogHelper {
     }
 
     public static Dialog showDialog(final Activity ctx, final TicketCheckProvider.CheckResult res,
-                                    final String secret, final RetryHandler retryHandler) {
+                                    final String secret, final RetryHandler retryHandler,
+                                    final boolean ignore_unpaid) {
         LayoutInflater inflater = ctx.getLayoutInflater();
         final Map<Question, Object> fviews = new HashMap<>();
         final Map<Question, TextView> labels = new HashMap<>();
@@ -313,7 +314,7 @@ public class QuestionDialogHelper {
                         }
                         if (!has_errors) {
                             dialog.dismiss();
-                            retryHandler.retry(secret, answers);
+                            retryHandler.retry(secret, answers, ignore_unpaid);
                         } else {
                             Toast.makeText(ctx, R.string.question_validation_error, Toast.LENGTH_SHORT);
                         }

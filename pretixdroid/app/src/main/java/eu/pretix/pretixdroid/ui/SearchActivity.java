@@ -76,13 +76,13 @@ public class SearchActivity extends AppCompatActivity {
 
                 TicketCheckProvider.SearchResult item = (TicketCheckProvider.SearchResult) adapterView.getAdapter().getItem(i);
 
-                startRedeem(item.getSecret(), new ArrayList<TicketCheckProvider.Answer>());
+                startRedeem(item.getSecret(), new ArrayList<TicketCheckProvider.Answer>(), false);
             }
         });
     }
 
-    private void startRedeem(String secret, List<TicketCheckProvider.Answer> answers) {
-        new CheckTask().execute(secret, answers);
+    private void startRedeem(String secret, List<TicketCheckProvider.Answer> answers, boolean ignore_pending) {
+        new CheckTask().execute(secret, answers, ignore_pending);
     }
 
     private void startSearch(String query) {
@@ -130,6 +130,8 @@ public class SearchActivity extends AppCompatActivity {
 
     public class CheckTask extends AsyncTask<Object, Integer, TicketCheckProvider.CheckResult> {
         private String secret;
+        private List<TicketCheckProvider.Answer> answers;
+        boolean ignore_unpaid = false;
 
         @Override
         protected void onPreExecute() {
@@ -142,9 +144,10 @@ public class SearchActivity extends AppCompatActivity {
         @Override
         protected TicketCheckProvider.CheckResult doInBackground(Object... params) {
             secret = (String) params[0];
-            List<TicketCheckProvider.Answer> answers = (List<TicketCheckProvider.Answer>) params[1];
+            answers = (List<TicketCheckProvider.Answer>) params[1];
+            ignore_unpaid = (boolean) params[2];
             if (secret.matches("[0-9A-Za-z-]+")) {
-                return checkProvider.check(secret, answers);
+                return checkProvider.check(secret, answers, ignore_unpaid);
             } else {
                 return new TicketCheckProvider.CheckResult(TicketCheckProvider.CheckResult.Type.INVALID);
             }
@@ -173,13 +176,20 @@ public class SearchActivity extends AppCompatActivity {
                     break;
             }
 
-            if (checkResult.getType() == TicketCheckProvider.CheckResult.Type.ANSWERS_REQUIRED) {
-                QuestionDialogHelper.showDialog(SearchActivity.this, checkResult, secret, new QuestionDialogHelper.RetryHandler() {
+            if (checkResult.getType() == TicketCheckProvider.CheckResult.Type.UNPAID && checkResult.isCheckinAllowed()) {
+                UnpaidOrderDialogHelper.showDialog(SearchActivity.this, checkResult, secret, answers, new UnpaidOrderDialogHelper.RetryHandler() {
                     @Override
-                    public void retry(String secret, List<TicketCheckProvider.Answer> answers) {
-                        startRedeem(secret, answers);
+                    public void retry(String secret, List<TicketCheckProvider.Answer> answers, boolean ignore_unpaid) {
+                        startRedeem(secret, answers, true);
                     }
                 });
+            } else if (checkResult.getType() == TicketCheckProvider.CheckResult.Type.ANSWERS_REQUIRED) {
+                QuestionDialogHelper.showDialog(SearchActivity.this, checkResult, secret, new QuestionDialogHelper.RetryHandler() {
+                    @Override
+                    public void retry(String secret, List<TicketCheckProvider.Answer> answers, boolean ignore_unpaid) {
+                        startRedeem(secret, answers, ignore_unpaid);
+                    }
+                }, ignore_unpaid);
             } else {
                 new AlertDialog.Builder(SearchActivity.this)
                         .setMessage(getString(default_string))
