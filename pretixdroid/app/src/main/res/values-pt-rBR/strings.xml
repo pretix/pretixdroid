@@ -1,2 +1,83 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="action_play_sound">Reproduzir sons</string>
+    <string name="app_name">Pretixdroid Check-in</string>
+    <string name="err_qr_invalid">O QR Code escaneado não é válido.</string>
+    <string name="err_qr_version">Seu aplicativo é mais antigo do que a versão do pretix no servidor. Verifique as atualizações do aplicativo pretixdroid.</string>
+    <string name="config_done">Configuração processada. Agora você pode começar a verificar os ingressos.</string>
+    <string name="err_title">Erro</string>
+    <string name="action_eventinfo">Informação do evento</string>
+    <string name="dismiss">Dispensar</string>
+    <string name="ok">Ok</string>
+    <string name="err_unknown">Erro desconhecido</string>
+    <string name="title_activity_main">Pretixdroid Check-in</string>
+    <string name="cancel">Cancelar</string>
+    <string name="cont">Continuar</string>
+    <string name="question_validation_error">Alguns dos seus dados não podem ser validadas.</string>
+    <string name="question_input_required">Este campo é obrigatório.</string>
+    <string name="question_input_invalid">Esta entrada não é válida.</string>
+    <string name="yes">Sim</string>
+    <string name="scan_result_valid">Ingresso válido - Liberado</string>
+    <string name="scan_result_used">Ingresso já utilizado</string>
+    <string name="scan_result_questions">Informação necessária</string>
+    <string name="scan_result_invalid">Ingresso inválido</string>
+    <string name="scan_result_product">Produto inválido</string>
+    <string name="scan_result_unpaid">Ingresso não pago</string>
+    <string name="hint_config">Digitalize um código de configuração para começar</string>
+    <string name="hint_scan">Digitalize um código de ingresso</string>
+    <string name="action_clear_config">Limpar configurações de evento</string>
+    <string name="hint_clear_config">Restaura a conexão do aplicativo com um evento específico e permite selecionar um novo evento.</string>
+    <string name="action_autofocus">Foco automático</string>
+    <string name="action_flashlight">Flash</string>
+    <string name="action_search">Busca manual</string>
+    <string name="permission_required">A permissão da câmera é necessária</string>
+    <string name="search_hint">Busca (min. 4 caracteres) …</string>
+    <string name="not_configured">O app ainda não está configurado</string>
+    <string name="status_redeemed">Lido</string>
+    <string name="status_unpaid">Não pago</string>
+    <string name="status_valid">Valido</string>
+    <string name="redeeming">Ingresso lido…</string>
+    <string name="loading">Carregando…</string>
+    <string name="scan_result_redeemed">Bilhete lido com sucesso.</string>
+    <string name="ticket_attention">Atenção, ingresso especial!</string>
+    <string name="about">Sobre o aplicativo</string>
+    <string name="pref_head_scan">Lendo</string>
+    <string name="pref_head_connection">Conexão</string>
+    <string name="pref_head_other">Outro</string>
+    <string name="reset_success">Agora você pode digitalizar um novo código de configuração</string>
+    <string name="action_preferences">Configurações</string>
+    <string name="pref_camera">Use a câmera do dispositivo</string>
+    <string name="pref_camera_hint">Desative se seu dispositivo possui um scanner dedicado de código de barras integrado. Só funciona para alguns dispositivos até agora.</string>
+    <string name="pref_head_feedback">Lendo</string>
+    <string name="pref_async">Escaneamento assíncrono (beta)</string>
+    <string name="pref_async_hint_on">Os tickets digitalizados são verificados em uma cópia offline do banco de dados. O aplicativo tentará sincronizar com o servidor em intervalos regulares.</string>
+    <string name="pref_async_hint_off">Os tickets digitalizados são verificados diretamente com o servidor. O aplicativo requer uma conexão com a internet para funcionar.</string>
+    <string name="pref_async_not_supported">A varredura assíncrona não é suportada pela versão do pretix em execução no seu servidor. Verifique se há atualizações de pretix.</string>
+    <string name="pref_async_warning">Se você ativar a varredura assíncrona, seu telefone não estará sempre atualizado sobre o estado atual do banco de dados. Por exemplo, se você usar mais de um dispositivo para escanear, um ticket pode ser mostrado como válido duas vezes se já tiver sido digitalizado por um dispositivo diferente antes.</string>
+    <string name="pref_reset_warning">Seu aplicativo não está totalmente sincronizado. Se você redefini-lo agora, algumas varreduras feitas neste dispositivo podem ficar permanentemente perdidas.</string>
+    <plurals name="time_minutes">
+	<item quantity="one">%d minuto</item>
+	<item quantity="other">%d minutos</item>
+</plurals>
+    <plurals name="time_hours">
+	<item quantity="one">%d hora</item>
+	<item quantity="other">%d horas</item>
+</plurals>
+    <plurals name="time_days">
+	<item quantity="one">%d dia</item>
+	<item quantity="other">%d dias</item>
+</plurals>
+    <string name="sync_status">Status da sincronização</string>
+    <string name="sync_status_last">Última sincronização bem sucedida:</string>
+    <string name="sync_status_last_failed">Última sincronização com falha:</string>
+    <string name="sync_status_never">não sincronizado ainda</string>
+    <string name="sync_status_now">agora mesmo</string>
+    <string name="sync_status_date_format">dd-MM-yyyy HH:mm:ss</string>
+    <string name="sync_status_local">Checkins em fila para carregar:</string>
+    <string name="already_scanned">já digitalizado</string>
+    <string name="total_tickets_sold">total de ingressos vendidos</string>
+    <string name="no_connection">Não pôde conectar-se ao servidor!</string>
+    <string name="info_disabled">A exibição de informações está desativada</string>
+    <string name="dialog_unpaid_title">Pedido não pago</string>
+    <string name="dialog_unpaid_text">Este ingresso pertence a um pedido que ainda não foi pago. Você gostaria de verificar isso? esta ação não marcará a ordem como paga.</string>
+    <string name="dialog_unpaid_retry">Realizar check-in</string>
+</resources>
