@@ -1,2 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="action_play_sound">Speel geluiden</string>
+    <string name="app_name">pretixdroid</string>
+    <string name="err_qr_invalid">De gescande QR-code is niet geldig.</string>
+    <string name="err_title">Fout</string>
+    <string name="action_eventinfo">Evenementsinformatie</string>
+    <string name="ok">OK</string>
+    <string name="err_unknown">Onbekende fout</string>
+    <string name="title_activity_main">pretixdroid</string>
+    <string name="cancel">Annuleren</string>
+    <string name="cont">Verdergaan</string>
+    <string name="question_input_required">Dit veld is verplicht.</string>
+    <string name="question_input_invalid">Deze invoer is niet geldig.</string>
+    <string name="yes">Ja</string>
+    <string name="scan_result_valid">Geldig ticket</string>
+    <string name="scan_result_used">Ticket al gebruikt</string>
+    <string name="scan_result_questions">Informatie verplicht</string>
+    <string name="scan_result_invalid">Ongeldig ticket</string>
+    <string name="scan_result_product">Ongeldig product</string>
+    <string name="scan_result_unpaid">Ticket niet betaald</string>
+    <string name="hint_config">Scan een configuratiecode om te beginnen</string>
+    <string name="hint_scan">Scan een ticketcode</string>
+    <string name="sync_status_last">Laatste geslaagde synchronisatie:</string>
+    <string name="sync_status_last_failed">Laatste mislukte synchronisatie:</string>
+    <string name="sync_status_never">nog niet gesynchroniseerd</string>
+    </resources>
