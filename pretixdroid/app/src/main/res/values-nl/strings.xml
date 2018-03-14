@@ -23,4 +23,7 @@
     <string name="sync_status_last">Laatste geslaagde synchronisatie:</string>
     <string name="sync_status_last_failed">Laatste mislukte synchronisatie:</string>
     <string name="sync_status_never">nog niet gesynchroniseerd</string>
-    </resources>
+    <string name="dialog_unpaid_title">Onbetaalde bestelling</string>
+    <string name="dialog_unpaid_text">Dit ticket behoort tot een bestelling die nog niet betaald is. Will je het alsnog inchecken? Dit zal de bestelling niet markeren als zijnde betaald.</string>
+    <string name="dialog_unpaid_retry">Alsnog inchecken</string>
+</resources>
