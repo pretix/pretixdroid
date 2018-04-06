@@ -26,4 +26,58 @@
     <string name="dialog_unpaid_title">Onbetaalde bestelling</string>
     <string name="dialog_unpaid_text">Dit ticket behoort tot een bestelling die nog niet betaald is. Will je het alsnog inchecken? Dit zal de bestelling niet markeren als zijnde betaald.</string>
     <string name="dialog_unpaid_retry">Alsnog inchecken</string>
-</resources>
+<string name="err_qr_version">Jou app is ouder dan de Pretix versie op de server. Gelieve de Pretixdroid app te controleren op updates.</string>
+    <string name="config_done">Configuratie verwerkt. Je kan nu tickets beginnen scannen.</string>
+    <string name="dismiss">Afwijzen</string>
+    <string name="question_validation_error">Een deel van jouw invoer kon niet worden gevalideerd.</string>
+    <string name="action_clear_config">"Stel de event configuratie opnieuw in. "</string>
+    <string name="hint_clear_config">Stelt de verbinding van de app met een specifiek event opnieuw in en staat je toe een nieuw event te selecteren.</string>
+    <string name="action_autofocus">Autofocus</string>
+    <string name="action_flashlight">Zaklamp</string>
+    <string name="action_search">Manueel zoeken</string>
+    <string name="permission_required">Camera-toestemming is vereist</string>
+    <string name="search_hint">Zoek (min. 4 tekens)…</string>
+    <string name="not_configured">App is nog niet geconfigureerd</string>
+    <string name="status_redeemed">Verzilverd</string>
+    <string name="status_unpaid">Onbetaald</string>
+    <string name="status_valid">Geldig</string>
+    <string name="redeeming">Wissel ticket in…</string>
+    <string name="loading">Bezig met laden…</string>
+    <string name="scan_result_redeemed">Ticket succesvol ingewisseld.</string>
+    <string name="ticket_attention">Opgelet, speciaal ticket!</string>
+    <string name="about">Over de app</string>
+    <string name="pref_head_scan">Aan het scannen</string>
+    <string name="pref_head_connection">Verbinding</string>
+    <string name="pref_head_other">Andere</string>
+    <string name="reset_success">Je kan nu een nieuwe configuratie code scannen</string>
+    <string name="action_preferences">Instellingen</string>
+    <string name="pref_camera">Gebruik camera van het apparaat</string>
+    <string name="pref_camera_hint">Schakel uit indien jouw toestel een speciaal ingebouwde barcode scanner heeft. Werkt voorlopig enkel maar met een beperkt aantal toestellen.</string>
+    <string name="pref_head_feedback">Aan het scannen</string>
+    <string name="pref_async">Asynchrone scanning (beta)</string>
+    <string name="pref_async_hint_on">Gescande tickets worden gecontroleerd met een offline kopie van de databank. De app zal op regelmatige tijdstippen proberen te synchroniseren met de server.</string>
+    <string name="pref_async_hint_off">Gescande tickets worden direct gecontroleerd met de server. De app vereist een internetverbinding om te kunnen werken.</string>
+    <string name="pref_async_not_supported">Asynchroon scannen wordt niet ondersteund door de huidige versie van Pretix op jouw server. Gelieven te controleren voor updates van Pretix.</string>
+    <string name="pref_async_warning">Indien je asynchroon scannen inschakelt, zal je telefoon niet altijd up to date zijn met de huidige status van je databank. Bijvoorbeeld, als je meer dan één toestel gebruikt om te scannen, kan een bepaald ticket geldig verklaart worden als het ervoor al gescand werd door een ander toestel.</string>
+    <string name="pref_reset_warning">Jouw app werd niet volledig gesynchroniseerd. Als je de app nu reset kunnen sommige scans op dit toestel permanent verloren zijn.</string>
+    <plurals name="time_minutes">
+	<item quantity="one">minuut</item>
+	<item quantity="other">minuten</item>
+</plurals>
+    <plurals name="time_hours">
+	<item quantity="one">uur</item>
+	<item quantity="other">uren</item>
+</plurals>
+    <plurals name="time_days">
+	<item quantity="one">dag</item>
+	<item quantity="other">dagen</item>
+</plurals>
+    <string name="sync_status">Synchronisatie status</string>
+    <string name="sync_status_now">net</string>
+    <string name="sync_status_date_format">jjjj-MM-dd UU:mm:ss</string>
+    <string name="sync_status_local">Check ins in de rij om te uploaden:</string>
+    <string name="already_scanned">al gescand</string>
+    <string name="total_tickets_sold">totaal aantal verkochte tickets</string>
+    <string name="no_connection">Kon geen verbinding maken met de server!</string>
+    <string name="info_disabled">Infoweergave werd uitgeschakeld</string>
+    </resources>
