@@ -45,7 +45,7 @@ public class AppConfig implements ConfigStore {
     public void setEventConfig(String url, String key, int version, boolean show_info, boolean allow_search) {
         prefs.edit()
                 .putString(PREFS_KEY_API_URL, url)
-                .putString(PREFS_KEY_API_KEY, key)
+                .putString(PREFS_KEY_API_KEY, KeystoreHelper.secureValue(key, true))
                 .putBoolean(PREFS_KEY_ALLOW_SEARCH, allow_search)
                 .putBoolean(PREFS_KEY_SHOW_INFO, show_info)
                 .putInt(PREFS_KEY_API_VERSION, version)
@@ -79,7 +79,8 @@ public class AppConfig implements ConfigStore {
     }
 
     public String getApiKey() {
-        return prefs.getString(PREFS_KEY_API_KEY, "");
+        String value = prefs.getString(PREFS_KEY_API_KEY, "");
+        return KeystoreHelper.secureValue(value, false);
     }
 
     public boolean getShowInfo() {

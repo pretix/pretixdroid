@@ -7,11 +7,10 @@ import com.facebook.stetho.Stetho;
 import eu.pretix.libpretixsync.check.AsyncCheckProvider;
 import eu.pretix.libpretixsync.check.OnlineCheckProvider;
 import eu.pretix.libpretixsync.check.TicketCheckProvider;
-import eu.pretix.libpretixsync.db.Migrations;
 import eu.pretix.libpretixsync.db.Models;
 import io.requery.BlockingEntityStore;
 import io.requery.Persistable;
-import io.requery.android.sqlite.DatabaseSource;
+import io.requery.android.sqlcipher.SqlCipherDatabaseSource;
 import io.requery.sql.Configuration;
 import io.requery.sql.EntityDataStore;
 
@@ -23,6 +22,7 @@ public class PretixDroid extends Application {
      * screwed either way.
      */
     public static final String KEYSTORE_PASSWORD = "ZnDNUkQ01PVZyD7oNP3a8DVXrvltxD";
+
     private BlockingEntityStore<Persistable> dataStore;
 
     @Override
@@ -37,9 +37,11 @@ public class PretixDroid extends Application {
     public BlockingEntityStore<Persistable> getData() {
         if (dataStore == null) {
             // override onUpgrade to handle migrating to a new version
-            DatabaseSource source = new DatabaseSource(this, Models.DEFAULT, 5);
+            SqlCipherDatabaseSource source = new SqlCipherDatabaseSource(this,
+                    Models.DEFAULT, Models.DEFAULT.getName(),
+                    KeystoreHelper.secureValue(KEYSTORE_PASSWORD, true), 5);
             Configuration configuration = source.getConfiguration();
-            dataStore = new EntityDataStore<Persistable>(configuration);
+            dataStore = new EntityDataStore<>(configuration);
         }
         return dataStore;
     }
