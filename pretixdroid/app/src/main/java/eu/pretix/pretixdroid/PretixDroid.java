@@ -1,8 +1,11 @@
 package eu.pretix.pretixdroid;
 
 import android.app.Application;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.facebook.stetho.Stetho;
+
+import net.sqlcipher.database.SQLiteException;
 
 import eu.pretix.libpretixsync.check.AsyncCheckProvider;
 import eu.pretix.libpretixsync.check.OnlineCheckProvider;
@@ -36,10 +39,22 @@ public class PretixDroid extends Application {
 
     public BlockingEntityStore<Persistable> getData() {
         if (dataStore == null) {
-            // override onUpgrade to handle migrating to a new version
+            String dbPass = KeystoreHelper.secureValue(KEYSTORE_PASSWORD, true);
+
             SqlCipherDatabaseSource source = new SqlCipherDatabaseSource(this,
-                    Models.DEFAULT, Models.DEFAULT.getName(),
-                    KeystoreHelper.secureValue(KEYSTORE_PASSWORD, true), 5);
+                    Models.DEFAULT, Models.DEFAULT.getName(), dbPass, 5);
+
+            try {
+                // check if database has been decrypted
+                source.getReadableDatabase().execSQL("select count(*) from sqlite_master;");
+            } catch(SQLiteException e) {
+                // if not, delete it
+                this.deleteDatabase(Models.DEFAULT.getName());
+                // and create a new one
+                source = new SqlCipherDatabaseSource(this,
+                        Models.DEFAULT, Models.DEFAULT.getName(), dbPass, 5);
+            }
+
             Configuration configuration = source.getConfiguration();
             dataStore = new EntityDataStore<>(configuration);
         }
