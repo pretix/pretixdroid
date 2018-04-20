@@ -1,5 +1,6 @@
 package eu.pretix.pretixdroid;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
@@ -51,7 +52,14 @@ public class KeystoreHelper {
                     key = (SecretKey) keyStore.getKey(SECURE_KEY_NAME, null);
                 }
 
-                Cipher cipher = Cipher.getInstance(
+                /*
+                 *  It's quite ok to use ECB here, because:
+                 *   - the "plaintext" will most likely fit into one or two encryption blocks
+                 *   - the "plaintext" only contains pseudo-random printable characters
+                 *  Why we are doing this:
+                 *   - don't want to store an IV
+                 */
+                @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance(
                         KeyProperties.KEY_ALGORITHM_AES + "/" + KeyProperties.BLOCK_MODE_ECB + "/"
                                 + KeyProperties.ENCRYPTION_PADDING_PKCS7);
 
