@@ -80,11 +80,16 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     private BroadcastReceiver scanReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // Intent receiver for LECOM-manufactured hardware scanners
-            byte[] barcode = intent.getByteArrayExtra("barocode"); // sic!
-            int barocodelen = intent.getIntExtra("length", 0);
-            String barcodeStr = new String(barcode, 0, barocodelen);
-            handleScan(barcodeStr);
+            if (intent.hasExtra("com.symbol.datawedge.data_string")) {
+                // Zebra DataWedge
+                handleScan(intent.getStringExtra("com.symbol.datawedge.data_string"));
+            } else if (intent.hasExtra("barocode")) {
+                // Intent receiver for LECOM-manufactured hardware scanners
+                byte[] barcode = intent.getByteArrayExtra("barocode"); // sic!
+                int barocodelen = intent.getIntExtra("length", 0);
+                String barcodeStr = new String(barcode, 0, barocodelen);
+                handleScan(barcodeStr);
+            }
         }
 
     };
@@ -191,9 +196,10 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             qrView.setAutoFocus(config.getAutofocus());
             resetView();
         } else {
+            // Broadcast sent by Lecom or Zebra scanners
             IntentFilter filter = new IntentFilter();
-            // Broadcast sent by Lecom scanners
             filter.addAction("scan.rcv.message");
+            filter.addAction("eu.pretix.SCAN");
             registerReceiver(scanReceiver, filter);
         }
 
