@@ -56,8 +56,7 @@ public class KeystoreHelper {
                  *  It's quite ok to use ECB here, because:
                  *   - the "plaintext" will most likely fit into one or two encryption blocks
                  *   - the "plaintext" only contains pseudo-random printable characters
-                 *  Why we are doing this:
-                 *   - don't want to store an IV
+                 *   - we don't want to store an additional IV
                  */
                 @SuppressLint("GetInstance") Cipher cipher = Cipher.getInstance(
                         KeyProperties.KEY_ALGORITHM_AES + "/" + KeyProperties.BLOCK_MODE_ECB + "/"
@@ -68,8 +67,8 @@ public class KeystoreHelper {
                     byte[] bytes = cipher.doFinal(value.getBytes());
                     return Base64.encodeToString(bytes, Base64.NO_WRAP);
                 } else {
-                    byte[] bytes = Base64.decode(value, Base64.NO_WRAP);
                     cipher.init(Cipher.DECRYPT_MODE, key);
+                    byte[] bytes = Base64.decode(value, Base64.NO_WRAP);
                     return new String(cipher.doFinal(bytes), "UTF-8");
                 }
 

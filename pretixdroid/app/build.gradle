@@ -80,7 +80,7 @@ dependencies {
     compile 'net.zetetic:android-database-sqlcipher:3.5.9'
     compile 'com.facebook.stetho:stetho:1.5.0'
     compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-    compile 'com.android.support.constraint:constraint-layout:1.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.1.2'
     // Added to support Silpion badge printing
     compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
     annotationProcessor 'io.requery:requery-processor:1.4.1'

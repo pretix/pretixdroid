@@ -1,7 +1,6 @@
 package eu.pretix.pretixdroid;
 
 import android.app.Application;
-import android.database.sqlite.SQLiteDatabase;
 
 import com.facebook.stetho.Stetho;
 
@@ -46,7 +45,7 @@ public class PretixDroid extends Application {
 
             try {
                 // check if database has been decrypted
-                source.getReadableDatabase().execSQL("select count(*) from sqlite_master;");
+                source.getReadableDatabase().execSQL("select count(*) from sqlite_master;"); //source.getReadableDatabase().getSyncedTables() ???
             } catch(SQLiteException e) {
                 // if not, delete it
                 this.deleteDatabase(Models.DEFAULT.getName());
