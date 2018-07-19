@@ -35,7 +35,7 @@
     <string name="status_valid">Geçerli</string>
     <string name="redeeming">Bilet alınıyor…</string>
     <string name="loading">Yükleniyor…</string>
-    <string name="scan_result_redeemed">Bilet başarıyla alındı.</string>
+    <string name="scan_result_redeemed">Bilet başarıyla kullanıldı.</string>
     <string name="ticket_attention">Dikkat, özel bilet!</string>
     <string name="about">Uygulama hakkında</string>
     <string name="pref_head_scan">Tarama</string>
@@ -53,8 +53,10 @@
     <string name="pref_async_warning">Eş zamansız taramayı açarsanız, telefonunuz her zaman güncel veritabanı durumu hakkında güncel olmayacaktır. Örneğin, tarama için birden fazla cihaz kullanıyorsanız, daha önce farklı bir cihaz tarafından tarandığında bir bilet geçerli iki kez gösterilebilir.</string>
     <string name="pref_reset_warning">Uygulamanız tamamen senkronize edilmiyor. Şimdi sıfırlarsanız, bu cihazda yapılan bazı taramalar kalıcı olarak kaybolabilir.</string>
     <plurals name="time_minutes">
-	<item quantity="one">% d dakika</item>
-	<item quantity="other">% d dakika</item>
+	<item quantity="one">Bir
+\n% d dakika</item>
+	<item quantity="other">Diğer
+\n% d dakika</item>
 </plurals>
     <plurals name="time_hours">
 	<item quantity="one">%d saat</item>
@@ -79,4 +81,6 @@
     <string name="dialog_unpaid_text">Bu bilet henüz ödenmemiş bir siparişe ait. Hala kontrol etmek istiyor musun? Bu, sipariş ödenmiş olarak işaretlenmeyecektir.</string>
     <string name="dialog_unpaid_retry">Yine de kontrol et
 \n</string>
-</resources>
+<string name="action_play_sound">Sesleri çal</string>
+    <string name="action_flashlight">El Feneri</string>
+    </resources>
