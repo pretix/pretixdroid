@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
     public static final int PERMISSIONS_REQUEST_CAMERA = 10001;
+    public static final int PERMISSIONS_REQUEST_WRITE_STORAGE = 10002;
 
     private CustomizedScannerView qrView = null;
     private long lastScanTime;
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     private Timer timer;
     private Dialog questionsDialog;
     private Dialog unpaidDialog;
+    private DataWedgeHelper dataWedgeHelper;
 
     private BroadcastReceiver scanReceiver = new BroadcastReceiver() {
         @Override
@@ -143,6 +146,21 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_logo);
+
+        dataWedgeHelper = new DataWedgeHelper(this);
+        if (dataWedgeHelper.isInstalled()) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        PERMISSIONS_REQUEST_WRITE_STORAGE);
+            } else {
+                try {
+                    dataWedgeHelper.install();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
@@ -161,6 +179,13 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                     Sentry.addBreadcrumb("main.startup", "Permission request denied");
                     Toast.makeText(this, R.string.permission_required, Toast.LENGTH_LONG).show();
                     finish();
+                }
+            }
+            case PERMISSIONS_REQUEST_WRITE_STORAGE: {
+                try {
+                    dataWedgeHelper.install();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
