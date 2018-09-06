@@ -1,2 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="action_play_sound">Reproducir sonidos</string>
+    <string name="app_name">pretixandroid</string>
+    <string name="err_qr_invalid">El código QR escaneado no es válido.</string>
+    <string name="err_qr_version">Tu aplicación es más vieja que la versión de pretix del servidor. Por favor revisa las actualiaciones the la aplicación de pretixandroid.</string>
+    </resources>
