@@ -68,4 +68,16 @@
     <string name="dialog_unpaid_title">Pedido no pagado</string>
     <string name="dialog_unpaid_text">Este billete pertenece a un pedido que aún no ha sido pagado. ¿Todavía quieres registrarlo? Esto no marcará el pedido como pagado.</string>
     <string name="dialog_unpaid_retry">De todos modos, regístrate.</string>
-</resources>
+<plurals name="time_minutes">
+	<item quantity="one">%d minuto</item>
+	<item quantity="other">%d minutos</item>
+</plurals>
+    <plurals name="time_hours">
+	<item quantity="one">%d hora</item>
+	<item quantity="other">%d horas</item>
+</plurals>
+    <plurals name="time_days">
+	<item quantity="one">%d día</item>
+	<item quantity="other">%d días</item>
+</plurals>
+    </resources>
