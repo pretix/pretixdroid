@@ -30,13 +30,13 @@
     <string name="action_flashlight">Linterna</string>
     <string name="action_search">Búsqueda manual</string>
     <string name="permission_required">Se requiere permiso de la cámara</string>
-    <string name="search_hint">Búsqueda (min. 4 caracteres)...</string>
+    <string name="search_hint">Búsqueda (min. 4 caracteres)…</string>
     <string name="not_configured">La aplicación aún no está configurada</string>
     <string name="status_redeemed">Redimido</string>
     <string name="status_unpaid">Impagado</string>
     <string name="status_valid">Válido</string>
-    <string name="redeeming">Canjear billete...</string>
-    <string name="loading">Cargando...</string>
+    <string name="redeeming">Canjear billete…</string>
+    <string name="loading">Cargando…</string>
     <string name="scan_result_redeemed">Billete canjeado con éxito.</string>
     <string name="ticket_attention">¡Atención, billete especial!</string>
     <string name="about">Acerca de la aplicación</string>
@@ -67,7 +67,7 @@
     <string name="info_disabled">La vista de información está desactivada</string>
     <string name="dialog_unpaid_title">Pedido no pagado</string>
     <string name="dialog_unpaid_text">Este billete pertenece a un pedido que aún no ha sido pagado. ¿Todavía quieres registrarlo? Esto no marcará el pedido como pagado.</string>
-    <string name="dialog_unpaid_retry">De todos modos, regístrate.</string>
+    <string name="dialog_unpaid_retry">De todos modos, regístrate</string>
 <plurals name="time_minutes">
 	<item quantity="one">%d minuto</item>
 	<item quantity="other">%d minutos</item>
