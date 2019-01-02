@@ -6,7 +6,7 @@
     <string name="config_done">Configuratie verwerkt. Je kan nu beginnen met het scannen van kaartjes.</string>
     <string name="err_title">Fout</string>
     <string name="action_eventinfo">Evenementsinformatie</string>
-    <string name="dismiss">Afwijzen</string>
+    <string name="dismiss">Sluiten</string>
     <string name="ok">OK</string>
     <string name="err_unknown">Onbekende fout</string>
     <string name="title_activity_main">pretixdroid</string>
@@ -24,7 +24,7 @@
     <string name="scan_result_unpaid">Kaartje niet betaald</string>
     <string name="hint_config">Scan een configuratiecode om te beginnen</string>
     <string name="hint_scan">Scan een kaartjescode</string>
-    <string name="action_clear_config">Stel de eventconfiguratie opnieuw in.</string>
+    <string name="action_clear_config">Evenementconfiguratie opnieuw instellen</string>
     <string name="hint_clear_config">Stelt de verbinding van de app met een specifiek evenement opnieuw in en staat je toe om een nieuw evenement te selecteren.</string>
     <string name="action_autofocus">Autofocus</string>
     <string name="action_flashlight">Zaklamp</string>
@@ -71,13 +71,13 @@
     <string name="sync_status_last_failed">Laatste mislukte synchronisatie:</string>
     <string name="sync_status_never">nog niet gesynchroniseerd</string>
     <string name="sync_status_now">net</string>
-    <string name="sync_status_date_format">jjjj-MM-dd UU:mm:ss</string>
-    <string name="sync_status_local">Check-ins in de rij om te uploaden:</string>
+    <string name="sync_status_date_format">dd-MM-yyyy HH:mm:ss</string>
+    <string name="sync_status_local">Nog niet geüploade check-ins:</string>
     <string name="already_scanned">al gescand</string>
     <string name="total_tickets_sold">totaal aantal verkochte kaartjes</string>
     <string name="no_connection">Kon geen verbinding maken met de server!</string>
     <string name="info_disabled">Infoweergave werd uitgeschakeld</string>
     <string name="dialog_unpaid_title">Onbetaalde bestelling</string>
-    <string name="dialog_unpaid_text">Dit kaartje behoort tot een bestelling die nog niet betaald is. Wil je het alsnog inchecken? Dit zal de bestelling niet markeren als betaald.</string>
+    <string name="dialog_unpaid_text">Dit kaartje hoort bij een bestelling die nog niet betaald is. Wil je het alsnog inchecken? Dit zal de bestelling niet markeren als betaald.</string>
     <string name="dialog_unpaid_retry">Alsnog inchecken</string>
 </resources>
