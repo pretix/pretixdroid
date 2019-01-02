@@ -74,8 +74,8 @@
 </plurals>
     <string name="sync_status">Synchronisatie status</string>
     <string name="sync_status_now">net</string>
-    <string name="sync_status_date_format">jjjj-MM-dd UU:mm:ss</string>
-    <string name="sync_status_local">Check ins in de rij om te uploaden:</string>
+    <string name="sync_status_date_format">dd-MM-yyyy HH:mm:ss</string>
+    <string name="sync_status_local">Nog niet geüploade check-ins:</string>
     <string name="already_scanned">al gescand</string>
     <string name="total_tickets_sold">totaal aantal verkochte tickets</string>
     <string name="no_connection">Kon geen verbinding maken met de server!</string>
