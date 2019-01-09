@@ -28,7 +28,7 @@
     <string name="dialog_unpaid_retry">Alsnog inchecken</string>
 <string name="err_qr_version">Uw app is ouder dan de pretix-versie op de server. Gelieve de pretixdroid app te controleren op updates.</string>
     <string name="config_done">Configuratie verwerkt. U kunt nu beginnen met het scannen van tickets.</string>
-    <string name="dismiss">Afwijzen</string>
+    <string name="dismiss">Sluiten</string>
     <string name="question_validation_error">Een deel van uw invoer kon niet worden gevalideerd.</string>
     <string name="action_clear_config">"Stel de event configuratie opnieuw in. "</string>
     <string name="hint_clear_config">Stelt de verbinding van de app met een specifiek evenement opnieuw in en staat u toe een nieuw evenement te selecteren.</string>
@@ -72,7 +72,7 @@
 	<item quantity="one">dag</item>
 	<item quantity="other">dagen</item>
 </plurals>
-    <string name="sync_status">Synchronisatie status</string>
+    <string name="sync_status">Synchronisatiestatus</string>
     <string name="sync_status_now">net</string>
     <string name="sync_status_date_format">dd-MM-yyyy HH:mm:ss</string>
     <string name="sync_status_local">Nog niet geüploade check-ins:</string>
