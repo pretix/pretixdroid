@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="app_name">pretixdroid</string>
+    <string name="err_qr_invalid">Taranan QR kodu geçerli değil.</string>
+    <string name="err_qr_version">Uygulamanız sunucudaki pretix versiyonundan daha eski. Lütfen pretixdroid uygulamasının güncellemelerini kontrol edin.</string>
+    <string name="config_done">Yapılandırma işlemi. Şimdi biletleri taramaya başlayabilirsiniz.</string>
+    <string name="err_title">Hata</string>
+    <string name="action_eventinfo">Etkinlik Bilgisi</string>
+    <string name="dismiss">Reddet</string>
+    <string name="ok">Tamam</string>
+    <string name="err_unknown">Bilinmeyen hata</string>
+    <string name="title_activity_main">pretixdroid</string>
+    <string name="cancel">İptal et</string>
+    <string name="cont">Devam et</string>
+    <string name="question_validation_error">Bazı girdileriniz doğrulanamadı.</string>
+    <string name="question_input_required">Bu alan gereklidir.</string>
+    <string name="question_input_invalid">Bu giriş geçerli değil.</string>
+    <string name="yes">Evet</string>
+    <string name="scan_result_valid">Geçerli bilet</string>
+    <string name="scan_result_used">Bilet zaten kullanılmış</string>
+    <string name="scan_result_questions">Bilgi gerekiyor</string>
+    <string name="scan_result_invalid">Geçersiz bilet</string>
+    <string name="scan_result_product">Geçersiz ürün</string>
+    <string name="scan_result_unpaid">Bilet ödenmedi</string>
+    <string name="hint_config">Başlamak için bir yapılandırma kodunu tarayın</string>
+    <string name="hint_scan">Bir bilet kodunu tarayın</string>
+    <string name="action_clear_config">Etkinlik yapılandırmasını sıfırla</string>
+    <string name="hint_clear_config">Uygulamanın bağlantısını belirli bir etkinlikle sıfırlar ve yeni bir etkinlik seçmenize izin verir.</string>
+    <string name="action_autofocus">Otomatik odaklama</string>
+    <string name="action_search">Manuel arama</string>
+    <string name="permission_required">Kamera izni gerekli</string>
+    <string name="search_hint">Arama (en az 4 karakter)…</string>
+    <string name="not_configured">Uygulama henüz yapılandırılmamış</string>
+    <string name="status_redeemed">Kullanıldı</string>
+    <string name="status_unpaid">Ödenmemiş</string>
+    <string name="status_valid">Geçerli</string>
+    <string name="redeeming">Bilet alınıyor…</string>
+    <string name="loading">Yükleniyor…</string>
+    <string name="scan_result_redeemed">Bilet başarıyla kullanıldı.</string>
+    <string name="ticket_attention">Dikkat, özel bilet!</string>
+    <string name="about">Uygulama hakkında</string>
+    <string name="pref_head_scan">Tarama</string>
+    <string name="pref_head_connection">Bağlantı</string>
+    <string name="pref_head_other">Diğer</string>
+    <string name="reset_success">Artık yeni bir yapılandırma kodu tarayabilirsiniz</string>
+    <string name="action_preferences">Ayarlar</string>
+    <string name="pref_camera">Cihaz kamerasını kullan</string>
+    <string name="pref_camera_hint">Cihazınızda yerleşik bir özel barkod tarayıcısı varsa devre dışı bırakın. Şimdiye dek birkaç cihaz için çalışıyor.</string>
+    <string name="pref_head_feedback">Tarama</string>
+    <string name="pref_async">Eş zamansız tarama (beta)</string>
+    <string name="pref_async_hint_on">Taranan biletler, veritabanının çevrimdışı bir kopyasına karşı kontrol edilir. Uygulama, sunucuyla düzenli aralıklarla senkronize etmeye çalışacaktır.</string>
+    <string name="pref_async_hint_off">Taranmış biletler doğrudan sunucu ile kontrol edilir. Uygulamanın çalışması için internet bağlantısı gerektirir.</string>
+    <string name="pref_async_not_supported">Eş zamansız tarama, sunucunuzda çalışan pretix sürümüyle desteklenmez. Lütfen pretix güncellemelerini kontrol edin</string>
+    <string name="pref_async_warning">Eş zamansız taramayı açarsanız, telefonunuz her zaman güncel veritabanı durumu hakkında güncel olmayacaktır. Örneğin, tarama için birden fazla cihaz kullanıyorsanız, daha önce farklı bir cihaz tarafından tarandığında bir bilet geçerli iki kez gösterilebilir.</string>
+    <string name="pref_reset_warning">Uygulamanız tamamen senkronize edilmiyor. Şimdi sıfırlarsanız, bu cihazda yapılan bazı taramalar kalıcı olarak kaybolabilir.</string>
+    <plurals name="time_minutes">
+	<item quantity="one">Bir
+\n% d dakika</item>
+	<item quantity="other">Diğer
+\n% d dakika</item>
+</plurals>
+    <plurals name="time_hours">
+	<item quantity="one">%d saat</item>
+	<item quantity="other">%d saatler</item>
+</plurals>
+    <plurals name="time_days">
+	<item quantity="one">%d gün</item>
+	<item quantity="other">%d günler</item>
+</plurals>
+    <string name="sync_status">Senkronizasyon durumu</string>
+    <string name="sync_status_last">Son başarılı senkronizasyon:</string>
+    <string name="sync_status_last_failed">Son başarısız senkronizasyon:</string>
+    <string name="sync_status_never">henüz senkronize edilmemiş</string>
+    <string name="sync_status_now">Şu anda</string>
+    <string name="sync_status_date_format">yyyy-AA-gg HH: dd: ss</string>
+    <string name="sync_status_local">Check-in işlemi yüklemek için sıraya alındı:</string>
+    <string name="already_scanned">önceden taranan</string>
+    <string name="total_tickets_sold">toplam bilet satıldı</string>
+    <string name="no_connection">Sunucuya bağlanılamadı!</string>
+    <string name="info_disabled">Bilgi görünümü devre dışı</string>
+    <string name="dialog_unpaid_title">Ödenmemiş sipariş</string>
+    <string name="dialog_unpaid_text">Bu bilet henüz ödenmemiş bir siparişe ait. Hala kontrol etmek istiyor musun? Bu, sipariş ödenmiş olarak işaretlenmeyecektir.</string>
+    <string name="dialog_unpaid_retry">Yine de kontrol et
+\n</string>
+<string name="action_play_sound">Sesleri çal</string>
+    <string name="action_flashlight">El Feneri</string>
+    </resources>
