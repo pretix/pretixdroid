@@ -55,7 +55,7 @@
     <string name="pref_async_warning">Si activa la exploración asincrónica, el teléfono no siempre estará actualizado sobre el estado actual de la base de datos. Por ejemplo, si utiliza más de un dispositivo para escanear, es posible que un vale se muestre como válido dos veces si ya ha sido escaneado antes por otro dispositivo.</string>
     <string name="pref_reset_warning">Su aplicación no está completamente sincronizada. Si lo reinicia ahora, es posible que algunos escaneos realizados en este dispositivo se pierdan permanentemente.</string>
     <string name="sync_status">Estado de sincronización</string>
-    <string name="sync_status_last">Última sincronización exitosa:</string>
+    <string name="sync_status_last">Última sincronización correcta:</string>
     <string name="sync_status_last_failed">Última sincronización fallida:</string>
     <string name="sync_status_never">aún no sincronizado</string>
     <string name="sync_status_now">hace un momento</string>
