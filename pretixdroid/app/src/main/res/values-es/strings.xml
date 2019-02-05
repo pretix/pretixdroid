@@ -6,7 +6,7 @@
     <string name="config_done">Configuración procesada. Ahora puede empezar a escanear tickets.</string>
     <string name="err_title">Error</string>
     <string name="action_eventinfo">Información del Evento</string>
-    <string name="dismiss">Despido</string>
+    <string name="dismiss">Descartar</string>
     <string name="ok">Aceptar</string>
     <string name="err_unknown">Error desconocido</string>
     <string name="title_activity_main">pretixdroide</string>
