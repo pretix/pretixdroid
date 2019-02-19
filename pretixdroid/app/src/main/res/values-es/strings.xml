@@ -60,7 +60,7 @@
     <string name="sync_status_never">aún no sincronizado</string>
     <string name="sync_status_now">hace un momento</string>
     <string name="sync_status_date_format">aaaa-MM-dd HH:mm:ss</string>
-    <string name="sync_status_local">Las fichas están en cola para subirlas:</string>
+    <string name="sync_status_local">Registros encolados para subirse:</string>
     <string name="already_scanned">ya escaneado</string>
     <string name="total_tickets_sold">total de entradas vendidas</string>
     <string name="no_connection">No se ha podido conectar al servidor!</string>
