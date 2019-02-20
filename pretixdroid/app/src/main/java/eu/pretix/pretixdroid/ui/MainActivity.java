@@ -217,8 +217,10 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         super.onResume();
         if (config.getCamera()) {
             qrView.setResultHandler(this);
-            qrView.startCamera();
             qrView.setAutoFocus(config.getAutofocus());
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                qrView.startCamera();
+            }
             resetView();
         } else {
             // Broadcast sent by Lecom or Zebra scanners
