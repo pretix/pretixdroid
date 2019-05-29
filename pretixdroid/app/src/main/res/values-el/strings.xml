@@ -72,4 +72,12 @@
     <string name="sync_status_now">μόλις τώρα</string>
     <string name="sync_status_date_format">yyyy-MM-dd HH:mm:ss</string>
     <string name="sync_status_local">Checkins βρίσκονται σε ουρά για upload:</string>
-    </resources>
+    <string name="sync_status_last">Τελευταίος επιτυχημένος συγχρονισμός:</string>
+    <string name="already_scanned">έχει ήδη σαρωθεί</string>
+    <string name="total_tickets_sold">συνολικά πωληθέντα εισιτήρια</string>
+    <string name="no_connection">Δεν ήταν δυνατή η σύνδεση με το διακομιστή!</string>
+    <string name="info_disabled">Η προβολή πληροφοριών είναι απενεργοποιημένη</string>
+    <string name="dialog_unpaid_title">Απλήρωτη εντολή</string>
+    <string name="dialog_unpaid_text">Αυτό το εισιτήριο ανήκει σε μια παραγγελία που δεν έχει ακόμη πληρωθεί. Θέλετε ακόμα να το ελέγξετε; Αυτό δε θα σηματοδοτήσει την παραγγελία ως πληρωμένη.</string>
+    <string name="dialog_unpaid_retry">Ελέγξτε εν πάση περιπτώσει</string>
+</resources>
