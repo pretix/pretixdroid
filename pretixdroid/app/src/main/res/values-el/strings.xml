@@ -1,2 +1,75 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="action_play_sound">Αναπαραγωγή ήχων</string>
+    <string name="app_name">pretixdroid</string>
+    <string name="err_qr_invalid">Ο σαρωμένος κωδικός QR δεν είναι έγκυρος.</string>
+    <string name="err_qr_version">Η εφαρμογή σας είναι παλαιότερη από την έκδοση του pretix στο διακομιστή. Ελέγξτε για ενημερώσεις της εφαρμογής pretixdroid.</string>
+    <string name="config_done">Διαμόρφωση επεξεργασμένη. Τώρα μπορείτε να ξεκινήσετε τη σάρωση των εισιτηρίων.</string>
+    <string name="err_title">Λάθος</string>
+    <string name="action_eventinfo">Πληροφορίες εκδήλωσης</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="ok">OK</string>
+    <string name="err_unknown">Αγνωστο σφάλμα</string>
+    <string name="title_activity_main">pretixdroid</string>
+    <string name="cancel">Ματαίωση</string>
+    <string name="cont">Συνέχεια</string>
+    <string name="question_validation_error">Ορισμένες από τις εισόδους σας δεν ήταν δυνατό να επικυρωθούν.</string>
+    <string name="question_input_required">Αυτό το πεδίο απαιτείται.</string>
+    <string name="question_input_invalid">Αυτή η είσοδος δεν είναι έγκυρη.</string>
+    <string name="yes">Ναί</string>
+    <string name="scan_result_valid">Έγγυρο εισιτήριο</string>
+    <string name="scan_result_used">Το εισιτήριο έχει χρησιμοποιηθεί</string>
+    <string name="scan_result_questions">Απαιτούμενες πληροφορίες</string>
+    <string name="scan_result_invalid">Μη έγκυρο εισιτήριο</string>
+    <string name="scan_result_product">Μη έγκυρο προϊόν</string>
+    <string name="scan_result_unpaid">Το εισιτήριο δεν πληρώθηκε</string>
+    <string name="hint_config">Σάρωση κώδικα διαμόρφωσης για εκκίνηση</string>
+    <string name="hint_scan">Σάρωση κώδικα εισιτηρίου</string>
+    <string name="action_clear_config">Επαναφορά ρυθμίσεων συμβάντων</string>
+    <string name="hint_clear_config">Επαναφέρει τη σύνδεση της εφαρμογής με ένα συγκεκριμένο συμβάν και σας επιτρέπει να επιλέξετε ένα νέο συμβάν.</string>
+    <string name="action_autofocus">Αυτόματη εστίαση</string>
+    <string name="action_flashlight">Φακός</string>
+    <string name="action_search">Χειροκίνητη αναζήτηση</string>
+    <string name="permission_required">Απαιτείται άδεια κάμερας</string>
+    <string name="search_hint">Αναζήτηση (τουλάχιστον 4 χαρακτήρες) …</string>
+    <string name="not_configured">Η εφαρμογή δεν έχει ακόμα ρυθμιστεί</string>
+    <string name="status_redeemed">Εξαργυρωμένο</string>
+    <string name="status_unpaid">Απλήρωτο</string>
+    <string name="status_valid">Εγκυρο</string>
+    <string name="redeeming">Εξαργύρωση εισιτηρίου …</string>
+    <string name="loading">Φόρτωση…</string>
+    <string name="scan_result_redeemed">Το εισιτήριο εξαργυρώθηκε με επιτυχία.</string>
+    <string name="ticket_attention">Προσοχή, ειδικό εισιτήριο!</string>
+    <string name="about">Σχετικά με την εφαρμογή</string>
+    <string name="pref_head_scan">Ερευνα</string>
+    <string name="pref_head_connection">Σύνδεση</string>
+    <string name="pref_head_other">Άλλο</string>
+    <string name="reset_success">Τώρα μπορείτε να σαρώσετε έναν νέο κωδικό ρύθμισης</string>
+    <string name="action_preferences">Ρυθμίσεις</string>
+    <string name="pref_camera">Χρησιμοποιήστε τη φωτογραφική μηχανή της συσκευής</string>
+    <string name="pref_camera_hint">Απενεργοποιήστε εάν η συσκευή σας διαθέτει ενσωματωμένο ειδικό σαρωτή γραμμωτού κώδικα. Λειτουργεί μόνο για μερικές συσκευές μέχρι τώρα.</string>
+    <string name="pref_head_feedback">Σάρωση</string>
+    <string name="pref_async">Ασύγχρονη σάρωση (beta)</string>
+    <string name="pref_async_hint_on">Τα σαρωμένα εισιτήρια ελέγχονται έναντι αντιγράφου χωρίς σύνδεση της βάσης δεδομένων. Η εφαρμογή θα προσπαθήσει να συγχρονίσει με το διακομιστή σε τακτά χρονικά διαστήματα.</string>
+    <string name="pref_async_hint_off">Τα σαρωμένα εισιτήρια ελέγχονται απευθείας με το διακομιστή. Η εφαρμογή απαιτεί να λειτουργεί μια σύνδεση στο διαδίκτυο.</string>
+    <string name="pref_async_not_supported">Η ασύγχρονη σάρωση δεν υποστηρίζεται από την έκδοση του pretix που εκτελείται στον διακομιστή σας. Ελέγξτε για ενημερώσεις του pretix.</string>
+    <string name="pref_async_warning">Εάν ενεργοποιήσετε ασύγχρονη σάρωση, το τηλέφωνό σας δεν θα είναι πάντα ενημερωμένο σχετικά με την τρέχουσα κατάσταση της βάσης δεδομένων. Για παράδειγμα, αν χρησιμοποιείτε περισσότερες από μία συσκευές για σάρωση, ένα εισιτήριο μπορεί να εμφανίζεται ως έγκυρο δύο φορές εάν έχει ήδη σαρωθεί από μια διαφορετική συσκευή πριν.</string>
+    <string name="pref_reset_warning">Η εφαρμογή σας δεν είναι πλήρως συγχρονισμένη. Εάν το επαναφέρετε τώρα, ορισμένες σαρών που έγιναν σε αυτή τη συσκευή μπορεί να χάσουν μόνιμα.</string>
+    <plurals name="time_minutes">
+	<item quantity="one">%d λεπτό</item>
+	<item quantity="other">%d λεπτά</item>
+</plurals>
+    <plurals name="time_hours">
+	<item quantity="one">%d ώρα</item>
+	<item quantity="other">%d ώρες</item>
+</plurals>
+    <plurals name="time_days">
+	<item quantity="one">%d μέρα</item>
+	<item quantity="other">%d μέρες</item>
+</plurals>
+    <string name="sync_status">Κατάσταση συγχρονισμού</string>
+    <string name="sync_status_last_failed">Τελευταίος αποτυχημένος συγχρονισμός:</string>
+    <string name="sync_status_never">δεν έχει συγχρονιστεί ακόμα</string>
+    <string name="sync_status_now">μόλις τώρα</string>
+    <string name="sync_status_date_format">yyyy-MM-dd HH:mm:ss</string>
+    <string name="sync_status_local">Checkins βρίσκονται σε ουρά για upload:</string>
+    </resources>
