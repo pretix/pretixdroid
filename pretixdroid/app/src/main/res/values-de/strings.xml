@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_play_sound">Ton abspielen</string>
     <string name="app_name">pretixdroid</string>
@@ -10,7 +10,7 @@
     <string name="err_unknown">Unbekannter Fehler</string>
     <string name="title_activity_main">pretixdroid</string>
     <string name="cancel">Abbrechen</string>
-    <string name="cont">Weiter</string>
+    <string name="cont">Fortfahren</string>
     <string name="question_validation_error">Teile der Eingabe waren ungültig.</string>
     <string name="question_input_required">Diese Frage muss beantwortet werden.</string>
     <string name="question_input_invalid">Die eingegebene Antwort ist nicht gültig.</string>
@@ -79,6 +79,6 @@
     <string name="dialog_unpaid_title">Unbezahlte Bestellung</string>
     <string name="dialog_unpaid_text">Dieses Ticket gehört zu einer Bestellung die noch nicht bezahlt wurde. Möchten Sie den Teilnehmer trotzdem einchecken? Die Bestellung wird dadurch NICHT auf bezahlt gestellt.</string>
     <string name="dialog_unpaid_retry">Trotzdem einchecken</string>
-<string name="scan_result_questions">Infos benötigt</string>
+    <string name="scan_result_questions">Infos benötigt</string>
     <string name="info_disabled">Info-Ansicht ist deaktiviert</string>
-    </resources>
+</resources>
